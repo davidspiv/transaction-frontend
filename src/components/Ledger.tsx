@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Transaction from './Transaction';
 import Spinner from './Spinner';
+import type DatabaseTransaction from '../classes/DatabaseTransaction';
 
 const Ledger = ({ isHome = false }) => {
-	const [transactions, setTransactions] = useState([]);
+	const [transactions, setTransactions] = useState<DatabaseTransaction[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {

@@ -1,5 +1,6 @@
+import FileUploader from '../components/FileUploader.tsx';
 const UploadPage = () => {
-	return <div>Upload Page</div>;
+	return <FileUploader />;
 };
 
 export default UploadPage;
