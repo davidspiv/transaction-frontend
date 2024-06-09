@@ -45,6 +45,6 @@ export default class Transaction {
 			style: 'currency',
 			currency: 'USD',
 		});
-		return USDollar.format(this.toNumber(inputAmount));
+		return USDollar.format(this.toNumber(inputAmount) / 100);
 	}
 }
