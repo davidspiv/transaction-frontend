@@ -1,19 +1,34 @@
 import { useState, useEffect } from 'react';
-import Transaction from './Transaction';
+import TransactionCard from './TransactionCard';
 import Spinner from './Spinner';
-import type DatabaseTransaction from '../classes/DatabaseTransaction';
+import Transaction from '../classes/Transaction';
 
 const Ledger = ({ isHome = false }) => {
-	const [transactions, setTransactions] = useState<DatabaseTransaction[]>([]);
+	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchTransactions = async () => {
-			const apiUrl = isHome ? '/api/posts?_limit=6' : '/api/posts';
+			const apiUrl = isHome ? '/api/transactions?_limit=6' : '/api/transactions';
 			try {
 				const res = await fetch(apiUrl);
 				const data = await res.json();
-				setTransactions(data);
+				const formattedData: Transaction[] = [];
+				for (const trans of data.transactions) {
+					formattedData.push(
+						new Transaction(
+							trans.id,
+							trans.date,
+							trans.dateOffset,
+							trans.amount,
+							trans.memo,
+							trans.userId,
+							trans.accCode,
+						),
+					);
+				}
+
+				setTransactions(formattedData);
 			} catch (error) {
 				console.log('Error fetching data', error);
 			} finally {
@@ -23,6 +38,10 @@ const Ledger = ({ isHome = false }) => {
 
 		fetchTransactions();
 	}, [isHome]);
+
+	// useEffect(() => {
+	// 	console.log(transactions.length);
+	// }, [transactions]);
 
 	return (
 		<section className='bg-blue-50 px-4 py-10'>
@@ -36,7 +55,7 @@ const Ledger = ({ isHome = false }) => {
 				) : (
 					<div className='grid grid-cols-1 gap-6'>
 						{transactions.map((transaction) => (
-							<Transaction key={transaction.db_id} transaction={transaction} />
+							<TransactionCard key={transaction.id} transaction={transaction} />
 						))}
 					</div>
 				)}

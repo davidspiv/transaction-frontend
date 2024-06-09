@@ -8,16 +8,17 @@ const FileUploader = () => {
 			const totalCol = 7;
 
 			for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
-				const datePosted = csvValues[i * totalCol];
+				const datePosted = `${new Date(csvValues[i * totalCol])
+					.toISOString()
+					.slice(0, 10)
+					.replace(/[-]/g, '')}120000.000 GMT`;
 				const memo = csvValues[i * totalCol + 1];
 				const amount = csvValues[i * totalCol + 5];
 				transactions.push({
 					transType: fileType,
 					datePosted,
-					dateAvailable: null,
 					amount,
 					fitid: null,
-					transName: null,
 					memo,
 				});
 			}
@@ -37,10 +38,6 @@ const FileUploader = () => {
 				ofxData.indexOf('<DTPOSTED>') + 10,
 				ofxData.indexOf('</DTPOSTED>'),
 			);
-			const dateAvailable = ofxData.slice(
-				ofxData.indexOf('<DTAVAIL>') + 9,
-				ofxData.indexOf('</DTAVAIL>'),
-			);
 			const amount = ofxData.slice(
 				ofxData.indexOf('<TRNAMT>') + 8,
 				ofxData.indexOf('</TRNAMT>'),
@@ -49,10 +46,6 @@ const FileUploader = () => {
 				ofxData.indexOf('<FITID>') + 7,
 				ofxData.indexOf('</FITID>'),
 			);
-			const transName = ofxData.slice(
-				ofxData.indexOf('<NAME>') + 6,
-				ofxData.indexOf('</NAME>'),
-			);
 			const memo = ofxData.slice(
 				ofxData.indexOf('<MEMO>') + 6,
 				ofxData.indexOf('</MEMO>'),
@@ -60,10 +53,8 @@ const FileUploader = () => {
 			return {
 				transType,
 				datePosted,
-				dateAvailable,
 				amount,
 				fitid,
-				transName,
 				memo,
 			};
 		};

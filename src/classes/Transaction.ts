@@ -1,30 +1,50 @@
 export default class Transaction {
-	transType: string;
-	datePosted: string;
-	amount: number;
+	id: string;
+	date: string;
+	dateOffset: number;
+	amount: string;
 	memo: string;
-	fitid: string | null;
+	userId: string;
+	accCode: number;
+	fitid?: string;
+
 	constructor(
-		transType: string,
-		datePostedData: string,
-		amountData: string,
-		memoData: string,
-		fitid: string | null = null,
+		idInput: string,
+		dateInput: string,
+		dateOffsetInput: string,
+		amountInput: string,
+		memoInput: string,
+		userIdInput: string,
+		accCodeInput: string,
+		fitidInput?: string,
 	) {
-		this.transType = transType;
-		this.datePosted = this.formatDate(datePostedData);
-		this.amount = this.formatAmount(amountData);
-		this.memo = this.formatMemo(memoData);
-		this.fitid = fitid;
+		this.id = idInput;
+		this.date = this.formatDate(dateInput);
+		this.dateOffset = this.toNumber(dateOffsetInput);
+		this.amount = this.formatAmount(amountInput);
+		this.memo = memoInput;
+		this.userId = userIdInput;
+		this.accCode = this.toNumber(accCodeInput);
+		this.fitid = fitidInput;
 	}
 
-	formatDate(datePostedData: string) {
-		return datePostedData;
+	toNumber(dateOffsetData: string) {
+		return Number.parseInt(dateOffsetData);
 	}
-	formatAmount(amountData: string) {
-		return Number.parseInt(amountData);
+
+	formatDate(inputDate: string) {
+		return new Date(inputDate).toLocaleDateString('en-us', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		});
 	}
-	formatMemo(memoData: string) {
-		return memoData.trim();
+
+	formatAmount(inputAmount: string) {
+		const USDollar = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+		});
+		return USDollar.format(this.toNumber(inputAmount));
 	}
 }
