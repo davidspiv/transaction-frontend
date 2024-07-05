@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import BalanceSheet from './components/BalanceSheet.vue'
-
-const test = 'hello'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
+    <RouterLink to="/"> <div class="logo">Easy Money</div></RouterLink>
     <div class="wrapper">
-      <BalanceSheet />
-      <HelloWorld msg="You did it!" />
-
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/journal">Dashboard</RouterLink>
+        <RouterLink to="/journal">Journal</RouterLink>
+        <RouterLink to="/balance-sheet">Balance Sheet</RouterLink>
+        <RouterLink to="/income-statement">Income Statement</RouterLink>
       </nav>
     </div>
   </header>
@@ -31,15 +25,14 @@ header {
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
 }
 
 nav a.router-link-exact-active {
@@ -67,8 +60,8 @@ nav a:first-of-type {
     padding-right: calc(var(--section-gap) / 2);
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  #logo {
+    margin: 0;
   }
 
   header .wrapper {

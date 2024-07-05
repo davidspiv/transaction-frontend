@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main>
-    <h2>Home</h2>
-  </main>
+  <h2>Journal</h2>
 </template>
+
+<style scoped></style>
