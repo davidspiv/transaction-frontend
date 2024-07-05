@@ -4,13 +4,12 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <RouterLink to="/"> <div class="logo">Easy Money</div></RouterLink>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/journal">Dashboard</RouterLink>
+        <RouterLink to="/">Dashboard</RouterLink>
         <RouterLink to="/journal">Journal</RouterLink>
-        <RouterLink to="/balance-sheet">Balance Sheet</RouterLink>
-        <RouterLink to="/income-statement">Income Statement</RouterLink>
+        <RouterLink to="/accounts">Accounts</RouterLink>
+        <RouterLink to="/reports">Reports</RouterLink>
       </nav>
     </div>
   </header>
