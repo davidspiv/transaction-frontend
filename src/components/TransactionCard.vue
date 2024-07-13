@@ -5,11 +5,12 @@ const props = defineProps<{
   data: Transaction
 }>()
 
-const { memo, amount } = props.data
+const { date, memo, amount } = props.data
 </script>
 
 <template>
   <tr>
+    <td>{{ date }}</td>
     <td>{{ memo }}</td>
     <td><input type="checkbox" /></td>
     <td>affectedAccounts</td>

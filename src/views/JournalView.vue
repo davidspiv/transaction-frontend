@@ -59,6 +59,7 @@ async function fetchTransactions() {
   </ul>
   <table>
     <tr>
+      <th scope="col">Date</th>
       <th scope="col">Memo</th>
       <th scope="col">omitTransaction</th>
       <th scope="col">affectedAccounts</th>
