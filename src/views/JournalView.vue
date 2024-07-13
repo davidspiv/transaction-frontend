@@ -58,11 +58,11 @@ async function fetchTransactions() {
     </li>
   </ul>
   <ul id="column-header"></ul>
-  <ul>
-    <li v-for="transaction in transactions" :key="transaction.id">
+  <table>
+    <tbody v-for="transaction in transactions" :key="transaction.id">
       <TransactionCard :data="transaction" />
-    </li>
-  </ul>
+    </tbody>
+  </table>
 </template>
 
 <style scoped>

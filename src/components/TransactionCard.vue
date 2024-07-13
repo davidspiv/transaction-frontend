@@ -9,17 +9,10 @@ const { memo, amount } = props.data
 </script>
 
 <template>
-  <ul>
-    <li>{{ memo }}</li>
-    <li>{{ amount }}</li>
-  </ul>
+  <tr>
+    <td>{{ memo }}</td>
+    <td>{{ amount }}</td>
+  </tr>
 </template>
 
-<style scoped>
-ul {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6;
-}
-</style>
+<style scoped></style>
