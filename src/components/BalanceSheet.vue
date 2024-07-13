@@ -1,5 +1,4 @@
 <script setup lang="ts"></script>
-
 <template>
   <h2>Balance Sheet</h2>
   <div class="doubleCol">
