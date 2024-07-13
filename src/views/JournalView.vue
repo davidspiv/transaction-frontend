@@ -78,9 +78,10 @@ table {
 }
 
 th {
-  border: 1px solid rgb(160 160 160);
   text-align: left;
   padding: 8px 10px;
+  border-top: 1px solid rgb(160 160 160);
+  border-bottom: 1px solid rgb(160 160 160);
 }
 
 #dropdown-filters {

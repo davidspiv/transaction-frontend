@@ -17,7 +17,8 @@ const { memo, amount } = props.data
 
 <style scoped>
 td {
-  padding: 4px;
-  border: 1px solid rgb(160 160 160);
+  padding: 2rem;
+  border-top: 1px solid rgb(160 160 160);
+  border-bottom: 1px solid rgb(160 160 160);
 }
 </style>
