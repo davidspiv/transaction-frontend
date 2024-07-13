@@ -11,6 +11,8 @@ const { memo, amount } = props.data
 <template>
   <tr>
     <td>{{ memo }}</td>
+    <td>omitTransaction</td>
+    <td>affectedAccounts</td>
     <td>{{ amount }}</td>
   </tr>
 </template>

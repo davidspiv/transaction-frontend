@@ -60,6 +60,8 @@ async function fetchTransactions() {
   <table>
     <tr>
       <th scope="col">Memo</th>
+      <th scope="col">omitTransaction</th>
+      <th scope="col">affectedAccounts</th>
       <th scope="col">Amount</th>
     </tr>
     <tbody v-for="transaction in transactions" :key="transaction.id">
@@ -72,7 +74,7 @@ async function fetchTransactions() {
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
   border: 2px solid rgb(140 140 140);
 }
