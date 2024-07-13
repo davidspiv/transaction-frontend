@@ -57,8 +57,11 @@ async function fetchTransactions() {
       </select>
     </li>
   </ul>
-  <ul id="column-header"></ul>
   <table>
+    <tr>
+      <th scope="col">Memo</th>
+      <th scope="col">Amount</th>
+    </tr>
     <tbody v-for="transaction in transactions" :key="transaction.id">
       <TransactionCard :data="transaction" />
     </tbody>
@@ -66,6 +69,20 @@ async function fetchTransactions() {
 </template>
 
 <style scoped>
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 2px solid rgb(140 140 140);
+}
+
+th {
+  border: 1px solid rgb(160 160 160);
+  text-align: left;
+  padding: 8px 10px;
+}
+
 #dropdown-filters {
   display: flex;
   gap: 3.5rem;
@@ -74,10 +91,6 @@ async function fetchTransactions() {
 #dropdown-filters li {
   display: flex;
   flex-direction: column;
-}
-
-#column-header {
-  display: grid;
 }
 
 ul {
