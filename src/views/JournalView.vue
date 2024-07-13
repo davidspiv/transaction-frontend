@@ -88,7 +88,11 @@ th {
 
 #dropdown-filters {
   display: flex;
+  justify-content: space-between;
   gap: 3.5rem;
+  max-width: 20rem;
+  margin: 0 auto;
+  padding: 2rem 0;
 }
 
 #dropdown-filters li {
