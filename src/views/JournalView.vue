@@ -61,7 +61,7 @@ async function fetchTransactions() {
     <tr>
       <th scope="col">Date</th>
       <th scope="col">Memo</th>
-      <th scope="col">omitTransaction</th>
+      <th scope="col">include</th>
       <th scope="col">affectedAccounts</th>
       <th scope="col">Amount</th>
     </tr>
@@ -85,6 +85,10 @@ th {
   padding: 8px 10px;
   border-top: 1px solid rgb(160 160 160);
   border-bottom: 1px solid rgb(160 160 160);
+}
+
+tr th:nth-child(3) {
+  width: 10%;
 }
 
 #dropdown-filters {
