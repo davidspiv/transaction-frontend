@@ -13,7 +13,12 @@ const { date, memo, amount } = props.data
     <td id="trans-date">{{ date }}</td>
     <td id="trans-memo">{{ memo }}</td>
     <td id="trans-omit"><input type="checkbox" /></td>
-    <td id="trans-ac">affectedAccounts</td>
+    <td id="trans-ac">
+      <ul>
+        <li><span class="acc-code">10000</span> savings</li>
+        <li><span class="acc-code">50000</span> expense</li> 
+      </ul>
+    </td>
     <td id="trans-amount">{{ amount }}</td>
   </tr>
 </template>
