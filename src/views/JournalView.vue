@@ -4,7 +4,13 @@ import TransactionCard from '@/components/TransactionCard.vue'
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 
+const selected = defineModel()
 const transactions: Ref<[] | Transaction[]> = ref([])
+
+const handler = () => {
+  console.log(selected.value)
+}
+
 fetchTransactions()
 
 async function fetchTransactions() {
@@ -38,7 +44,8 @@ async function fetchTransactions() {
   <ul id="dropdown-filters">
     <li>
       <label for="time-range">Time Range</label>
-      <select name="time-range" id="time-range">
+      <select v-model="selected" @change="handler" name="time-range" id="time-range">
+        <option disabled value="">Please select one</option>
         <option value="all">All</option>
         <option value="week">Week</option>
         <option value="month">Month</option>
