@@ -62,8 +62,8 @@ async function fetchTransactions() {
       <th scope="col">Date</th>
       <th scope="col">Memo</th>
       <th scope="col">include</th>
-      <th scope="col">affectedAccounts</th>
       <th scope="col">Amount</th>
+      <th scope="col">affectedAccounts</th>
     </tr>
     <tbody v-for="transaction in transactions" :key="transaction.id">
       <TransactionCard :data="transaction" />
@@ -75,14 +75,13 @@ async function fetchTransactions() {
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  max-width: 1000px;
   margin: 0 auto;
+  border-spacing: 2rem;
   border: 2px solid rgb(140 140 140);
 }
 
 th {
   text-align: left;
-  padding: 8px 10px;
   border-top: 1px solid rgb(160 160 160);
   border-bottom: 1px solid rgb(160 160 160);
 }
