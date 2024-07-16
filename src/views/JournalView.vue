@@ -6,12 +6,31 @@ import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
 
-fetchTransactions()
+const handler = (event?: Event) => {
+  let source
+  switch (event?.target.value) {
+    case 'year':
+      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      break
+    case 'month':
+      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      break
+    case 'day':
+      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      break
+    default:
+      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      break
+  }
+  fetchTransactions(source)
+}
 
-async function fetchTransactions() {
+handler()
+
+async function fetchTransactions(source: string) {
   const formattedData: Transaction[] = []
   try {
-    const apiUrl = 'http://localhost:5000/api/transactions/?_limit=40'
+    const apiUrl = source
     const res = await fetch(apiUrl)
     const data = await res.json()
     for (const trans of data.transactions) {
@@ -39,11 +58,7 @@ async function fetchTransactions() {
   <ul id="dropdown-filters">
     <li>
       <label for="time-range">Time Range</label>
-      <select
-        @change="(event) => console.log(event.target.value)"
-        name="time-range"
-        id="time-range"
-      >
+      <select @change="handler" name="time-range" id="time-range">
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
         <option value="week">Week</option>
