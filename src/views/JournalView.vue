@@ -10,22 +10,28 @@ const handler = (event?: Event) => {
   let source: string
   switch (event?.target.value) {
     case 'year':
-      source = 'http://localhost:5000/api/transactions/?_limit=5'
+      source =
+        'http://localhost:5000/api/transactions/?_time=year_account=all_limit=5'
       break
     case 'year-to-date':
-      source = 'http://localhost:5000/api/transactions/?_limit=4'
+      source =
+        'http://localhost:5000/api/transactions/?_time=year-to-date_account=all_limit=4'
       break
     case 'month':
-      source = 'http://localhost:5000/api/transactions/?_limit=3'
+      source =
+        'http://localhost:5000/api/transactions/?_time=month_account=all_limit=3'
       break
     case 'week':
-      source = 'http://localhost:5000/api/transactions/?_limit=2'
+      source =
+        'http://localhost:5000/api/transactions/?_time=week_account=all_limit=2'
       break
     case 'day':
-      source = 'http://localhost:5000/api/transactions/?_limit=1'
+      source =
+        'http://localhost:5000/api/transactions/?_time=day_account=all_limit=1'
       break
     default:
-      source = 'http://localhost:5000/api/transactions/?_limit=6'
+      source =
+        'http://localhost:5000/api/transactions/?_time=all_account=all_limit=6'
       break
   }
   fetchTransactions(source)
