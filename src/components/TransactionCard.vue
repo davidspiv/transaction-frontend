@@ -16,8 +16,8 @@ const { date, memo, amount } = props.data
     <td id="trans-amount">{{ amount }}</td>
     <td id="trans-ac">
       <ul>
-        <li><span class="acc-code">10000</span> savings</li>
-        <li><span class="acc-code">50000</span> expense</li>
+        <li>savings</li>
+        <li>expense</li>
       </ul>
     </td>
   </tr>
