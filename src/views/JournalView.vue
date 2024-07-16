@@ -7,19 +7,25 @@ import type { Ref } from 'vue'
 const transactions: Ref<[] | Transaction[]> = ref([])
 
 const handler = (event?: Event) => {
-  let source
+  let source: string
   switch (event?.target.value) {
     case 'year':
-      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      source = 'http://localhost:5000/api/transactions/?_limit=5'
+      break
+    case 'year-to-date':
+      source = 'http://localhost:5000/api/transactions/?_limit=4'
       break
     case 'month':
-      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      source = 'http://localhost:5000/api/transactions/?_limit=3'
+      break
+    case 'week':
+      source = 'http://localhost:5000/api/transactions/?_limit=2'
       break
     case 'day':
-      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      source = 'http://localhost:5000/api/transactions/?_limit=1'
       break
     default:
-      source = 'http://localhost:5000/api/transactions/?_limit=40'
+      source = 'http://localhost:5000/api/transactions/?_limit=6'
       break
   }
   fetchTransactions(source)
@@ -61,10 +67,11 @@ async function fetchTransactions(source: string) {
       <select @change="handler" name="time-range" id="time-range">
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-        <option value="year-to-date">Year To Date</option>
         <option value="year">Year</option>
+        <option value="year-to-date">Year To Date</option>
+        <option value="month">Month</option>
+        <option value="week">Week</option>
+        <option value="day">Day</option>
       </select>
     </li>
     <li>
