@@ -5,9 +5,10 @@ import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
+let apiUrl: string = 'http://localhost:5000/api/transactions/?'
 
 const handler = () => {
-  let apiUrl: string = 'http://localhost:5000/api/transactions/?'
+  apiUrl = 'http://localhost:5000/api/transactions/?'
   const timePicker = document.getElementById(
     'time-range'
   ) as HTMLSelectElement
@@ -55,18 +56,10 @@ const handler = () => {
       apiUrl += '_acc=all'
   }
 
-  // if (accPicker.limit === 'limit') {
-  //   apiUrl += `_limit=${accPicker.limit}`
-  // }
-
   fetchTransactions(apiUrl)
 }
 
-onMounted(async () => {
-  handler()
-})
-
-async function fetchTransactions(source: string) {
+const fetchTransactions = async (source: string) => {
   const formattedData: Transaction[] = []
   try {
     const apiUrl = source
@@ -90,6 +83,10 @@ async function fetchTransactions(source: string) {
   }
   transactions.value = formattedData
 }
+
+onMounted(async () => {
+  fetchTransactions(`${apiUrl}_time=day_limit=10`)
+})
 </script>
 
 <template>
@@ -99,12 +96,12 @@ async function fetchTransactions(source: string) {
       <label for="time-range">Time Range</label>
       <select @change="handler" name="time-range" id="time-range">
         <option disabled value="">Please select one</option>
-        <option value="all">All</option>
+        <option value="day">Day</option>
+        <option value="week">Week</option>
+        <option value="month">Month</option>
         <option value="year">Year</option>
         <option value="year-to-date">Year To Date</option>
-        <option value="month">Month</option>
-        <option value="week">Week</option>
-        <option value="day">Day</option>
+        <option value="all">All</option>
       </select>
     </li>
     <li>
