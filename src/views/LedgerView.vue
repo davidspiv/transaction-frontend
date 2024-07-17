@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
+import Url from '@/models/Url'
 import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
-let apiUrl: string = 'http://localhost:5000/api/transactions/?'
+const apiObj: Url = new Url('all', 'all', '10')
 
 const handler = () => {
-  apiUrl = 'http://localhost:5000/api/transactions/?'
   const timePicker = document.getElementById(
     'time-range'
   ) as HTMLSelectElement
@@ -16,47 +16,10 @@ const handler = () => {
     'acc-range'
   ) as HTMLSelectElement
 
-  switch (timePicker.value) {
-    case 'year':
-      apiUrl += '_time=year'
-      break
-    case 'year-to-date':
-      apiUrl += '_time=year-to-date'
-      break
-    case 'month':
-      apiUrl += '_time=month'
-      break
-    case 'week':
-      apiUrl += '_time=week'
-      break
-    case 'day':
-      apiUrl += '_time=day'
-      break
-    default:
-      apiUrl += '_time=all'
-  }
+  apiObj.time = timePicker.value
+  apiObj.acc = accPicker.value
 
-  switch (accPicker.value) {
-    case 'asset':
-      apiUrl += '_acc=asset'
-      break
-    case 'expense':
-      apiUrl += '_acc=expense'
-      break
-    case 'revenue':
-      apiUrl += '_acc=revenue'
-      break
-    case 'liability':
-      apiUrl += '_acc=liability'
-      break
-    case 'equity':
-      apiUrl += '_acc=equity'
-      break
-    default:
-      apiUrl += '_acc=all'
-  }
-
-  fetchTransactions(apiUrl)
+  fetchTransactions(apiObj.build())
 }
 
 const fetchTransactions = async (source: string) => {
@@ -85,7 +48,7 @@ const fetchTransactions = async (source: string) => {
 }
 
 onMounted(async () => {
-  fetchTransactions(`${apiUrl}_time=day_limit=10`)
+  fetchTransactions(apiObj.build())
 })
 </script>
 
