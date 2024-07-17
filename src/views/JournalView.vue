@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import type { Ref } from 'vue'
 
 const sourceUrl: Ref<string> = ref(
-  'http://localhost:5000/api/transactions/?_time=all_acc=all_limit=10'
+  'http://localhost:5000/api/transactions/?_time=all_acc=all_limit=100'
 )
 const transactions: Ref<[] | Transaction[]> = ref([])
 fetchTransactions(sourceUrl.value)
@@ -50,6 +50,7 @@ async function fetchTransactions(source: string) {
       <TransactionCard :data="transaction" />
     </tbody>
   </table>
+  
 </template>
 
 <style scoped>

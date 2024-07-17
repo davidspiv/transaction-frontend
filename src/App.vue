@@ -27,11 +27,6 @@ header {
   max-height: 100vh;
 }
 
-.logo {
-  max-width: fit-content;
-  margin: 0 auto;
-}
-
 nav {
   width: 100%;
   font-size: 12px;
