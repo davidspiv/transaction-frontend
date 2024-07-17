@@ -4,41 +4,67 @@ import TransactionCard from '@/components/TransactionCard.vue'
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 
+const sourceUrl: Ref<string> = ref(
+  'http://localhost:5000/api/transactions/?_time=all_acc=all_limit=10'
+)
 const transactions: Ref<[] | Transaction[]> = ref([])
+fetchTransactions(sourceUrl.value)
 
-const handler = (event?: Event) => {
-  let sourceUrl: string =
-    'http://localhost:5000/api/transactions/?_time=all_account=all'
-  if (event && event.target) {
-    console.log(event)
-    switch ((event.target as HTMLSelectElement).value) {
-      case 'year':
-        sourceUrl =
-          'http://localhost:5000/api/transactions/?_time=year_account=all'
-        break
-      case 'year-to-date':
-        sourceUrl =
-          'http://localhost:5000/api/transactions/?_time=year-to-date_account=all'
-        break
-      case 'month':
-        sourceUrl =
-          'http://localhost:5000/api/transactions/?_time=month_account=all'
-        break
-      case 'week':
-        sourceUrl =
-          'http://localhost:5000/api/transactions/?_time=week_account=all'
-        break
-      case 'day':
-        sourceUrl =
-          'http://localhost:5000/api/transactions/?_time=day_account=all'
-        break
-    }
+const handler = () => {
+  let apiUrl: string = 'http://localhost:5000/api/transactions/?'
+  const timePicker = document.getElementById(
+    'time-range'
+  ) as HTMLSelectElement
+  const accPicker = document.getElementById(
+    'acc-range'
+  ) as HTMLSelectElement
+
+  switch (timePicker.value) {
+    case 'year':
+      apiUrl += '_time=year'
+      break
+    case 'year-to-date':
+      apiUrl += '_time=year-to-date'
+      break
+    case 'month':
+      apiUrl += '_time=month'
+      break
+    case 'week':
+      apiUrl += '_time=week'
+      break
+    case 'day':
+      apiUrl += '_time=day'
+      break
+    default:
+      apiUrl += '_time=all'
   }
 
-  fetchTransactions(sourceUrl)
-}
+  switch (accPicker.value) {
+    case 'assets':
+      apiUrl += '_acc=assets'
+      break
+    case 'expenses':
+      apiUrl += '_acc=expenses'
+      break
+    case 'income':
+      apiUrl += '_acc=income'
+      break
+    case 'liabilities':
+      apiUrl += '_acc=liabilities'
+      break
+    case 'equity':
+      apiUrl += '_acc=equity'
+      break
+    default:
+      apiUrl += '_acc=all'
+  }
 
-handler()
+  // if (accPicker.limit === 'limit') {
+  //   apiUrl += `_limit=${accPicker.limit}`
+  // }
+
+  fetchTransactions(apiUrl)
+}
 
 async function fetchTransactions(source: string) {
   const formattedData: Transaction[] = []
@@ -83,7 +109,7 @@ async function fetchTransactions(source: string) {
     </li>
     <li>
       <label for="account">Primary Account</label>
-      <select name="account-range" id="account-range">
+      <select @change="handler" name="acc-range" id="acc-range">
         <option value="assets">Assets</option>
         <option value="expenses">Expenses</option>
         <option value="income">Income</option>
