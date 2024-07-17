@@ -40,17 +40,17 @@ const handler = () => {
   }
 
   switch (accPicker.value) {
-    case 'assets':
-      apiUrl += '_acc=assets'
+    case 'asset':
+      apiUrl += '_acc=asset'
       break
-    case 'expenses':
-      apiUrl += '_acc=expenses'
+    case 'expense':
+      apiUrl += '_acc=expense'
       break
-    case 'income':
-      apiUrl += '_acc=income'
+    case 'revenue':
+      apiUrl += '_acc=revenue'
       break
-    case 'liabilities':
-      apiUrl += '_acc=liabilities'
+    case 'liability':
+      apiUrl += '_acc=liability'
       break
     case 'equity':
       apiUrl += '_acc=equity'
@@ -110,10 +110,10 @@ async function fetchTransactions(source: string) {
     <li>
       <label for="account">Primary Account</label>
       <select @change="handler" name="acc-range" id="acc-range">
-        <option value="assets">Assets</option>
-        <option value="expenses">Expenses</option>
-        <option value="income">Income</option>
-        <option value="liabilities">Liabilities</option>
+        <option value="asset">Assets</option>
+        <option value="expense">Expenses</option>
+        <option value="revenue">Revenue</option>
+        <option value="liability">Liabilities</option>
         <option value="equity">Equity</option>
       </select>
     </li>
