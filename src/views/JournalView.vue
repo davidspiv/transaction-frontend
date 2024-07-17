@@ -10,62 +10,6 @@ const sourceUrl: Ref<string> = ref(
 const transactions: Ref<[] | Transaction[]> = ref([])
 fetchTransactions(sourceUrl.value)
 
-const handler = () => {
-  let apiUrl: string = 'http://localhost:5000/api/transactions/?'
-  const timePicker = document.getElementById(
-    'time-range'
-  ) as HTMLSelectElement
-  const accPicker = document.getElementById(
-    'acc-range'
-  ) as HTMLSelectElement
-
-  switch (timePicker.value) {
-    case 'year':
-      apiUrl += '_time=year'
-      break
-    case 'year-to-date':
-      apiUrl += '_time=year-to-date'
-      break
-    case 'month':
-      apiUrl += '_time=month'
-      break
-    case 'week':
-      apiUrl += '_time=week'
-      break
-    case 'day':
-      apiUrl += '_time=day'
-      break
-    default:
-      apiUrl += '_time=all'
-  }
-
-  switch (accPicker.value) {
-    case 'asset':
-      apiUrl += '_acc=asset'
-      break
-    case 'expense':
-      apiUrl += '_acc=expense'
-      break
-    case 'revenue':
-      apiUrl += '_acc=revenue'
-      break
-    case 'liability':
-      apiUrl += '_acc=liability'
-      break
-    case 'equity':
-      apiUrl += '_acc=equity'
-      break
-    default:
-      apiUrl += '_acc=all'
-  }
-
-  // if (accPicker.limit === 'limit') {
-  //   apiUrl += `_limit=${accPicker.limit}`
-  // }
-
-  fetchTransactions(apiUrl)
-}
-
 async function fetchTransactions(source: string) {
   const formattedData: Transaction[] = []
   try {
@@ -94,30 +38,6 @@ async function fetchTransactions(source: string) {
 
 <template>
   <h2>Journal</h2>
-  <ul id="dropdown-filters">
-    <li>
-      <label for="time-range">Time Range</label>
-      <select @change="handler" name="time-range" id="time-range">
-        <option disabled value="">Please select one</option>
-        <option value="all">All</option>
-        <option value="year">Year</option>
-        <option value="year-to-date">Year To Date</option>
-        <option value="month">Month</option>
-        <option value="week">Week</option>
-        <option value="day">Day</option>
-      </select>
-    </li>
-    <li>
-      <label for="account">Primary Account</label>
-      <select @change="handler" name="acc-range" id="acc-range">
-        <option value="asset">Assets</option>
-        <option value="expense">Expenses</option>
-        <option value="revenue">Revenue</option>
-        <option value="liability">Liabilities</option>
-        <option value="equity">Equity</option>
-      </select>
-    </li>
-  </ul>
   <table>
     <tr>
       <th scope="col">Date</th>

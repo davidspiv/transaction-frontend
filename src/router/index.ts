@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import('../views/JournalView.vue')
     },
     {
+      path: '/ledger',
+      name: 'ledger',
+      component: () => import('../views/LedgerView.vue')
+    },
+    {
       path: '/accounts',
       name: 'accounts',
       component: () => import('../views/AccountsView.vue')
