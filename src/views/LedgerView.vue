@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
-const apiObj: Url = new Url('all', 'all', '10')
+const apiObj: Url = new Url('day', 'all')
 
 const handler = () => {
   const timePicker = document.getElementById(
@@ -80,20 +80,42 @@ onMounted(async () => {
       </select>
     </li>
   </ul>
-  <table>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Memo</th>
-      <th scope="col">include</th>
-      <th scope="col">Amount</th>
-      <th scope="col">affectedAccounts</th>
-    </tr>
-    <tbody v-for="transaction in transactions" :key="transaction.id">
-      <TransactionCard :data="transaction" />
-    </tbody>
-  </table>
-  <div class="center-menu">
-    <button>100 more</button><button>500 more</button>
+
+  <div v-if="transactions.length">
+    <table>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Memo</th>
+        <th scope="col">include</th>
+        <th scope="col">Amount</th>
+        <th scope="col">affectedAccounts</th>
+      </tr>
+      <tbody
+        v-for="transaction in transactions"
+        :key="transaction.id"
+      >
+        <TransactionCard :data="transaction" />
+      </tbody>
+    </table>
+    <div class="center-menu">
+      <button>100 more</button><button>500 more</button>
+    </div>
+  </div>
+  <div v-else>
+    <table>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Memo</th>
+        <th scope="col">include</th>
+        <th scope="col">Amount</th>
+        <th scope="col">affectedAccounts</th>
+      </tr>
+      <tbody>
+        <tr>
+          <td colspan="5" id="nothing">NOTHING HERE</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -132,5 +154,9 @@ tr th:nth-child(3) {
 
 ul {
   padding: 0;
+}
+
+#nothing {
+  text-align: center;
 }
 </style>
