@@ -112,7 +112,9 @@ onMounted(async () => {
       </tr>
       <tbody>
         <tr>
-          <td colspan="5" id="nothing">NOTHING HERE</td>
+          <td colspan="5" id="nothing">
+            No transactions met above criteria
+          </td>
         </tr>
       </tbody>
     </table>
