@@ -7,35 +7,35 @@ import type { Ref } from 'vue'
 const transactions: Ref<[] | Transaction[]> = ref([])
 
 const handler = (event?: Event) => {
-  let source: string =
+  let sourceUrl: string =
     'http://localhost:5000/api/transactions/?_time=all_account=all'
   if (event && event.target) {
     console.log(event)
     switch ((event.target as HTMLSelectElement).value) {
       case 'year':
-        source =
+        sourceUrl =
           'http://localhost:5000/api/transactions/?_time=year_account=all'
         break
       case 'year-to-date':
-        source =
+        sourceUrl =
           'http://localhost:5000/api/transactions/?_time=year-to-date_account=all'
         break
       case 'month':
-        source =
+        sourceUrl =
           'http://localhost:5000/api/transactions/?_time=month_account=all'
         break
       case 'week':
-        source =
+        sourceUrl =
           'http://localhost:5000/api/transactions/?_time=week_account=all'
         break
       case 'day':
-        source =
+        sourceUrl =
           'http://localhost:5000/api/transactions/?_time=day_account=all'
         break
     }
   }
 
-  fetchTransactions(source)
+  fetchTransactions(sourceUrl)
 }
 
 handler()
