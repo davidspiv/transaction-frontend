@@ -2,8 +2,11 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import ApiUrl from '@/models/ApiUrl'
-import { toGlobalState, toLocalState } from '@/composables/convertState'
-import { onMounted, onUnmounted, ref } from 'vue'
+import {
+  toGlobalState,
+  toLocalState
+} from '@/composables/convertState'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
@@ -11,7 +14,7 @@ const apiUrl: ApiUrl = new ApiUrl('day', 'all')
 let timePicker: null | HTMLSelectElement
 let accPicker: null | HTMLSelectElement
 
-const handler = () => {
+const resetFilterHandler = () => {
   if (timePicker && accPicker) {
     apiUrl.time = timePicker.value
     apiUrl.acc = accPicker.value
@@ -21,6 +24,14 @@ const handler = () => {
     console.log('Error with dropdown values')
   }
 }
+
+const total = computed(() =>
+  transactions.value.reduce(
+    (sum, item) =>
+      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
+    0
+  )
+)
 
 const fetchTransactions = async (source: string) => {
   const formattedData: Transaction[] = []
@@ -69,11 +80,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h2>Journal</h2>
+  <h2>Total {{ total }}</h2>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
-      <select @change="handler" name="time-range" id="time-range">
+      <select
+        @change="resetFilterHandler"
+        name="time-range"
+        id="time-range"
+      >
         <option disabled value="">Please select one</option>
         <option value="day">Day</option>
         <option value="week">Week</option>
@@ -85,7 +100,11 @@ onUnmounted(() => {
     </li>
     <li>
       <label for="src-range">Source</label>
-      <select @change="handler" name="src-range" id="src-range">
+      <select
+        @change="resetFilterHandler"
+        name="src-range"
+        id="src-range"
+      >
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
         <option value="src-1">Chase</option>
