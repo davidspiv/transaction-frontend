@@ -2,7 +2,7 @@ export default class {
   id: string
   date: string
   dateOffset: number
-  amount: string
+  amount: number
   memo: string
   accId: number
   isDebit: boolean
@@ -20,7 +20,7 @@ export default class {
   ) {
     this.date = this.formatDate(dateInput)
     this.dateOffset = this.toNumber(dateOffsetInput)
-    this.amount = this.formatAmount(amountInput)
+    this.amount = amountInput
     this.memo = memoInput
     this.accId = accId
     this.isDebit = isDebit ? isDebit : false

@@ -5,7 +5,7 @@ const props = defineProps<{
   data: Entry
 }>()
 
-const { id, date, memo, amount } = props.data
+const { id, date, memo, amount, formatAmount } = props.data
 const checkboxId = `${id}y-checkbox`
 </script>
 
@@ -16,7 +16,7 @@ const checkboxId = `${id}y-checkbox`
     <td id="entry-omit">
       <input type="checkbox" :id="checkboxId" />
     </td>
-    <td id="entry-amount">{{ amount }}</td>
+    <td id="entry-amount">{{ formatAmount(amount) }}</td>
     <td id="entry-src">
       <ul>
         <li>savings</li>
