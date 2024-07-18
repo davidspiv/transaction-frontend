@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
-import Url from '@/models/Url'
-import store from '@/components/store'
+import ApiUrl from '@/models/ApiUrl'
+import store from '@/models/GlobalState'
 import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
-const apiUrl: Url = new Url('day', 'all')
+const apiUrl: ApiUrl = new ApiUrl('day', 'all')
 let timePicker: null | HTMLSelectElement
 let accPicker: null | HTMLSelectElement
 
