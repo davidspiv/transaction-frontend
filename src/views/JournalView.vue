@@ -25,14 +25,6 @@ const resetFilterHandler = () => {
   }
 }
 
-const total = computed(() =>
-  transactions.value.reduce(
-    (sum, item) =>
-      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
-    0
-  )
-)
-
 const fetchTransactions = async (source: string) => {
   const formattedData: Transaction[] = []
   try {
@@ -74,13 +66,21 @@ onMounted(() => {
   fetchTransactions(apiUrl.build())
 })
 
+const transactionsTotal = computed(() =>
+  transactions.value.reduce(
+    (sum, item) =>
+      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
+    0
+  )
+)
+
 onUnmounted(() => {
   toGlobalState(apiUrl, 'journal')
 })
 </script>
 
 <template>
-  <h2>Total {{ total }}</h2>
+  <h2>Total {{ transactionsTotal }}</h2>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
