@@ -68,7 +68,7 @@ onMounted(async () => {
       </select>
     </li>
     <li>
-      <label for="account">Primary Account</label>
+      <label for="acc-range">Primary Account</label>
       <select @change="handler" name="acc-range" id="acc-range">
         <option disabled value="">Please select one</option>
         <option value="all">All</option>

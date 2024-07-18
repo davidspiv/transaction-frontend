@@ -2,24 +2,23 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import Url from '@/models/Url'
-import { onMounted, ref } from 'vue'
+import store from '@/components/store'
+import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
 const apiObj: Url = new Url('day', 'all')
+let timePicker: null | HTMLSelectElement
+let accPicker: null | HTMLSelectElement
 
 const handler = () => {
-  const timePicker = document.getElementById(
-    'time-range'
-  ) as HTMLSelectElement
-  const accPicker = document.getElementById(
-    'acc-range'
-  ) as HTMLSelectElement
-
-  apiObj.time = timePicker.value
-  apiObj.acc = accPicker.value
-
-  fetchTransactions(apiObj.build())
+  if (timePicker && accPicker) {
+    apiObj.time = timePicker.value
+    apiObj.acc = accPicker.value
+    fetchTransactions(apiObj.build())
+  } else {
+    console.log('Error with dropdown values')
+  }
 }
 
 const fetchTransactions = async (source: string) => {
@@ -48,7 +47,28 @@ const fetchTransactions = async (source: string) => {
 }
 
 onMounted(async () => {
+  timePicker = document.getElementById(
+    'time-range'
+  ) as HTMLSelectElement
+  accPicker = document.getElementById(
+    'src-range'
+  ) as HTMLSelectElement
+
+  if (store.time && store.acc && store.limit) {
+    apiObj.time = store.time
+    apiObj.acc = store.acc
+    apiObj.limit = store.limit
+
+    timePicker.value = apiObj.time
+    accPicker.value = apiObj.acc
+  }
   fetchTransactions(apiObj.build())
+})
+
+onUnmounted(() => {
+  store.time = apiObj.time
+  store.acc = apiObj.acc
+  store.limit = apiObj.limit
 })
 </script>
 
@@ -68,15 +88,11 @@ onMounted(async () => {
       </select>
     </li>
     <li>
-      <label for="account">Source</label>
-      <select @change="handler" name="acc-range" id="acc-range">
+      <label for="src-range">Source</label>
+      <select @change="handler" name="src-range" id="src-range">
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
-        <option value="asset">Assets</option>
-        <option value="expense">Expenses</option>
-        <option value="revenue">Revenue</option>
-        <option value="liability">Liabilities</option>
-        <option value="equity">Equity</option>
+        <option value="src-1">Chase</option>
       </select>
     </li>
   </ul>
