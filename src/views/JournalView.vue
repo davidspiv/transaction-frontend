@@ -134,7 +134,11 @@ onMounted(() => {
     'src-range'
   ) as HTMLSelectElement
 
-  Object.assign(apiUrl, store)
+  for (const key in store) {
+    if (key.includes('journal')) {
+      apiUrl[key.slice('journal'.length)] = store[key]
+    }
+  }
 
   timePicker.value = apiUrl.time
   accPicker.value = apiUrl.acc
@@ -143,7 +147,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  Object.assign(store, apiUrl)
+  for (const key in apiUrl) {
+    store[`journal${key}`] = apiUrl[key]
+  }
 })
 </script>
 
