@@ -77,7 +77,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h2>Total {{ transactionsTotal }}</h2>
+  <h2>Total: {{ transactionsTotal }}</h2>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
@@ -125,9 +125,9 @@ onUnmounted(() => {
         <TransactionCard :data="transaction" />
       </tbody>
     </table>
-    <div class="center-menu">
+    <!-- <div class="center-menu">
       <button>100 more</button><button>500 more</button>
-    </div>
+    </div> -->
   </div>
   <div v-else>
     <table>

@@ -3,7 +3,7 @@ import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import ApiUrl from '@/models/ApiUrl'
 import { toGlobalState, toLocalState } from '@/composables/state'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
@@ -11,7 +11,7 @@ const apiUrl: ApiUrl = new ApiUrl('day', 'all')
 let timePicker: null | HTMLSelectElement
 let accPicker: null | HTMLSelectElement
 
-const handler = () => {
+const resetFilterHandler = () => {
   if (timePicker && accPicker) {
     apiUrl.time = timePicker.value
     apiUrl.acc = accPicker.value
@@ -63,17 +63,29 @@ onMounted(() => {
   fetchTransactions(apiUrl.build())
 })
 
+const transactionsTotal = computed(() =>
+  transactions.value.reduce(
+    (sum, item) =>
+      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
+    0
+  )
+)
+
 onUnmounted(() => {
   toGlobalState(apiUrl, 'ledger')
 })
 </script>
 
 <template>
-  <h2>Journal</h2>
+  <h2>Total: {{ transactionsTotal }}</h2>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
-      <select @change="handler" name="time-range" id="time-range">
+      <select
+        @change="resetFilterHandler"
+        name="time-range"
+        id="time-range"
+      >
         <option disabled value="">Please select one</option>
         <option value="day">Day</option>
         <option value="week">Week</option>
@@ -85,7 +97,11 @@ onUnmounted(() => {
     </li>
     <li>
       <label for="acc-range">Primary Account</label>
-      <select @change="handler" name="acc-range" id="acc-range">
+      <select
+        @change="resetFilterHandler"
+        name="acc-range"
+        id="acc-range"
+      >
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
         <option value="asset">Assets</option>
@@ -113,9 +129,9 @@ onUnmounted(() => {
         <TransactionCard :data="transaction" />
       </tbody>
     </table>
-    <div class="center-menu">
+    <!-- <div class="center-menu">
       <button>100 more</button><button>500 more</button>
-    </div>
+    </div> -->
   </div>
   <div v-else>
     <table>

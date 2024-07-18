@@ -7,7 +7,6 @@ const props = defineProps<{
 
 const { id, date, memo, amount } = props.data
 const checkboxId = `${id}checkbox`
-
 </script>
 
 <template>
