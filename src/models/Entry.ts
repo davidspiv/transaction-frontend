@@ -2,7 +2,7 @@ export default class {
   id: string
   date: string
   dateOffset: number
-  amount: number
+  amount: string
   memo: string
   accId: number
   isDebit: boolean
@@ -11,23 +11,38 @@ export default class {
   constructor(
     dateInput: string,
     dateOffsetInput: string | number,
-    amountInput: string | number,
+    amountInput: number,
     memoInput: string,
     accId: number,
     isDebit?: boolean,
     idInput?: string,
     fitidInput?: string
   ) {
-    this.date = dateInput
+    this.date = this.formatDate(dateInput)
     this.dateOffset = this.toNumber(dateOffsetInput)
-    this.amount = this.toNumber(amountInput)
+    this.amount = this.formatAmount(amountInput)
     this.memo = memoInput
     this.accId = accId
     this.isDebit = isDebit ? isDebit : false
-    this.id = idInput
-      ? idInput
-      : this.createId(this.accId, this.date, this.dateOffset)
+    this.id =
+      idInput || this.createId(this.accId, this.date, this.dateOffset)
     this.fitid = fitidInput
+  }
+
+  formatDate(inputDate: string) {
+    return new Date(inputDate).toLocaleDateString('en-us', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
+
+  formatAmount(inputAmount: number) {
+    const USDollar = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+    return USDollar.format(inputAmount / -10000)
   }
 
   toNumber(input: string | number) {

@@ -125,7 +125,11 @@ const importCsv = async (event: Event) => {
 }
 
 const transactionsTotal = computed(() =>
-  transactions.value.reduce((sum, item) => sum + item.amount, 0)
+  transactions.value.reduce(
+    (sum, item) =>
+      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
+    0
+  )
 )
 
 onUnmounted(() => {
@@ -209,7 +213,7 @@ onUnmounted(() => {
       <tbody>
         <tr>
           <td colspan="5" id="nothing">
-            No transactions met above criteria
+            Add journal entries to get started
           </td>
         </tr>
       </tbody>
