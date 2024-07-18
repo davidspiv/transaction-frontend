@@ -5,24 +5,17 @@ const props = defineProps<{
   data: Entry
 }>()
 
-const { id, date, memo, amount, formatAmount } = props.data
+const { id, memo, amount, formatAmount } = props.data
 const checkboxId = `${id}y-checkbox`
 </script>
 
 <template>
   <tr>
-    <td id="entry-date">{{ date }}</td>
     <td id="entry-memo">{{ memo }}</td>
     <td id="entry-omit">
       <input type="checkbox" :id="checkboxId" />
     </td>
     <td id="entry-amount">{{ formatAmount(amount) }}</td>
-    <td id="entry-src">
-      <ul>
-        <li>savings</li>
-        <li>expense</li>
-      </ul>
-    </td>
   </tr>
 </template>
 

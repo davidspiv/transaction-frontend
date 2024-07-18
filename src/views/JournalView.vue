@@ -99,6 +99,7 @@ const importCsv = async (event: Event) => {
           formattedData.push(transObj)
         }
         transactions.value = formattedData
+        // inputEl.value = ''
       }
 
       function splitCsv(str: string) {
@@ -124,8 +125,10 @@ const importCsv = async (event: Event) => {
   }
 }
 
-const transactionsTotal = computed(() =>
-  transactions.value.reduce((sum, item) => sum + item.amount, 0)
+const transactionsTotal = computed(
+  () =>
+    transactions.value.reduce((sum, item) => sum + item.amount, 0) /
+    1000
 )
 
 onUnmounted(() => {
@@ -134,7 +137,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h2>Total: {{ transactionsTotal }}</h2>
+  <h2>Journal</h2>
   <input
     @change="importCsv"
     type="file"
@@ -142,6 +145,7 @@ onUnmounted(() => {
     name="input-csv"
     accept="csv"
   />
+  <span>Total: {{ transactionsTotal }}</span>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
@@ -180,11 +184,9 @@ onUnmounted(() => {
   <div v-if="transactions.length">
     <table>
       <tr>
-        <th scope="col">Date</th>
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
-        <th scope="col">affectedAccounts</th>
       </tr>
       <tbody
         v-for="transaction in transactions"
@@ -200,15 +202,13 @@ onUnmounted(() => {
   <div v-else>
     <table>
       <tr>
-        <th scope="col">Date</th>
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
-        <th scope="col">affectedAccounts</th>
       </tr>
       <tbody>
         <tr>
-          <td colspan="5" id="nothing">
+          <td colspan="3" id="nothing">
             Add journal entries to get started
           </td>
         </tr>
@@ -232,7 +232,7 @@ th {
   border-bottom: 1px solid rgb(160 160 160);
 }
 
-tr th:nth-child(3) {
+tr th:nth-child(2) {
   width: 10%;
 }
 

@@ -4,7 +4,7 @@ export default class {
   dateOffset: number
   amount: number
   memo: string
-  accId: number
+  srcId: number
   isDebit: boolean
   fitid?: string
 
@@ -13,19 +13,19 @@ export default class {
     dateOffsetInput: string | number,
     amountInput: number,
     memoInput: string,
-    accId: number,
+    srcId: number,
     isDebit?: boolean,
     idInput?: string,
     fitidInput?: string
   ) {
-    this.date = this.formatDate(dateInput)
+    this.date = dateInput
     this.dateOffset = this.toNumber(dateOffsetInput)
     this.amount = amountInput
     this.memo = memoInput
-    this.accId = accId
+    this.srcId = srcId
     this.isDebit = isDebit ? isDebit : false
     this.id =
-      idInput || this.createId(this.accId, this.date, this.dateOffset)
+      idInput || this.createId(this.srcId, this.date, this.dateOffset)
     this.fitid = fitidInput
   }
 
