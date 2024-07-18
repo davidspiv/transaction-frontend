@@ -8,17 +8,17 @@ export default class JournalEntry {
 
   constructor(
     dateInput: string,
-    dateOffsetInput: string,
-    amountInput: string,
+    dateOffsetInput: number,
+    amountInput: number,
     memoInput: string,
-    srcIdInput: string,
+    srcIdInput: number,
     fitidInput?: string
   ) {
     this.date = this.formatDate(dateInput)
-    this.dateOffset = this.toNumber(dateOffsetInput)
-    this.amount = this.formatAmount(amountInput)
-    this.memo = this.formatMemo(memoInput)
-    this.srcId = srcIdInput
+    this.dateOffset = dateOffsetInput
+    this.amount = String(amountInput)
+    this.memo = memoInput
+    this.srcId = String(srcIdInput)
     this.fitid = fitidInput
   }
 
