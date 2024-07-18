@@ -1,6 +1,9 @@
 import ApiUrl from '@/models/ApiUrl'
+import type JournalEntry from '@/models/JournalEntry'
 
-const globalState = {} as { [k: string]: string }
+const globalState: { [k: string]: string } = {}
+
+const savedEntries: JournalEntry[] = []
 
 const toLocalState = (apiUrl: ApiUrl, view: string) => {
   for (const key in globalState) {
@@ -20,4 +23,4 @@ const toGlobalState = (apiUrl: ApiUrl, view: string) => {
   }
 }
 
-export { toLocalState, toGlobalState }
+export { savedEntries, toLocalState, toGlobalState }
