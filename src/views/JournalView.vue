@@ -136,7 +136,9 @@ onMounted(() => {
 
   for (const key in store) {
     if (key.includes('journal')) {
-      apiUrl[key.slice('journal'.length)] = store[key]
+      Object.assign(apiUrl, {
+        [key.slice('journal'.length)]: store[key]
+      })
     }
   }
 
@@ -144,11 +146,15 @@ onMounted(() => {
   accPicker.value = apiUrl.acc
 
   fetchTransactions(apiUrl.build())
+
+  console.log(Object.keys(store))
 })
 
 onUnmounted(() => {
   for (const key in apiUrl) {
-    store[`journal${key}`] = apiUrl[key]
+    Object.assign(store, {
+      [`journal${key}`]: apiUrl[key as keyof typeof apiUrl]
+    })
   }
 })
 </script>
