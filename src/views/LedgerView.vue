@@ -2,7 +2,7 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import ApiUrl from '@/models/ApiUrl'
-import store from '@/models/GlobalState'
+import { toGlobalState, toLocalState } from '@/composables/convertState'
 import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
@@ -55,13 +55,7 @@ onMounted(() => {
     'acc-range'
   ) as HTMLSelectElement
 
-  for (const key in store) {
-    if (key.includes('ledger')) {
-      Object.assign(apiUrl, {
-        [key.slice('ledger'.length)]: store[key]
-      })
-    }
-  }
+  toLocalState(apiUrl, 'ledger')
 
   timePicker.value = apiUrl.time
   accPicker.value = apiUrl.acc
@@ -70,11 +64,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  for (const key in apiUrl) {
-    Object.assign(store, {
-      [`ledger${key}`]: apiUrl[key as keyof typeof apiUrl]
-    })
-  }
+  toGlobalState(apiUrl, 'ledger')
 })
 </script>
 
