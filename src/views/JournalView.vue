@@ -2,8 +2,7 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import ApiUrl from '@/models/ApiUrl'
-import store from '@/models/GlobalState'
-import { toGlobalState, toLocalState } from '@/composables/parseUrl'
+import { toGlobalState, toLocalState } from '@/composables/convertState'
 import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
@@ -56,7 +55,7 @@ onMounted(() => {
     'src-range'
   ) as HTMLSelectElement
 
-  toGlobalState(apiUrl, 'journal')
+  toLocalState(apiUrl, 'journal')
 
   timePicker.value = apiUrl.time
   accPicker.value = apiUrl.acc
@@ -65,7 +64,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  toLocalState(apiUrl, 'journal')
+  toGlobalState(apiUrl, 'journal')
 })
 </script>
 
