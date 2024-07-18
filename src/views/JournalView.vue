@@ -7,15 +7,16 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
-const apiObj: Url = new Url('day', 'all')
+const apiUrl: Url = new Url('day', 'all')
 let timePicker: null | HTMLSelectElement
 let accPicker: null | HTMLSelectElement
 
 const handler = () => {
   if (timePicker && accPicker) {
-    apiObj.time = timePicker.value
-    apiObj.acc = accPicker.value
-    fetchTransactions(apiObj.build())
+    apiUrl.time = timePicker.value
+    apiUrl.acc = accPicker.value
+
+    fetchTransactions(apiUrl.build())
   } else {
     console.log('Error with dropdown values')
   }
@@ -46,7 +47,7 @@ const fetchTransactions = async (source: string) => {
   transactions.value = formattedData
 }
 
-onMounted(async () => {
+onMounted(() => {
   timePicker = document.getElementById(
     'time-range'
   ) as HTMLSelectElement
@@ -54,21 +55,16 @@ onMounted(async () => {
     'src-range'
   ) as HTMLSelectElement
 
-  if (store.time && store.acc && store.limit) {
-    apiObj.time = store.time
-    apiObj.acc = store.acc
-    apiObj.limit = store.limit
+  Object.assign(apiUrl, store)
 
-    timePicker.value = apiObj.time
-    accPicker.value = apiObj.acc
-  }
-  fetchTransactions(apiObj.build())
+  timePicker.value = apiUrl.time
+  accPicker.value = apiUrl.acc
+
+  fetchTransactions(apiUrl.build())
 })
 
 onUnmounted(() => {
-  store.time = apiObj.time
-  store.acc = apiObj.acc
-  store.limit = apiObj.limit
+  Object.assign(store, apiUrl)
 })
 </script>
 
