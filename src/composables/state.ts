@@ -1,11 +1,12 @@
-import store from '@/models/GlobalState'
 import ApiUrl from '@/models/ApiUrl'
 
+const globalState = {} as { [k: string]: string }
+
 const toLocalState = (apiUrl: ApiUrl, view: string) => {
-  for (const key in store) {
+  for (const key in globalState) {
     if (key.includes(view)) {
       Object.assign(apiUrl, {
-        [key.slice(view.length)]: store[key]
+        [key.slice(view.length)]: globalState[key]
       })
     }
   }
@@ -13,7 +14,7 @@ const toLocalState = (apiUrl: ApiUrl, view: string) => {
 
 const toGlobalState = (apiUrl: ApiUrl, view: string) => {
   for (const key in apiUrl) {
-    Object.assign(store, {
+    Object.assign(globalState, {
       [`${view}${key}`]: apiUrl[key as keyof typeof apiUrl]
     })
   }

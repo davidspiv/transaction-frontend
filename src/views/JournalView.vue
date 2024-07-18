@@ -2,10 +2,7 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import ApiUrl from '@/models/ApiUrl'
-import {
-  toGlobalState,
-  toLocalState
-} from '@/composables/convertState'
+import { toGlobalState, toLocalState } from '@/composables/state'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
