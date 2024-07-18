@@ -2,24 +2,24 @@
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
 import Url from '@/models/Url'
-import { onMounted, ref } from 'vue'
+import store from '@/components/store'
+import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
 const transactions: Ref<[] | Transaction[]> = ref([])
-const apiObj: Url = new Url('day', 'all')
+const apiUrl: Url = new Url('day', 'all')
+let timePicker: null | HTMLSelectElement
+let accPicker: null | HTMLSelectElement
 
 const handler = () => {
-  const timePicker = document.getElementById(
-    'time-range'
-  ) as HTMLSelectElement
-  const accPicker = document.getElementById(
-    'acc-range'
-  ) as HTMLSelectElement
+  if (timePicker && accPicker) {
+    apiUrl.time = timePicker.value
+    apiUrl.acc = accPicker.value
 
-  apiObj.time = timePicker.value
-  apiObj.acc = accPicker.value
-
-  fetchTransactions(apiObj.build())
+    fetchTransactions(apiUrl.build())
+  } else {
+    console.log('Error with dropdown values')
+  }
 }
 
 const fetchTransactions = async (source: string) => {
@@ -47,8 +47,35 @@ const fetchTransactions = async (source: string) => {
   transactions.value = formattedData
 }
 
-onMounted(async () => {
-  fetchTransactions(apiObj.build())
+onMounted(() => {
+
+  timePicker = document.getElementById(
+    'time-range'
+  ) as HTMLSelectElement
+  accPicker = document.getElementById(
+    'acc-range'
+  ) as HTMLSelectElement
+
+  for (const key in store) {
+    if (key.includes('ledger')) {
+      Object.assign(apiUrl, {
+        [key.slice('ledger'.length)]: store[key]
+      })
+    }
+  }
+
+  timePicker.value = apiUrl.time
+  accPicker.value = apiUrl.acc
+
+  fetchTransactions(apiUrl.build())
+})
+
+onUnmounted(() => {
+  for (const key in apiUrl) {
+    Object.assign(store, {
+      [`ledger${key}`]: apiUrl[key as keyof typeof apiUrl]
+    })
+  }
 })
 </script>
 
