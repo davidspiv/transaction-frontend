@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import TransactionTest from '../models/TransactionTest'
+import Entry from '../models/Entry'
 
 const props = defineProps<{
-  data: TransactionTest
+  data: Entry
 }>()
 
 const { id, date, memo, amount } = props.data
-const checkboxId = `${id}checkbox`
+const checkboxId = `${id}y-checkbox`
 </script>
 
 <template>
   <tr>
-    <td id="trans-date">{{ date }}</td>
-    <td id="trans-memo">{{ memo }}</td>
-    <td id="trans-omit">
+    <td id="entry-date">{{ date }}</td>
+    <td id="entry-memo">{{ memo }}</td>
+    <td id="entry-omit">
       <input type="checkbox" :id="checkboxId" />
     </td>
-    <td id="trans-amount">{{ amount }}</td>
-    <td id="trans-ac">
+    <td id="entry-amount">{{ amount }}</td>
+    <td id="entry-src">
       <ul>
         <li>savings</li>
         <li>expense</li>

@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const { id, date, memo, amount } = props.data
-const checkboxId = `${id}checkbox`
+const checkboxId = `${id}-checkbox`
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const checkboxId = `${id}checkbox`
       <input type="checkbox" :id="checkboxId" />
     </td>
     <td id="trans-amount">{{ amount }}</td>
-    <td id="trans-ac">
+    <td id="trans-acc">
       <ul>
         <li>savings</li>
         <li>expense</li>

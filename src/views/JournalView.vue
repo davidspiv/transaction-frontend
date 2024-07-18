@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import TransactionTest from '@/models/TransactionTest'
-import TransactionCardTest from '@/components/TransactionCardTest.vue'
+import Entry from '@/models/Entry'
+import EntryCard from '@/components/EntryCard.vue'
 import ApiUrl from '@/models/ApiUrl'
 import { toGlobalState, toLocalState } from '@/composables/state'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 
-const transactions: Ref<[] | TransactionTest[]> = ref([])
+const transactions: Ref<[] | Entry[]> = ref([])
 const apiUrl: ApiUrl = new ApiUrl('day', 'all')
 let timePicker: null | HTMLSelectElement
 let accPicker: null | HTMLSelectElement
@@ -35,7 +35,7 @@ onMounted(() => {
 })
 
 const importCsv = async (event: Event) => {
-  const formattedData: TransactionTest[] = []
+  const formattedData: Entry[] = []
   const inputEl = event.target as HTMLInputElement
   let csvData: string
   let reader = new FileReader()
@@ -88,7 +88,7 @@ const importCsv = async (event: Event) => {
           const memo = csvValues[i * totalCol + 1]
           const srcId = 1
 
-          const transObj = new TransactionTest(
+          const transObj = new Entry(
             date,
             dateOffset,
             amount,
@@ -190,7 +190,7 @@ onUnmounted(() => {
         v-for="transaction in transactions"
         :key="transaction.id"
       >
-        <TransactionCardTest :data="transaction" />
+        <EntryCard :data="transaction" />
       </tbody>
     </table>
     <!-- <div class="center-menu">
