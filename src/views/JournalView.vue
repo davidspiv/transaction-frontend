@@ -1,3 +1,82 @@
+<!-- <script setup lang="ts">
+import Transaction from '../models/Transaction'
+import TransactionCard from '@/components/TransactionCard.vue'
+import Url from '@/models/Url'
+import store from '@/components/store'
+import { onMounted, onUnmounted, ref } from 'vue'
+import type { Ref } from 'vue'
+
+const transactions: Ref<[] | Transaction[]> = ref([])
+const apiUrl: Url = new Url('day', 'all')
+let timePicker: null | HTMLSelectElement
+let accPicker: null | HTMLSelectElement
+
+const handler = () => {
+  if (timePicker && accPicker) {
+    apiUrl.time = timePicker.value
+    apiUrl.acc = accPicker.value
+
+    fetchTransactions(apiUrl.build())
+  } else {
+    console.log('Error with dropdown values')
+  }
+}
+
+const fetchTransactions = async (source: string) => {
+  const formattedData: Transaction[] = []
+  try {
+    const apiUrl = source
+    const res = await fetch(apiUrl)
+    const data = await res.json()
+    for (const trans of data.transactions) {
+      formattedData.push(
+        new Transaction(
+          trans.id,
+          trans.date,
+          trans.dateOffset,
+          trans.amount,
+          trans.memo,
+          trans.userId,
+          trans.accCode
+        )
+      )
+    }
+  } catch (error) {
+    console.log('Error fetching data', error)
+  }
+  transactions.value = formattedData
+}
+
+onMounted(() => {
+  timePicker = document.getElementById(
+    'time-range'
+  ) as HTMLSelectElement
+  accPicker = document.getElementById(
+    'src-range'
+  ) as HTMLSelectElement
+
+  for (const key of Object.keys(store)) {
+    if (key.includes('journal')) {
+      apiUrl[key.slice('journal'.length)] = store[key]
+    }
+  }
+
+  console.log(Object.keys(apiUrl))
+
+  timePicker.value = apiUrl.time
+  accPicker.value = apiUrl.acc
+
+  fetchTransactions(apiUrl.build())
+})
+
+onUnmounted(() => {
+  Object.assign(store, apiUrl)
+  for (const key in apiUrl) {
+    delete Object.assign(store, { [`journal${key}`]: store.key })[key]
+  }
+})
+</script> -->
+
 <script setup lang="ts">
 import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
