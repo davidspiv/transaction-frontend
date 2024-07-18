@@ -107,6 +107,9 @@ onUnmounted(() => {
         <option value="src-1">Chase</option>
       </select>
     </li>
+    <li>
+      <button>Add Transactions</button>
+    </li>
   </ul>
 
   <div v-if="transactions.length">
@@ -172,7 +175,7 @@ tr th:nth-child(3) {
   display: flex;
   justify-content: space-between;
   gap: 3.5rem;
-  max-width: 20rem;
+  max-width: 80%;
   margin: 0 auto;
   padding: 2rem 0;
 }
