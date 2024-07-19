@@ -121,7 +121,7 @@ onUnmounted(() => {
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
-        <th scope="col">affectedAccounts</th>
+        <th scope="col">Account</th>
       </tr>
       <tbody
         v-for="transaction in transactions"
@@ -141,7 +141,7 @@ onUnmounted(() => {
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
-        <th scope="col">affectedAccounts</th>
+        <th scope="col">Account</th>
       </tr>
       <tbody>
         <tr>

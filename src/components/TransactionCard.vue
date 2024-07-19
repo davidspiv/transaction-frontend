@@ -17,12 +17,7 @@ const checkboxId = `${id}-checkbox`
       <input type="checkbox" :id="checkboxId" />
     </td>
     <td id="trans-amount">{{ amount }}</td>
-    <td id="trans-acc">
-      <ul>
-        <li>savings</li>
-        <li>expense</li>
-      </ul>
-    </td>
+    <td id="trans-acc">accCode</td>
   </tr>
 </template>
 
