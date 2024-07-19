@@ -5,7 +5,7 @@ import { getJournal } from '@/composables/state'
 
 const journal = getJournal()
 
-const { entries, total } = journal
+const {entries, total } = journal
 
 const importCsv = async (event: Event) => {
   const inputEl = event.target as HTMLInputElement

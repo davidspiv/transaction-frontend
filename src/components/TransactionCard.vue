@@ -7,15 +7,31 @@ const props = defineProps<{
 
 const { id, date, memo, amount } = props.data
 const checkboxId = `${id}-checkbox`
+
+const formatAmount = (inputAmount: number) => {
+  const USDollar = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  })
+  return USDollar.format(inputAmount / -10000)
+}
+
+const formatDate = (inputDate: string) => {
+  return new Date(inputDate).toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  })
+}
 </script>
 
 <template>
-  <td id="trans-date">{{ date }}</td>
+  <td id="trans-date">{{ formatDate(date) }}</td>
   <td id="trans-memo">{{ memo }}</td>
   <td id="trans-omit">
     <input type="checkbox" :id="checkboxId" />
   </td>
-  <td id="trans-amount">{{ amount }}</td>
+  <td id="trans-amount">{{ formatAmount(amount) }}</td>
   <td id="trans-acc">account</td>
 </template>
 

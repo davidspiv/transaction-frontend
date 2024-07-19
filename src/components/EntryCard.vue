@@ -10,13 +10,11 @@ const checkboxId = `${id}y-checkbox`
 </script>
 
 <template>
-  <tr>
     <td id="entry-memo">{{ memo }}</td>
     <td id="entry-omit">
       <input type="checkbox" :id="checkboxId" />
     </td>
     <td id="entry-amount">{{ formatAmount(amount) }}</td>
-  </tr>
 </template>
 
 <style scoped>

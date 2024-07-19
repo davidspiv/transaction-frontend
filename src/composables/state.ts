@@ -25,7 +25,7 @@ const buildUrl = (time: string, accType: string, limit?: number) => {
   if ((limit || 0) > 0) {
     address += `_limit=${limit}`
   }
-  console.log('what is address', address)
+
   return address
 }
 
