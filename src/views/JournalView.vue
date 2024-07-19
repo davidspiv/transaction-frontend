@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import Entry from '@/models/Entry'
 import EntryCard from '@/components/EntryCard.vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import type { Ref } from 'vue'
-import { journalState } from '@/composables/state'
+import { getJournal} from '@/composables/state'
 
-const entries: Ref<[] | Entry[]> = ref([])
+const journal = getJournal()
 
 const importCsv = async (event: Event) => {
-  const formattedData: Entry[] = []
   const inputEl = event.target as HTMLInputElement
   let csvData: string
   let reader = new FileReader()
@@ -27,7 +24,7 @@ const importCsv = async (event: Event) => {
         console.log('Error with getData()')
       }
 
-      return entries
+      return
 
       function buildTransObj(data: string) {
         const csvValues = splitCsv(data.replace(/[\n]/g, ','))
@@ -69,9 +66,8 @@ const importCsv = async (event: Event) => {
             srcId
           )
 
-          formattedData.push(transObj)
+          journal.entries.push(transObj)
         }
-        entries.value = formattedData
         inputEl.value = '' //reset html file input element
       }
 
@@ -97,32 +93,19 @@ const importCsv = async (event: Event) => {
     throw new Error('no files selected')
   }
 }
-
-const entriesTotal = computed(
-  () =>
-    entries.value.reduce((sum, item) => sum + item.amount, 0) / 1000
-)
-
-onMounted(() => {
-  entries.value = journalState.entries
-})
-
-onUnmounted(() => {
-  journalState.entries = entries.value
-})
 </script>
 
 <template>
   <h2>Journal</h2>
-  <div v-if="entries.length">
-    <span>Total: {{ entriesTotal }}</span>
+  <div v-if="journal.entries.length">
+    <span>Total: {{ journal.total }}</span>
     <table>
       <tr>
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
       </tr>
-      <tbody v-for="entry in entries" :key="entry.id">
+      <tbody v-for="entry in journal.entries" :key="entry.id">
         <EntryCard :data="entry" />
       </tbody>
     </table>
