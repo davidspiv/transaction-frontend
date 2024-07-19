@@ -1,92 +1,32 @@
 <script setup lang="ts">
-import Transaction from '../models/Transaction'
 import TransactionCard from '@/components/TransactionCard.vue'
-import ApiUrl from '@/models/ApiUrl'
-import { toGlobalState, toLocalState } from '@/composables/state'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import type { Ref } from 'vue'
+import { getLedger } from '@/composables/state'
+import { onMounted } from 'vue'
 
-const transactions: Ref<[] | Transaction[]> = ref([])
-const apiUrl: ApiUrl = new ApiUrl('day', 'all')
-let timePicker: null | HTMLSelectElement
-let accPicker: null | HTMLSelectElement
+const ledger = getLedger()
 
-const resetFilterHandler = () => {
-  if (timePicker && accPicker) {
-    apiUrl.time = timePicker.value
-    apiUrl.acc = accPicker.value
-
-    fetchTransactions(apiUrl.build())
-  } else {
-    console.log('Error with dropdown values')
-  }
-}
-
-const fetchTransactions = async (source: string) => {
-  const formattedData: Transaction[] = []
-  try {
-    const apiUrl = source
-    const res = await fetch(apiUrl)
-    const data = await res.json()
-    for (const trans of data.transactions) {
-      formattedData.push(
-        new Transaction(
-          trans.id,
-          trans.date,
-          trans.dateOffset,
-          trans.amount,
-          trans.memo,
-          trans.userId,
-          trans.accCode
-        )
-      )
-    }
-  } catch (error) {
-    console.log('Error fetching data', error)
-  }
-  transactions.value = formattedData
-}
+const {
+  transactions,
+  total,
+  timeRange,
+  accType,
+  resetFilterHandler
+} = ledger
 
 onMounted(() => {
-  timePicker = document.getElementById(
-    'time-range'
-  ) as HTMLSelectElement
-  accPicker = document.getElementById(
-    'acc-range'
-  ) as HTMLSelectElement
-
-  toLocalState(apiUrl, 'ledger')
-
-  timePicker.value = apiUrl.time
-  accPicker.value = apiUrl.acc
-
-  fetchTransactions(apiUrl.build())
-})
-
-const transactionsTotal = computed(() =>
-  transactions.value.reduce(
-    (sum, item) =>
-      sum + (Number.parseFloat(item.amount.slice(1)) || 0),
-    0
-  )
-)
-
-onUnmounted(() => {
-  toGlobalState(apiUrl, 'ledger')
+  if (!transactions.length) {
+    resetFilterHandler()
+  }
 })
 </script>
 
 <template>
   <h2>Ledger</h2>
-  <span>Total: {{ transactionsTotal }}</span>
+  <span>Total: {{ total }}</span>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
-      <select
-        @change="resetFilterHandler"
-        name="time-range"
-        id="time-range"
-      >
+      <select v-model="timeRange" name="time-range" id="time-range">
         <option disabled value="">Please select one</option>
         <option value="day">Day</option>
         <option value="week">Week</option>
@@ -98,11 +38,7 @@ onUnmounted(() => {
     </li>
     <li>
       <label for="acc-range">Primary Account</label>
-      <select
-        @change="resetFilterHandler"
-        name="acc-range"
-        id="acc-range"
-      >
+      <select v-model="accType" name="acc-range" id="acc-range">
         <option disabled value="">Please select one</option>
         <option value="all">All</option>
         <option value="asset">Assets</option>
@@ -123,11 +59,10 @@ onUnmounted(() => {
         <th scope="col">Amount</th>
         <th scope="col">Account</th>
       </tr>
-      <tbody
-        v-for="transaction in transactions"
-        :key="transaction.id"
-      >
-        <TransactionCard :data="transaction" />
+      <tbody>
+        <tr v-for="transaction in transactions" :key="transaction.id">
+          <TransactionCard :data="transaction" />
+        </tr>
       </tbody>
     </table>
     <!-- <div class="center-menu">

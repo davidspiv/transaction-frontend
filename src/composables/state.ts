@@ -1,37 +1,57 @@
-import ApiUrl from '@/models/ApiUrl'
 import Entry from '@/models/Entry'
-import { ref, computed } from 'vue'
+
+import { ref, computed, watch } from 'vue'
+import type { Transaction } from '../models/Transaction'
 
 type GlobalState = {
   journalEntries: Entry[]
-  journalFilters: Entry[]
-  ledgerFilters: Entry[]
-  reportFilters: Entry[]
+  ledgerTransactions: Transaction[]
 }
+
+const timeRange = ref<string>('day')
+const accType = ref<string>('all')
+
+const buildUrl = (time: string, accType: string, limit?: number) => {
+  let address = 'http://localhost:5000/api/transactions/?'
+
+  if (time) {
+    address += `_time=${time}`
+  }
+
+  if (accType) {
+    address += `_acc=${accType}`
+  }
+
+  if ((limit || 0) > 0) {
+    address += `_limit=${limit}`
+  }
+  console.log('what is address', address)
+  return address
+}
+
+const apiUrlComputed = computed(() =>
+  buildUrl(timeRange.value, accType.value)
+)
 
 const globalState = ref<GlobalState>({
   journalEntries: [],
-  journalFilters: [],
-  ledgerFilters: [],
-  reportFilters: []
+  ledgerTransactions: []
 })
 
-const toLocalState = (apiUrl: ApiUrl, view: string) => {
-  // for (const key in globalState) {
-  //   if (key.includes(view)) {
-  //     Object.assign(apiUrl, {
-  //       [key.slice(view.length)]: globalState[key]
-  //     })
-  //   }
-  // }
-}
-
-const toGlobalState = (apiUrl: ApiUrl, view: string) => {
-  // for (const key in apiUrl) {
-  //   Object.assign(globalState, {
-  //     [`${view}${key}`]: apiUrl[key as keyof typeof apiUrl]
-  //   })
-  // }
+const getLedger = () => {
+  return {
+    transactions: globalState.value.ledgerTransactions,
+    apiUrl: apiUrlComputed.value,
+    timeRange,
+    accType,
+    resetFilterHandler,
+    total: computed(() =>
+      globalState.value.ledgerTransactions.reduce(
+        (sum, item: Transaction) => sum + (item.amount || 0) / 100,
+        0
+      )
+    )
+  }
 }
 
 const getJournal = () => {
@@ -47,4 +67,46 @@ const getJournal = () => {
   }
 }
 
-export { getJournal, toLocalState, toGlobalState }
+const resetFilterHandler = () => {
+  if (timeRange.value && accType.value) {
+    fetchTransactions(apiUrlComputed.value)
+  } else {
+    console.log('Error with dropdown values')
+  }
+}
+
+const fetchTransactions = async (source: string) => {
+  try {
+    const apiUrl = source
+    const res = await fetch(apiUrl)
+    const data = await res.json()
+    globalState.value.ledgerTransactions.length = 0
+    globalState.value.ledgerTransactions.push(
+      ...((data.transactions as Transaction[]) || [])
+    )
+  } catch (error) {
+    console.log('Error fetching data', error)
+  }
+}
+
+watch(apiUrlComputed, resetFilterHandler)
+
+export { getJournal, getLedger }
+
+// const toLocalState = (apiUrl: ApiUrl, view: string) => {
+//   for (const key in globalState) {
+//     if (key.includes(view)) {
+//       Object.assign(apiUrl, {
+//         [key.slice(view.length)]: globalState[key]
+//       })
+//     }
+//   }
+// }
+
+// const toGlobalState = (apiUrl: ApiUrl, view: string) => {
+//   for (const key in apiUrl) {
+//     Object.assign(globalState, {
+//       [`${view}${key}`]: apiUrl[key as keyof typeof apiUrl]
+//     })
+//   }
+// }

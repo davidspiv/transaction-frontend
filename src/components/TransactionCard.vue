@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Transaction from '../models/Transaction'
+import type { Transaction } from '../models/Transaction'
 
 const props = defineProps<{
   data: Transaction
@@ -10,15 +10,13 @@ const checkboxId = `${id}-checkbox`
 </script>
 
 <template>
-  <tr>
-    <td id="trans-date">{{ date }}</td>
-    <td id="trans-memo">{{ memo }}</td>
-    <td id="trans-omit">
-      <input type="checkbox" :id="checkboxId" />
-    </td>
-    <td id="trans-amount">{{ amount }}</td>
-    <td id="trans-acc">account</td>
-  </tr>
+  <td id="trans-date">{{ date }}</td>
+  <td id="trans-memo">{{ memo }}</td>
+  <td id="trans-omit">
+    <input type="checkbox" :id="checkboxId" />
+  </td>
+  <td id="trans-amount">{{ amount }}</td>
+  <td id="trans-acc">account</td>
 </template>
 
 <style scoped>
