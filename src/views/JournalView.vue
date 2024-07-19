@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import Entry from '@/models/Entry'
 import EntryCard from '@/components/EntryCard.vue'
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
+import { journalState } from '@/composables/state'
 
 const entries: Ref<[] | Entry[]> = ref([])
 
@@ -101,19 +102,20 @@ const entriesTotal = computed(
   () =>
     entries.value.reduce((sum, item) => sum + item.amount, 0) / 1000
 )
+
+onMounted(() => {
+  entries.value = journalState.entries
+})
+
+onUnmounted(() => {
+  journalState.entries = entries.value
+})
 </script>
 
 <template>
   <h2>Journal</h2>
-  <input
-    @change="importCsv"
-    type="file"
-    id="input-csv"
-    name="input-csv"
-    accept="csv"
-  />
-  <span>Total: {{ entriesTotal }}</span>
   <div v-if="entries.length">
+    <span>Total: {{ entriesTotal }}</span>
     <table>
       <tr>
         <th scope="col">Memo</th>
@@ -126,6 +128,13 @@ const entriesTotal = computed(
     </table>
   </div>
   <div v-else>
+    <input
+      @change="importCsv"
+      type="file"
+      id="input-csv"
+      name="input-csv"
+      accept="csv"
+    />
     <table>
       <tr>
         <th scope="col">Memo</th>
