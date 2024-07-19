@@ -77,7 +77,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <h2>Total: {{ transactionsTotal }}</h2>
+  <h2>Ledger</h2>
+  <span>Total: {{ transactionsTotal }}</span>
   <ul class="center-menu">
     <li>
       <label for="time-range">Time Range</label>
