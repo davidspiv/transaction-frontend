@@ -1,6 +1,5 @@
 import { ref, computed, watch } from 'vue'
-import type { Transaction } from '../models/Transaction'
-import type { Entry } from '@/models/Entry'
+import type { Entry, Transaction } from '@/models/types'
 
 type GlobalState = {
   journalEntries: Entry[]
@@ -91,21 +90,3 @@ const fetchTransactions = async (source: string) => {
 watch(apiUrlComputed, resetFilterHandler)
 
 export { getJournal, getLedger }
-
-// const toLocalState = (apiUrl: ApiUrl, view: string) => {
-//   for (const key in globalState) {
-//     if (key.includes(view)) {
-//       Object.assign(apiUrl, {
-//         [key.slice(view.length)]: globalState[key]
-//       })
-//     }
-//   }
-// }
-
-// const toGlobalState = (apiUrl: ApiUrl, view: string) => {
-//   for (const key in apiUrl) {
-//     Object.assign(globalState, {
-//       [`${view}${key}`]: apiUrl[key as keyof typeof apiUrl]
-//     })
-//   }
-// }

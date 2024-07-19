@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Entry } from '../models/Entry'
+import { formatAmount } from '@/composables/utils'
+import type { Entry } from '../models/types'
 
 const props = defineProps<{
   data: Entry
@@ -7,14 +8,6 @@ const props = defineProps<{
 
 const { id, memo, amount } = props.data
 const checkboxId = `${id}y-checkbox`
-
-const formatAmount = (inputAmount: number) => {
-  const USDollar = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  })
-  return USDollar.format(inputAmount / -10000)
-}
 </script>
 
 <template>

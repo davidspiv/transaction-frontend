@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Transaction } from '../models/Transaction'
+import { formatAmount, formatDate } from '@/composables/utils'
+import type { Transaction } from '../models/types'
 
 const props = defineProps<{
   data: Transaction
@@ -7,22 +8,6 @@ const props = defineProps<{
 
 const { id, date, memo, amount } = props.data
 const checkboxId = `${id}-checkbox`
-
-const formatAmount = (inputAmount: number) => {
-  const USDollar = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  })
-  return USDollar.format(inputAmount / -10000)
-}
-
-const formatDate = (inputDate: string) => {
-  return new Date(inputDate).toLocaleDateString('en-us', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
 </script>
 
 <template>

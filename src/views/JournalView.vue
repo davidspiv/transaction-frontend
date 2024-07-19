@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import EntryCard from '@/components/EntryCard.vue'
 import { getJournal } from '@/composables/state'
-import type { Entry } from '@/models/Entry'
+import type { Entry } from '@/models/types'
 
 const journal = getJournal()
 
