@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Entry from '@/models/Entry'
 import EntryCard from '@/components/EntryCard.vue'
 import { getJournal } from '@/composables/state'
+import type { Entry } from '@/models/Entry'
 
 const journal = getJournal()
 
-const {entries, total } = journal
+const { entries, total } = journal
 
 const importCsv = async (event: Event) => {
   const inputEl = event.target as HTMLInputElement
@@ -21,14 +21,14 @@ const importCsv = async (event: Event) => {
 
     const parseCsv = async () => {
       if (csvData) {
-        buildTransObj(csvData)
+        buildEntryObj(csvData)
       } else {
         console.log('Error with getData()')
       }
 
       return
 
-      function buildTransObj(data: string) {
+      function buildEntryObj(data: string) {
         const csvValues = splitCsv(data.replace(/[\n]/g, ','))
         const totalCol = 7
 
@@ -59,16 +59,20 @@ const importCsv = async (event: Event) => {
 
           const memo = csvValues[i * totalCol + 1]
           const srcId = 1
+          const id = `${date}${dateOffset}${memo}${srcId}`
+          const isDebit = 1
 
-          const transObj = new Entry(
+          const entryObj: Entry = {
             date,
             dateOffset,
             amount,
             memo,
-            srcId
-          )
+            srcId,
+            id,
+            isDebit
+          }
 
-          entries.push(transObj)
+          entries.push(entryObj)
         }
         inputEl.value = '' //reset html file input element
       }

@@ -1,7 +1,6 @@
-import Entry from '@/models/Entry'
-
 import { ref, computed, watch } from 'vue'
 import type { Transaction } from '../models/Transaction'
+import type { Entry } from '@/models/Entry'
 
 type GlobalState = {
   journalEntries: Entry[]
