@@ -3,7 +3,7 @@ const formatAmount = (inputAmount: number) => {
     style: 'currency',
     currency: 'USD'
   })
-  return USDollar.format(inputAmount / -10000)
+  return USDollar.format(inputAmount / -100)
 }
 
 const formatDate = (inputDate: string) => {

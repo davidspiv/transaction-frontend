@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import TransactionCard from '@/components/TransactionCard.vue'
-import { getLedger } from '@/composables/state'
-import { onMounted } from 'vue'
+import TransactionCard from "@/components/TransactionCard.vue";
+import { getLedger } from "@/composables/state";
+import { onMounted } from "vue";
 
-const ledger = getLedger()
+const ledger = getLedger();
 
-const {
-  transactions,
-  total,
-  timeRange,
-  accType,
-  resetFilterHandler
-} = ledger
+const { transactions, total, timeRange, accType, resetFilterHandler } = ledger;
 
 onMounted(() => {
-  if (!transactions.length) {
-    resetFilterHandler()
-  }
-})
+	if (!transactions.length) {
+		resetFilterHandler();
+	}
+});
 </script>
 
 <template>
