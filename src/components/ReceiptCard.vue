@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { formatAmount } from '@/composables/utils'
-import type { Entry } from '../models/types'
+import { formatAmount } from "@/composables/utils";
+import type { Receipt } from "../models/types";
 
 const props = defineProps<{
-  data: Entry
-}>()
+	data: Receipt;
+}>();
 
-const { id, memo, amount } = props.data
-const checkboxId = `${id}y-checkbox`
+const { id, memo, amount } = props.data;
+const checkboxId = `${id}y-checkbox`;
 </script>
 
 <template>
-  <td id="entry-memo">{{ memo }}</td>
-  <td id="entry-omit">
+  <td id="receipt-memo">{{ memo }}</td>
+  <td id="receipt-omit">
     <input type="checkbox" :id="checkboxId" />
   </td>
-  <td id="entry-amount">{{ formatAmount(amount) }}</td>
+  <td id="receipt-amount">{{ formatAmount(amount) }}</td>
 </template>
 
 <style scoped>

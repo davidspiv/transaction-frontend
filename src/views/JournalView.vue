@@ -1,104 +1,98 @@
 <script setup lang="ts">
-import EntryCard from '@/components/EntryCard.vue'
-import { getJournal } from '@/composables/state'
-import type { Entry } from '@/models/types'
+import ReceiptCard from "@/components/ReceiptCard.vue";
+import { getJournal } from "@/composables/state";
+import type { Receipt } from "@/models/types";
 
-const journal = getJournal()
+const journal = getJournal();
 
-const { entries, total } = journal
+const { entries, total } = journal;
 
 const importCsv = async (event: Event) => {
-  const inputEl = event.target as HTMLInputElement
-  let csvData: string
-  let reader = new FileReader()
+	const inputEl = event.target as HTMLInputElement;
+	let csvData: string;
+	const reader = new FileReader();
 
-  if (inputEl.files) {
-    reader.readAsText(inputEl.files[0])
-    reader.onload = function () {
-      csvData = reader.result as string
-      parseCsv()
-    }
+	if (inputEl.files) {
+		reader.readAsText(inputEl.files[0]);
+		reader.onload = () => {
+			csvData = reader.result as string;
+			parseCsv();
+		};
 
-    const parseCsv = async () => {
-      if (csvData) {
-        buildEntryObj(csvData)
-      } else {
-        console.log('Error with getData()')
-      }
+		const parseCsv = async () => {
+			if (csvData) {
+				buildReceiptObj(csvData);
+			} else {
+				console.log("Error with getData()");
+			}
 
-      return
+			return;
 
-      function buildEntryObj(data: string) {
-        const csvValues = splitCsv(data.replace(/[\n]/g, ','))
-        const totalCol = 7
+			function buildReceiptObj(data: string) {
+				const csvValues = splitCsv(data.replace(/[\n]/g, ","));
+				const totalCol = 7;
 
-        let lastDate: string | null = null
-        let dateOffset = 0
+				let lastDate: string | null = null;
+				let dateOffset = 0;
 
-        for (
-          let i = 1;
-          i < Math.floor(csvValues.length / totalCol);
-          i++
-        ) {
-          const date = new Date(csvValues[i * totalCol]).toISOString()
+				for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
+					const date = new Date(csvValues[i * totalCol]).toISOString();
 
-          if (lastDate === date) {
-            dateOffset++
-          } else {
-            dateOffset = 0
-            lastDate = date
-          }
+					if (lastDate === date) {
+						dateOffset++;
+					} else {
+						dateOffset = 0;
+						lastDate = date;
+					}
 
-          const amount = Math.round(
-            Number.parseInt(
-              (
-                Number.parseFloat(csvValues[i * totalCol + 5]) * 100
-              ).toFixed(2)
-            )
-          )
+					const amount = Math.round(
+						Number.parseInt(
+							(Number.parseFloat(csvValues[i * totalCol + 5]) * 100).toFixed(2),
+						),
+					);
 
-          const memo = csvValues[i * totalCol + 1]
-          const srcId = 1
-          const id = `${date}${dateOffset}${memo}${srcId}`
-          const isDebit = 1
+					const memo = csvValues[i * totalCol + 1];
+					const srcId = 1;
+					const id = `${date}${dateOffset}${memo}${srcId}`;
+					const isDebit = 1;
 
-          const entryObj: Entry = {
-            date,
-            dateOffset,
-            amount,
-            memo,
-            srcId,
-            id,
-            isDebit
-          }
+					const receiptObj: Receipt = {
+						date,
+						dateOffset,
+						amount,
+						memo,
+						srcId,
+						id,
+						isDebit,
+					};
 
-          entries.push(entryObj)
-        }
-        inputEl.value = '' //reset html file input element
-      }
+					entries.push(receiptObj);
+				}
+				inputEl.value = ""; //reset html file input element
+			}
 
-      function splitCsv(str: string) {
-        const obj: { soFar: string[]; isConcatting: boolean } = {
-          soFar: [],
-          isConcatting: false
-        }
-        return str.split(',').reduce((accum, curr) => {
-          if (accum.isConcatting) {
-            accum.soFar[accum.soFar.length - 1] += `,${curr}`
-          } else {
-            accum.soFar.push(curr)
-          }
-          if (curr.split('"').length % 2 === 0) {
-            accum.isConcatting = !accum.isConcatting
-          }
-          return accum
-        }, obj).soFar
-      }
-    }
-  } else {
-    throw new Error('no files selected')
-  }
-}
+			function splitCsv(str: string) {
+				const obj: { soFar: string[]; isConcatting: boolean } = {
+					soFar: [],
+					isConcatting: false,
+				};
+				return str.split(",").reduce((accum, curr) => {
+					if (accum.isConcatting) {
+						accum.soFar[accum.soFar.length - 1] += `,${curr}`;
+					} else {
+						accum.soFar.push(curr);
+					}
+					if (curr.split('"').length % 2 === 0) {
+						accum.isConcatting = !accum.isConcatting;
+					}
+					return accum;
+				}, obj).soFar;
+			}
+		};
+	} else {
+		throw new Error("no files selected");
+	}
+};
 </script>
 
 <template>
@@ -112,8 +106,8 @@ const importCsv = async (event: Event) => {
         <th scope="col">Amount</th>
       </tr>
       <tbody>
-        <tr v-for="entry in entries" :key="entry.id">
-          <EntryCard :data="entry" />
+        <tr v-for="receipt in entries" :key="receipt.id">
+          <ReceiptCard :data="receipt" />
         </tr>
       </tbody>
     </table>

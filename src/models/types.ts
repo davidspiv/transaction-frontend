@@ -1,4 +1,4 @@
-type Entry = {
+type Receipt = {
 	srcId: number;
 	amount: number;
 	date: string;
@@ -26,4 +26,4 @@ type ApiUrl = {
 	limit?: number;
 };
 
-export type { Transaction, Entry, ApiUrl };
+export type { Transaction, Receipt, ApiUrl };

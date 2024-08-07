@@ -1,9 +1,9 @@
 import { ref, computed, watch } from "vue";
-import type { Entry, Transaction } from "@/models/types";
+import type { Receipt, Transaction } from "@/models/types";
 
 type GlobalState = {
-	journalEntries: Entry[];
-	ledgerTransactions: Transaction[];
+	receipts: Receipt[];
+	transactions: Transaction[];
 };
 
 const timeRange = ref<string>("day");
@@ -30,19 +30,19 @@ const buildUrl = (time: string, accType: string, limit?: number) => {
 const apiUrlComputed = computed(() => buildUrl(timeRange.value, accType.value));
 
 const globalState = ref<GlobalState>({
-	journalEntries: [],
-	ledgerTransactions: [],
+	receipts: [],
+	transactions: [],
 });
 
 const getLedger = () => {
 	return {
-		transactions: globalState.value.ledgerTransactions,
+		transactions: globalState.value.transactions,
 		apiUrl: apiUrlComputed.value,
 		timeRange,
 		accType,
 		resetFilterHandler,
 		total: computed(() =>
-			globalState.value.ledgerTransactions.reduce(
+			globalState.value.transactions.reduce(
 				(sum, item: Transaction) => sum + (item.amount || 0) / -100,
 				0,
 			),
@@ -52,10 +52,10 @@ const getLedger = () => {
 
 const getJournal = () => {
 	return {
-		entries: globalState.value.journalEntries,
+		entries: globalState.value.receipts,
 		total: computed(
 			() =>
-				globalState.value.journalEntries.reduce(
+				globalState.value.receipts.reduce(
 					(sum, item) => sum + item.amount,
 					0,
 				) / -100,
@@ -77,8 +77,8 @@ const fetchTransactions = async (source: string) => {
 		const res = await fetch(apiUrl);
 		const data = await res.json();
 
-		globalState.value.ledgerTransactions.length = 0;
-		globalState.value.ledgerTransactions.push(
+		globalState.value.transactions.length = 0;
+		globalState.value.transactions.push(
 			...((data.receipts as Transaction[]) || []),
 		);
 	} catch (error) {
