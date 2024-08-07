@@ -3,7 +3,7 @@ import BalanceSheet from '../components/BalanceSheet.vue'
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 
-const reportData: Ref<[] | String[]> = ref([])
+const reportData: Ref<[] | string[]> = ref([])
 fetchReportData()
 
 async function fetchReportData() {

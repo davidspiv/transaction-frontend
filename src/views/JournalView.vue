@@ -1,135 +1,85 @@
 <script setup lang="ts">
-import ReceiptCard from "@/components/ReceiptCard.vue";
-import { getJournal } from "@/composables/state";
-import type { Receipt } from "@/models/types";
+import ReceiptCard from '@/components/ReceiptCard.vue'
+import { getJournal } from '@/composables/state'
+import { onMounted } from 'vue'
 
-const journal = getJournal();
+// const TransactionState = {
+//   date: '1/1/2024',
+//   accounts: [
+//     { name: 'Rent', rel: 'Debit', amount: 5000 },
+//     { name: 'Expenses', rel: 'Credit', amount: 5000 }
+//   ]
+// }
 
-const { entries, total } = journal;
+const journal = getJournal()
 
-const importCsv = async (event: Event) => {
-	const inputEl = event.target as HTMLInputElement;
-	let csvData: string;
-	const reader = new FileReader();
+const { receipts, total, fetchReceipts } = journal
 
-	if (inputEl.files) {
-		reader.readAsText(inputEl.files[0]);
-		reader.onload = () => {
-			csvData = reader.result as string;
-			parseCsv();
-		};
-
-		const parseCsv = async () => {
-			if (csvData) {
-				buildReceiptObj(csvData);
-			} else {
-				console.log("Error with getData()");
-			}
-
-			return;
-
-			function buildReceiptObj(data: string) {
-				const csvValues = splitCsv(data.replace(/[\n]/g, ","));
-				const totalCol = 7;
-
-				let lastDate: string | null = null;
-				let dateOffset = 0;
-
-				for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
-					const date = new Date(csvValues[i * totalCol]).toISOString();
-
-					if (lastDate === date) {
-						dateOffset++;
-					} else {
-						dateOffset = 0;
-						lastDate = date;
-					}
-
-					const amount = Math.round(
-						Number.parseInt(
-							(Number.parseFloat(csvValues[i * totalCol + 5]) * 100).toFixed(2),
-						),
-					);
-
-					const memo = csvValues[i * totalCol + 1];
-					const srcId = 1;
-					const id = `${date}${dateOffset}${memo}${srcId}`;
-					const isDebit = 1;
-
-					const receiptObj: Receipt = {
-						date,
-						dateOffset,
-						amount,
-						memo,
-						srcId,
-						id,
-						isDebit,
-					};
-
-					entries.push(receiptObj);
-				}
-				inputEl.value = ""; //reset html file input element
-			}
-
-			function splitCsv(str: string) {
-				const obj: { soFar: string[]; isConcatting: boolean } = {
-					soFar: [],
-					isConcatting: false,
-				};
-				return str.split(",").reduce((accum, curr) => {
-					if (accum.isConcatting) {
-						accum.soFar[accum.soFar.length - 1] += `,${curr}`;
-					} else {
-						accum.soFar.push(curr);
-					}
-					if (curr.split('"').length % 2 === 0) {
-						accum.isConcatting = !accum.isConcatting;
-					}
-					return accum;
-				}, obj).soFar;
-			}
-		};
-	} else {
-		throw new Error("no files selected");
-	}
-};
+onMounted(() => {
+  if (!receipts.length) {
+    fetchReceipts()
+  }
+})
 </script>
 
 <template>
   <h2>Journal</h2>
-  <div v-if="entries.length">
-    <span>Total: {{ total }}</span>
+  <span>Total: {{ total }}</span>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Particulars</th>
+        <th scope="col">Debit</th>
+        <th scope="col">Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1/1/2024</td>
+        <td>Rent A/C</td>
+        <td>5,000</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Rent A/C</td>
+        <td></td>
+        <td>5,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div v-if="receipts.length">
     <table>
       <tr>
+        <th scope="col">Date</th>
         <th scope="col">Memo</th>
-        <th scope="col">include</th>
         <th scope="col">Amount</th>
       </tr>
       <tbody>
-        <tr v-for="receipt in entries" :key="receipt.id">
+        <tr v-for="receipt in receipts" :key="receipt.id">
           <ReceiptCard :data="receipt" />
         </tr>
       </tbody>
     </table>
+    <!-- <div class="center-menu">
+      <button>100 more</button><button>500 more</button>
+    </div> -->
   </div>
   <div v-else>
-    <input
-      @change="importCsv"
-      type="file"
-      id="input-csv"
-      name="input-csv"
-      accept="csv"
-    />
     <table>
       <tr>
+        <th scope="col">Date</th>
         <th scope="col">Memo</th>
         <th scope="col">include</th>
         <th scope="col">Amount</th>
+        <th scope="col">Account</th>
       </tr>
       <tbody>
         <tr>
-          <td colspan="3" id="nothing">
-            Add journal entries to get started
+          <td colspan="5" id="nothing">
+            No receipts met above criteria
           </td>
         </tr>
       </tbody>
@@ -152,8 +102,26 @@ th {
   border-bottom: 1px solid rgb(160 160 160);
 }
 
-tr th:nth-child(2) {
+tr th:nth-child(3) {
   width: 10%;
+}
+
+.center-menu {
+  display: flex;
+  justify-content: space-between;
+  gap: 3.5rem;
+  max-width: 20rem;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.center-menu li {
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  padding: 0;
 }
 
 #nothing {
