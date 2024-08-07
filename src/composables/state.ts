@@ -43,7 +43,7 @@ const getLedger = () => {
 		resetFilterHandler,
 		total: computed(() =>
 			globalState.value.ledgerTransactions.reduce(
-				(sum, item: Transaction) => sum + (item.amount || 0) / 100,
+				(sum, item: Transaction) => sum + (item.amount || 0) / -100,
 				0,
 			),
 		),
@@ -58,7 +58,7 @@ const getJournal = () => {
 				globalState.value.journalEntries.reduce(
 					(sum, item) => sum + item.amount,
 					0,
-				) / 1000,
+				) / -100,
 		),
 	};
 };
