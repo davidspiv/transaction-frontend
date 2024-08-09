@@ -1,15 +1,31 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue'
 import { getJournal } from '@/composables/state'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
-// const TransactionState = {
-//   date: '1/1/2024',
-//   accounts: [
-//     { name: 'Rent', rel: 'Debit', amount: 5000 },
-//     { name: 'Expenses', rel: 'Credit', amount: 5000 }
-//   ]
-// }
+const transactionState = ref({
+  date: '1/1/2024',
+  accounts: [
+    { name: 'Rent', rel: 'Debit', amount: 5000 },
+    { name: 'Expenses', rel: 'Credit', amount: 5000 }
+  ]
+})
+
+const clickHandler = (event: MouseEvent) => {
+  const target = event.currentTarget as HTMLTableRowElement
+
+  if (target) {
+    const dateCell = target.querySelector(
+      '#receipt-date'
+    ) as HTMLTableCellElement
+    const arrIndex = dateCell.getAttribute('indexdata')
+    transactionState.value.date = dateCell.innerText
+
+    if (arrIndex) {
+      receipts.splice(Number.parseInt(arrIndex), 1)
+    }
+  }
+}
 
 const journal = getJournal()
 
@@ -36,7 +52,7 @@ onMounted(() => {
     </thead>
     <tbody>
       <tr>
-        <td>1/1/2024</td>
+        <td>{{ transactionState.date }}</td>
         <td>Rent A/C</td>
         <td>5,000</td>
         <td></td>
@@ -58,8 +74,12 @@ onMounted(() => {
         <th scope="col">Amount</th>
       </tr>
       <tbody>
-        <tr v-for="receipt in receipts" :key="receipt.id">
-          <ReceiptCard :data="receipt" />
+        <tr
+          @click="clickHandler($event)"
+          v-for="(receipt, index) in receipts"
+          :key="receipt.id"
+        >
+          <ReceiptCard :data="receipt" :index="index" />
         </tr>
       </tbody>
     </table>
