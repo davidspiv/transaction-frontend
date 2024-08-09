@@ -1,41 +1,39 @@
 <script setup lang="ts">
-import ReceiptCard from '@/components/ReceiptCard.vue'
-import { getJournal } from '@/composables/state'
-import { onMounted, ref } from 'vue'
+import ReceiptCard from '@/components/ReceiptCard.vue';
+import { getJournal } from '@/composables/state';
+import { onMounted, ref } from 'vue';
 
 const transactionState = ref({
+  receiptIndex: 0,
   date: '1/1/2024',
   accounts: [
     { name: 'Rent', rel: 'Debit', amount: 5000 },
-    { name: 'Expenses', rel: 'Credit', amount: 5000 }
-  ]
-})
+    { name: 'Expenses', rel: 'Credit', amount: 5000 },
+  ],
+});
 
 const clickHandler = (event: MouseEvent) => {
-  const target = event.currentTarget as HTMLTableRowElement
+  const target = event.currentTarget as HTMLTableRowElement;
+  const receiptIndex = target.getAttribute('index');
 
-  if (target) {
+  if (target && receiptIndex) {
     const dateCell = target.querySelector(
-      '#receipt-date'
-    ) as HTMLTableCellElement
-    const arrIndex = dateCell.getAttribute('indexdata')
-    transactionState.value.date = dateCell.innerText
-
-    if (arrIndex) {
-      receipts.splice(Number.parseInt(arrIndex), 1)
-    }
+      '#receipt-date',
+    ) as HTMLTableCellElement;
+    transactionState.value.date = dateCell.innerText;
+    transactionState.value.receiptIndex = Number.parseInt(receiptIndex);
   }
-}
+};
 
-const journal = getJournal()
+const journal = getJournal();
 
-const { receipts, total, fetchReceipts } = journal
+const { receipts, total, fetchReceipts } = journal;
 
 onMounted(() => {
   if (!receipts.length) {
-    fetchReceipts()
+    fetchReceipts();
   }
-})
+});
 </script>
 
 <template>
@@ -78,8 +76,9 @@ onMounted(() => {
           @click="clickHandler($event)"
           v-for="(receipt, index) in receipts"
           :key="receipt.id"
+          :index="index"
         >
-          <ReceiptCard :data="receipt" :index="index" />
+          <ReceiptCard :data="receipt" />
         </tr>
       </tbody>
     </table>
@@ -98,9 +97,7 @@ onMounted(() => {
       </tr>
       <tbody>
         <tr>
-          <td colspan="5" id="nothing">
-            No receipts met above criteria
-          </td>
+          <td colspan="5" id="nothing">No receipts met above criteria</td>
         </tr>
       </tbody>
     </table>

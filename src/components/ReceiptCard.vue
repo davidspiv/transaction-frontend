@@ -4,14 +4,13 @@ import type { Receipt } from '../models/types'
 
 const props = defineProps<{
   data: Receipt
-  index: number
 }>()
 
 const { date, memo, amount } = props.data
 </script>
 
 <template>
-  <td id="receipt-date" :indexData="index">
+  <td id="receipt-date">
     {{ new Date(date).toDateString() }}
   </td>
   <td id="receipt-memo">{{ memo }}</td>
