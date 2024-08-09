@@ -3,12 +3,14 @@ import ReceiptCard from '@/components/ReceiptCard.vue';
 import { getJournal } from '@/composables/state';
 import { onMounted, ref } from 'vue';
 
-const transactionState = ref({
+const entryState = ref({
   receiptIndex: 0,
   date: '1/1/2024',
+  memo: '',
+  total: '',
   accounts: [
-    { name: 'Rent', rel: 'Debit', amount: 5000 },
-    { name: 'Expenses', rel: 'Credit', amount: 5000 },
+    { name: 'Rent A/c', rel: 'Debit', amount: '$5,000.00' },
+    { name: 'Expenses A/c', rel: 'Credit', amount: '$5,000.00' },
   ],
 });
 
@@ -20,8 +22,25 @@ const clickHandler = (event: MouseEvent) => {
     const dateCell = target.querySelector(
       '#receipt-date',
     ) as HTMLTableCellElement;
-    transactionState.value.date = dateCell.innerText;
-    transactionState.value.receiptIndex = Number.parseInt(receiptIndex);
+
+    const memoCell = target.querySelector(
+      '#receipt-memo',
+    ) as HTMLTableCellElement;
+
+    const amountCell = target.querySelector(
+      '#receipt-amount',
+    ) as HTMLTableCellElement;
+
+    entryState.value.date = dateCell.innerText;
+    entryState.value.receiptIndex = Number.parseInt(receiptIndex);
+
+    entryState.value.memo = memoCell.innerText;
+    entryState.value.total = amountCell.innerText;
+
+    entryState.value.accounts = [
+      { name: 'Rent A/c', rel: 'Debit', amount: entryState.value.total },
+      { name: 'Expenses A/c', rel: 'Credit', amount: entryState.value.total },
+    ];
   }
 };
 
@@ -49,17 +68,11 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>{{ transactionState.date }}</td>
-        <td>Rent A/C</td>
-        <td>5,000</td>
+      <tr v-for="account in entryState.accounts" :key="account.name">
+        <td>{{ entryState.date }}</td>
+        <td>{{ account.name }}</td>
+        <td>{{ account.amount }}</td>
         <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>Rent A/C</td>
-        <td></td>
-        <td>5,000</td>
       </tr>
     </tbody>
   </table>
