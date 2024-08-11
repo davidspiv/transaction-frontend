@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { formatAmount } from '@/composables/utils'
-import type { Receipt } from '../models/types'
+import { formatDate, formatAmount } from '@/composables/utils';
+import type { Receipt } from '../models/types';
 
 const props = defineProps<{
-  data: Receipt
-}>()
+  data: Receipt;
+}>();
 
-const { date, memo, amount } = props.data
+const { date, memo, amount } = props.data;
 </script>
 
 <template>
   <td id="receipt-date">
-    {{ new Date(date).toDateString() }}
+    {{ formatDate(date) }}
   </td>
   <td id="receipt-memo">{{ memo }}</td>
   <td id="receipt-amount">{{ formatAmount(amount) }}</td>

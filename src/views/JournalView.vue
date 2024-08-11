@@ -1,120 +1,88 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
-import { getJournal } from '@/composables/state';
-import { onMounted, ref } from 'vue';
+import EntryCard from '@/components/EntryCard.vue';
+import { onMounted, ref, computed } from 'vue';
+import type { Ref } from 'vue';
+import type { Receipt } from '@/models/types';
 
-const entryState = ref({
-  receiptIndex: 0,
-  date: '1/1/2024',
+const receipts: Ref<Receipt[]> = ref([]);
+const selectedReceipt: Ref<Receipt> = ref({
+  srcId: 1,
+  amount: 1,
+  date: new Date().toDateString(),
+  dateOffset: 0,
+  id: '',
+  isDebit: 0,
   memo: '',
-  total: '',
-  accounts: [
-    { name: 'Rent A/c', rel: 'Debit', amount: '$5,000.00' },
-    { name: 'Expenses A/c', rel: 'Credit', amount: '$5,000.00' },
-  ],
+});
+
+const total = computed(() =>
+  receipts.value.reduce(
+    (sum: number, item: Receipt) => sum + (item.amount || 0) / -100,
+    0,
+  ),
+);
+
+const fetchReceipts = async (source?: string) => {
+  try {
+    const apiUrl =
+      source || 'http://localhost:5000/api/receipts/?_time=week_acc=all';
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+
+    receipts.value.length = 0;
+    receipts.value.push(...((data.receipts as Receipt[]) || []));
+    selectedReceipt.value = receipts.value[0];
+  } catch (error) {
+    console.log('Error fetching data', error);
+  }
+};
+
+onMounted(() => {
+  if (!receipts.value.length) {
+    fetchReceipts();
+  }
 });
 
 const clickHandler = (event: MouseEvent) => {
   const target = event.currentTarget as HTMLTableRowElement;
-  const receiptIndex = target.getAttribute('index');
+  const indexData = target.getAttribute('index');
 
-  if (target && receiptIndex) {
-    const dateCell = target.querySelector(
-      '#receipt-date',
-    ) as HTMLTableCellElement;
-
-    const memoCell = target.querySelector(
-      '#receipt-memo',
-    ) as HTMLTableCellElement;
-
-    const amountCell = target.querySelector(
-      '#receipt-amount',
-    ) as HTMLTableCellElement;
-
-    entryState.value.date = dateCell.innerText;
-    entryState.value.receiptIndex = Number.parseInt(receiptIndex);
-
-    entryState.value.memo = memoCell.innerText;
-    entryState.value.total = amountCell.innerText;
-
-    entryState.value.accounts = [
-      { name: 'Rent A/c', rel: 'Debit', amount: entryState.value.total },
-      { name: 'Expenses A/c', rel: 'Credit', amount: entryState.value.total },
-    ];
+  if (indexData) {
+    selectedReceipt.value = receipts.value[Number(indexData)];
   }
 };
-
-const journal = getJournal();
-
-const { receipts, total, fetchReceipts } = journal;
-
-onMounted(() => {
-  if (!receipts.length) {
-    fetchReceipts();
-  }
-});
 </script>
 
 <template>
   <h2>Journal</h2>
   <span>Total: {{ total }}</span>
+
+  <EntryCard :selectedReceipt="selectedReceipt"></EntryCard>
+
   <table>
-    <thead>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Particulars</th>
-        <th scope="col">Debit</th>
-        <th scope="col">Credit</th>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Memo</th>
+      <th scope="col">Amount</th>
+    </tr>
+    <tbody v-if="receipts.length">
+      <tr
+        @click="clickHandler($event)"
+        v-for="(receipt, index) in receipts"
+        :key="receipt.id"
+        :index="index"
+      >
+        <ReceiptCard :data="receipt" />
       </tr>
-    </thead>
-    <tbody>
-      <tr v-for="account in entryState.accounts" :key="account.name">
-        <td>{{ entryState.date }}</td>
-        <td>{{ account.name }}</td>
-        <td>{{ account.amount }}</td>
-        <td></td>
+    </tbody>
+
+    <tbody v-else>
+      <tr>
+        <td colspan="5" id="nothing">No receipts imported</td>
       </tr>
     </tbody>
   </table>
-
-  <div v-if="receipts.length">
-    <table>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Memo</th>
-        <th scope="col">Amount</th>
-      </tr>
-      <tbody>
-        <tr
-          @click="clickHandler($event)"
-          v-for="(receipt, index) in receipts"
-          :key="receipt.id"
-          :index="index"
-        >
-          <ReceiptCard :data="receipt" />
-        </tr>
-      </tbody>
-    </table>
-    <!-- <div class="center-menu">
-      <button>100 more</button><button>500 more</button>
-    </div> -->
-  </div>
-  <div v-else>
-    <table>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Memo</th>
-        <th scope="col">include</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Account</th>
-      </tr>
-      <tbody>
-        <tr>
-          <td colspan="5" id="nothing">No receipts met above criteria</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </template>
 
 <style scoped>
