@@ -6,15 +6,8 @@ import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 
 const receipts: Ref<Receipt[]> = ref([]);
-const selectedReceipt: Ref<Receipt> = ref({
-  srcId: 1,
-  amount: 1,
-  date: new Date().toDateString(),
-  dateOffset: 0,
-  id: '',
-  isDebit: 0,
-  memo: '',
-});
+
+const selectedReceipt: Ref<Receipt | null> = ref(null);
 
 const total = computed(() =>
   receipts.value.reduce(
@@ -38,12 +31,6 @@ const fetchReceipts = async (source?: string) => {
   }
 };
 
-onMounted(() => {
-  if (!receipts.value.length) {
-    fetchReceipts();
-  }
-});
-
 const clickHandler = (event: MouseEvent) => {
   const target = event.currentTarget as HTMLTableRowElement;
   const indexData = target.getAttribute('index');
@@ -52,6 +39,12 @@ const clickHandler = (event: MouseEvent) => {
     selectedReceipt.value = receipts.value[Number(indexData)];
   }
 };
+
+onMounted(() => {
+  if (!receipts.value.length) {
+    fetchReceipts();
+  }
+});
 </script>
 
 <template>

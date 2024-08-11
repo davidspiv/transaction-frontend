@@ -1,29 +1,33 @@
-type Receipt = {
-	srcId: number;
-	amount: number;
-	date: string;
-	dateOffset: number;
-	id: string;
-	isDebit: number;
-	memo: string;
-	fitid?: string | null;
-};
+interface Receipt {
+  id: string;
+  date: string;
+  dateOffset: number;
+  memo: string;
+  amount: number;
+  isDebit: number;
+  srcId: number;
+  fitid?: string;
+}
 
-type Transaction = {
-	accId: number;
-	amount: number;
-	date: string;
-	dateOffset: number;
-	fitid: number | null;
-	id: string;
-	isDebit: number;
-	memo: string;
-};
+interface Entry {
+  id: string;
+  transactions: Transaction[];
+  description: string;
+  rcptId?: string;
+}
 
-type ApiUrl = {
-	time: string;
-	acc: string;
-	limit?: number;
-};
+interface Transaction {
+  id: string;
+  date: string;
+  amount: number;
+  isDebit: number;
+  accId: number;
+}
 
-export type { Transaction, Receipt, ApiUrl };
+interface ApiUrl {
+  time: string;
+  acc: string;
+  limit?: number;
+}
+
+export type { Receipt, Entry, Transaction, ApiUrl };
