@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { formatDate } from '@/composables/utils';
-import FilterableSelect from '@/components/FilterableSelect.vue';
 import type { Receipt, Entry } from '@/models/types';
 import { computed } from 'vue';
 
@@ -104,7 +103,6 @@ const submitHandler = () => {
     *Relevant entries are only automatically submitted if both "Particulars" AND
     "Amount Distribution" are checked.
   </p>
-  <FilterableSelect></FilterableSelect>
 </template>
 
 <style scoped>
