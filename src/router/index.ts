@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import DashboardView from '../views/DashboardView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import DashboardView from '../views/DashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,29 +14,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: DashboardView
+      component: DashboardView,
     },
     {
-      path: '/journal',
-      name: 'journal',
-      component: () => import('../views/JournalView.vue')
+      path: '/receipts',
+      name: 'receipts',
+      component: () => import('../views/ReceiptView.vue'),
     },
     {
       path: '/ledger',
       name: 'ledger',
-      component: () => import('../views/LedgerView.vue')
+      component: () => import('../views/LedgerView.vue'),
     },
     {
       path: '/accounts',
       name: 'accounts',
-      component: () => import('../views/AccountsView.vue')
+      component: () => import('../views/AccountsView.vue'),
     },
     {
       path: '/reports',
       name: 'reports',
-      component: () => import('../views/ReportsView.vue')
-    }
-  ]
-})
+      component: () => import('../views/ReportsView.vue'),
+    },
+  ],
+});
 
-export default router
+export default router;
