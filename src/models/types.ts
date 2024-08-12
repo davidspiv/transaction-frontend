@@ -12,7 +12,6 @@ interface Receipt {
 interface Entry {
   id: string;
   transactions: Transaction[];
-  description: string;
   rcptId?: string;
 }
 

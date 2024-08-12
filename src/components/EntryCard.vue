@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatDate } from '@/composables/utils';
+import FilterableSelect from '@/components/FilterableSelect.vue';
 import type { Receipt, Entry } from '@/models/types';
 import { computed } from 'vue';
 
@@ -12,7 +13,6 @@ const entry = computed<Entry>(() => {
     ? props.selectedReceipt.date
     : new Date().toDateString();
   const amount = props.selectedReceipt ? props.selectedReceipt.amount : 0;
-  const memo = props.selectedReceipt ? props.selectedReceipt.memo : '';
 
   return {
     id: 'entryId',
@@ -32,15 +32,17 @@ const entry = computed<Entry>(() => {
         accId: 1100,
       },
     ],
-    description: memo,
     rcptId: 'rctId',
   };
 });
 
+const isDebit = (isDebit: number) => {
+  return isDebit ? 'credit' : 'debit';
+};
+
 const submitHandler = () => {
   console.log(entry.value);
 };
-
 </script>
 
 <template>
@@ -66,7 +68,11 @@ const submitHandler = () => {
         </td>
 
         <td>
-          <select v-model="transaction.accId">
+          <select
+            v-model="transaction.accId"
+            :class="isDebit(transaction.isDebit)"
+            :id="transaction.id"
+          >
             <option value="1100">Cash</option>
             <option value="5101">Expenses</option>
             <option value="3">Month</option>
@@ -88,7 +94,17 @@ const submitHandler = () => {
       </tr>
     </tbody>
   </table>
+  <span>Apply to all receipts with identical memo: </span>
+  <input type="checkbox" checked="true" id="particulars" />
+  <label for="particulars">Particulars</label>
+  <input type="checkbox" checked="true" id="amount-distribution" />
+  <label for="amount-distribution">Amount Distribution</label>
   <button @click="submitHandler">Submit</button>
+  <p>
+    *Relevant entries are only automatically submitted if both "Particulars" AND
+    "Amount Distribution" are checked.
+  </p>
+  <FilterableSelect></FilterableSelect>
 </template>
 
 <style scoped>
@@ -105,6 +121,10 @@ td:nth-child(2) {
 td {
   border-bottom: 0;
   border-top: 0;
+}
+
+.debit {
+  margin-left: 2rem;
 }
 
 #date-cell {
