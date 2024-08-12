@@ -15,6 +15,28 @@ a,
   padding: 3px;
 }
 
+ul {
+  padding: 0;
+}
+
+table {
+  text-align: center;
+  table-layout: fixed;
+  width: 100%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  border: 1px solid rgb(140 140 140);
+}
+
+td,
+th {
+  border: 1px solid rgb(160 160 160);
+}
+
+td {
+  padding: 2rem 0.8rem;
+}
+
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);

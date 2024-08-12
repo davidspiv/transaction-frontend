@@ -54,11 +54,13 @@ onMounted(() => {
   <EntryCard :selectedReceipt="selectedReceipt"></EntryCard>
 
   <table>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Memo</th>
-      <th scope="col">Amount</th>
-    </tr>
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Memo</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
     <tbody v-if="receipts.length">
       <tr
         @click="clickHandler($event)"
@@ -72,50 +74,16 @@ onMounted(() => {
 
     <tbody v-else>
       <tr>
-        <td colspan="5" id="nothing">No receipts imported</td>
+        <td colspan="5">No receipts imported</td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <style scoped>
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  margin: 0 auto;
-  border-spacing: 2rem;
-  border: 2px solid rgb(140 140 140);
+th:nth-child(3),
+th:nth-child(1) {
+  width: 12%;
 }
 
-th {
-  text-align: left;
-  border-top: 1px solid rgb(160 160 160);
-  border-bottom: 1px solid rgb(160 160 160);
-}
-
-tr th:nth-child(3) {
-  width: 10%;
-}
-
-.center-menu {
-  display: flex;
-  justify-content: space-between;
-  gap: 3.5rem;
-  max-width: 20rem;
-  margin: 0 auto;
-  padding: 2rem 0;
-}
-
-.center-menu li {
-  display: flex;
-  flex-direction: column;
-}
-
-ul {
-  padding: 0;
-}
-
-#nothing {
-  text-align: center;
-}
 </style>

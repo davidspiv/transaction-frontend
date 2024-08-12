@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { formatAmount, formatDate } from '@/composables/utils'
-import type { Transaction } from '../models/types'
+import { formatAmount, formatDate } from '@/composables/utils';
+import type { Transaction } from '../models/types';
 
 const props = defineProps<{
-  data: Transaction
-}>()
+  data: Transaction;
+}>();
 
-const { id, date, memo, amount } = props.data
-const checkboxId = `${id}-checkbox`
+const { id, date, amount } = props.data;
+const checkboxId = `${id}-checkbox`;
 </script>
 
 <template>
   <td id="trans-date">{{ formatDate(date) }}</td>
-  <td id="trans-memo">{{ memo }}</td>
+
   <td id="trans-omit">
     <input type="checkbox" :id="checkboxId" />
   </td>

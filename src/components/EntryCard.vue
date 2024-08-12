@@ -53,7 +53,7 @@ const entry = computed<Entry>(() => {
         v-for="(transaction, index) in entry.transactions"
         :key="transaction.id"
       >
-        <td v-if="!index">
+        <td v-if="!index" id="date-cell">
           {{ formatDate(transaction.date) }}
         </td>
         <td v-else>
@@ -75,3 +75,24 @@ const entry = computed<Entry>(() => {
     </tbody>
   </table>
 </template>
+
+<style scoped>
+th:nth-child(1),
+th:nth-child(3),
+th:nth-child(4) {
+  width: 12%;
+}
+
+td:nth-child(2) {
+  text-align: left;
+}
+
+td {
+  border-bottom: 0;
+  border-top: 0;
+}
+
+#date-cell {
+  padding: 0rem 0.8rem;
+}
+</style>
