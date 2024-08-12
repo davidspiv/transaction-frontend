@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div class="wrapper">
+
     <header>
       <nav>
         <RouterLink to="/">Dashboard</RouterLink>
@@ -15,13 +15,11 @@ import { RouterLink, RouterView } from 'vue-router'
     </header>
 
     <RouterView />
-  </div>
+
 </template>
 
 <style scoped>
-.wrapper {
-  max-width: 1000px;
-}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

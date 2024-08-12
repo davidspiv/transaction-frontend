@@ -11,7 +11,9 @@ const entry = computed<Entry>(() => {
   const date = props.selectedReceipt
     ? props.selectedReceipt.date
     : new Date().toDateString();
-  const amount = props.selectedReceipt ? props.selectedReceipt.amount : 0;
+  const amount = props.selectedReceipt
+    ? props.selectedReceipt.amount / -100
+    : 0;
 
   return {
     id: 'entryId',
@@ -45,6 +47,8 @@ const submitHandler = () => {
 </script>
 
 <template>
+  <h3>Create an Entry</h3>
+  <span>Payee: {{ props.selectedReceipt?.memo }}</span>
   <table>
     <thead>
       <tr>
@@ -82,27 +86,26 @@ const submitHandler = () => {
         </td>
 
         <template v-if="transaction.isDebit">
-          <td>{{ transaction.amount / -100 }}</td>
-          <td>{{ '' }}</td>
+          <td><input type="text" v-model="transaction.amount" /></td>
+          <td><input type="text" /></td>
         </template>
 
         <template v-else>
-          <td>{{ '' }}</td>
-          <td>{{ transaction.amount / -100 }}</td>
+          <td><input type="text" /></td>
+          <td><input type="text" v-model="transaction.amount" /></td>
         </template>
       </tr>
     </tbody>
   </table>
-  <span>Apply to all receipts with identical memo: </span>
-  <input type="checkbox" checked="true" id="particulars" />
-  <label for="particulars">Particulars</label>
-  <input type="checkbox" checked="true" id="amount-distribution" />
-  <label for="amount-distribution">Amount Distribution</label>
-  <button @click="submitHandler">Submit</button>
-  <p>
-    *Relevant entries are only automatically submitted if both "Particulars" AND
-    "Amount Distribution" are checked.
-  </p>
+  <span id="entry-controls">
+    <span>
+      <input type="checkbox" checked="true" id="identical-submit" />
+      <label for="identical-submit"
+        >Apply to all unprocessed Receipts with identical memo
+      </label>
+    </span>
+    <button @click="submitHandler">Submit</button>
+  </span>
 </template>
 
 <style scoped>
@@ -116,16 +119,20 @@ td:nth-child(2) {
   text-align: left;
 }
 
-td {
-  border-bottom: 0;
-  border-top: 0;
-}
-
 .debit {
   margin-left: 2rem;
 }
 
+input[type='text'] {
+  width: 5rem;
+}
+
 #date-cell {
   padding: 0rem 0.8rem;
+}
+
+#entry-controls {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
