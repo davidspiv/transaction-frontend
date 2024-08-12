@@ -36,6 +36,11 @@ const entry = computed<Entry>(() => {
     rcptId: 'rctId',
   };
 });
+
+const submitHandler = () => {
+  console.log(entry.value);
+};
+
 </script>
 
 <template>
@@ -60,7 +65,16 @@ const entry = computed<Entry>(() => {
           {{ '' }}
         </td>
 
-        <td>{{ transaction.accId }}</td>
+        <td>
+          <select v-model="transaction.accId">
+            <option value="1100">Cash</option>
+            <option value="5101">Expenses</option>
+            <option value="3">Month</option>
+            <option value="4">Year</option>
+            <option value="5">Year To Date</option>
+            <option value="6">All</option>
+          </select>
+        </td>
 
         <template v-if="transaction.isDebit">
           <td>{{ transaction.amount / -100 }}</td>
@@ -74,6 +88,7 @@ const entry = computed<Entry>(() => {
       </tr>
     </tbody>
   </table>
+  <button @click="submitHandler">Submit</button>
 </template>
 
 <style scoped>

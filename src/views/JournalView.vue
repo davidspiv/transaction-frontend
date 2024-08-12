@@ -49,41 +49,49 @@ onMounted(() => {
 
 <template>
   <h2>Journal</h2>
-  <span>Total: {{ total }}</span>
+  <section>
+    <h3>Create an Entry</h3>
 
-  <EntryCard :selectedReceipt="selectedReceipt"></EntryCard>
+    <EntryCard :selectedReceipt="selectedReceipt"></EntryCard>
+  </section>
+  <section>
+    <h3>Select a receipt to process</h3>
+    <span>Total: {{ total }}</span>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Memo</th>
+          <th scope="col">Amount</th>
+        </tr>
+      </thead>
+      <tbody v-if="receipts.length">
+        <tr
+          @click="clickHandler($event)"
+          v-for="(receipt, index) in receipts"
+          :key="receipt.id"
+          :index="index"
+        >
+          <ReceiptCard :data="receipt" />
+        </tr>
+      </tbody>
 
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Memo</th>
-        <th scope="col">Amount</th>
-      </tr>
-    </thead>
-    <tbody v-if="receipts.length">
-      <tr
-        @click="clickHandler($event)"
-        v-for="(receipt, index) in receipts"
-        :key="receipt.id"
-        :index="index"
-      >
-        <ReceiptCard :data="receipt" />
-      </tr>
-    </tbody>
-
-    <tbody v-else>
-      <tr>
-        <td colspan="5">No receipts imported</td>
-      </tr>
-    </tbody>
-  </table>
+      <tbody v-else>
+        <tr>
+          <td colspan="5">No receipts imported</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>
 
 <style scoped>
+section {
+  margin-bottom: 2rem;
+}
+
 th:nth-child(3),
 th:nth-child(1) {
   width: 12%;
 }
-
 </style>
