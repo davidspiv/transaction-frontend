@@ -62,10 +62,15 @@ const entry = computed<Entry>(() => {
 
         <td>{{ transaction.accId }}</td>
 
-        <td v-if="transaction.isDebit">{{ transaction.amount / -100 }}</td>
-        <td v-else>{{ '' }}</td>
-        <td v-if="transaction.isDebit">{{ '' }}</td>
-        <td v-else>{{ transaction.amount / -100 }}</td>
+        <template v-if="transaction.isDebit">
+          <td>{{ transaction.amount / -100 }}</td>
+          <td>{{ '' }}</td>
+        </template>
+
+        <template v-else>
+          <td>{{ '' }}</td>
+          <td>{{ transaction.amount / -100 }}</td>
+        </template>
       </tr>
     </tbody>
   </table>
