@@ -20,7 +20,7 @@ const total = computed(() => {
 const fetchReceipts = async (source?: string) => {
   try {
     const apiUrl =
-      source || 'http://localhost:5000/api/receipts/?_time=week_acc=all';
+      source || 'http://localhost:5000/api/receipts/?_time=month_acc=all';
     const res = await fetch(apiUrl);
     const data = await res.json();
 
@@ -58,8 +58,7 @@ onMounted(() => {
 
 <template>
   <section>
-    <span class="flex-container">
-      <h3>Unprocessed</h3>
+    <span class="flex-container reverse">
       <span class="control-container">
         <button @click="newHandler">Add receipts</button>
         <button @click="sizeHandler">Minimize</button>
@@ -95,13 +94,6 @@ onMounted(() => {
       <button>Show All</button>
     </span>
   </section>
-
-  <section>
-    <span class="flex-container">
-      <h3>Processed</h3>
-      <button @click="sizeHandler">Maximize</button>
-    </span>
-  </section>
 </template>
 
 <style scoped>
@@ -132,6 +124,10 @@ button {
 
 .center {
   text-align: center;
+}
+
+.reverse {
+  flex-direction: row-reverse;
 }
 
 th:nth-child(3),

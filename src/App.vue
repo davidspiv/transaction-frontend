@@ -52,10 +52,13 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  transition-property: padding;
+  transition-duration: 100ms;
 }
 
 .offset {
-  padding-bottom: 25rem;
+  padding-bottom: 21rem;
 }
 
 nav a,
