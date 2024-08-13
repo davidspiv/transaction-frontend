@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { isActive } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryCard from '@/components/EntryCard.vue';
+
+const toggleEntryHandler = () => {
+  isActive.value = isActive.value ? false : true;
+};
 </script>
 
 <template>
-  <div class="content-wrapper">
+  <div class="content-wrapper" :class="{ offset: isActive }">
     <header id="header-grid">
       <div></div>
       <nav>
@@ -13,7 +18,11 @@ import EntryCard from '@/components/EntryCard.vue';
         <RouterLink to="/ledger">Ledger</RouterLink>
         <RouterLink to="/reports">Reports</RouterLink>
       </nav>
-      <button id="button-add-entry">New Entry</button>
+      <nav>
+        <button @click="toggleEntryHandler" id="button-entry-toggle">
+          Entry
+        </button>
+      </nav>
     </header>
     <RouterView />
   </div>
@@ -43,19 +52,19 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.offset {
   padding-bottom: 25rem;
 }
 
 nav a,
-#button-add-entry {
+#button-entry-toggle {
+  display: inline-block;
+  padding: 0.2rem 2rem;
   color: #6b89d6;
   transition: 0.4s;
   border: 1px solid var(--color-border);
-}
-
-nav a {
-  display: inline-block;
-  padding: 0.2rem 2rem;
 }
 
 nav a.router-link-exact-active {
@@ -81,7 +90,7 @@ nav a:last-of-type {
 
 @media (hover: hover) {
   a:hover,
-  #button-add-entry:hover {
+  #button-entry-toggle:hover {
     background-color: hsl(223, 57%, 63%, 0.2);
   }
 }

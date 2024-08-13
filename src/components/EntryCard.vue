@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { isActive } from '@/composables/state';
 import { formatDate } from '@/composables/utils';
-import type { Receipt, Entry } from '@/models/types';
 import { computed } from 'vue';
+import type { Receipt, Entry } from '@/models/types';
 
 const props = defineProps<{
   selectedReceipt: Receipt | null;
@@ -53,15 +54,15 @@ const resetHandler = () => {
 };
 
 const showHandler = () => {
-  console.log('show');
+  isActive.value = false;
 };
 </script>
 
 <template>
-  <section>
+  <section :class="{ active: isActive }">
     <span class="flex-container">
       <h3>Create an Entry</h3>
-      <span>Type: Compound</span>
+      <span>Type: Transfer</span>
       <span class="control-container">
         <button @click="resetHandler">Reset</button>
         <button @click="showHandler">Hide</button>
@@ -87,7 +88,10 @@ const showHandler = () => {
           </td>
 
           <td class="cell-particular">
-            <select v-model="transaction.accId" :id="transaction.id">
+            <select
+              v-model="transaction.accId"
+              :id="transaction.id.concat('-select-el')"
+            >
               <option value="1100">Cash</option>
               <option value="5101">Expenses</option>
               <option value="3">Month</option>
@@ -98,13 +102,35 @@ const showHandler = () => {
           </td>
 
           <template v-if="transaction.isDebit">
-            <td><input type="text" v-model="transaction.amount" /></td>
-            <td><input type="text" /></td>
+            <td>
+              <input
+                type="text"
+                :id="transaction.id.concat('-input-debit-el')"
+                v-model="transaction.amount"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                :id="transaction.id.concat('-input-credit-el')"
+              />
+            </td>
           </template>
 
           <template v-else>
-            <td><input type="text" /></td>
-            <td><input type="text" v-model="transaction.amount" /></td>
+            <td>
+              <input
+                type="text"
+                :id="transaction.id.concat('-input-debit-el')"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                :id="transaction.id.concat('-input-credit-el')"
+                v-model="transaction.amount"
+              />
+            </td>
           </template>
         </tr>
         <tr>
@@ -130,7 +156,7 @@ const showHandler = () => {
 <style scoped>
 section {
   position: fixed;
-  bottom: 0;
+  bottom: -50vh;
   left: 0;
   width: 100%;
   display: flex;
@@ -138,6 +164,10 @@ section {
   gap: 1rem;
   padding: 1rem;
   background-color: #1c1f2b;
+}
+
+.active {
+  bottom: 0;
 }
 
 button {

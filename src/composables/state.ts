@@ -8,6 +8,7 @@ type GlobalState = {
 
 const timeRange = ref<string>('day');
 const accType = ref<string>('all');
+const isActive = ref(true);
 
 const buildUrl = (time: string, accType: string, limit?: number) => {
   let address = 'http://localhost:5000/api/transactions/?';
@@ -89,4 +90,4 @@ const fetchTransactions = async (source?: string) => {
 
 watch(apiUrlComputed, resetFilterHandler);
 
-export { getJournal, getLedger };
+export { getJournal, getLedger, isActive };
