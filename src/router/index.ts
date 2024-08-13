@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import DashboardView from '../views/DashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,13 +12,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: DashboardView,
-    },
-    {
-      path: '/receipts',
       name: 'receipts',
       component: () => import('../views/ReceiptView.vue'),
+    },
+    {
+      path: '/journal',
+      name: 'journal',
+      component: () => import('../views/JournalView.vue'),
     },
     {
       path: '/ledger',

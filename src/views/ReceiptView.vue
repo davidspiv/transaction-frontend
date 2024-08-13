@@ -57,7 +57,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <h2>Receipts</h2>
   <section>
     <span class="flex-container">
       <h3>Unprocessed</h3>
@@ -92,6 +91,9 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+    <span class="center">
+      <button>Show All</button>
+    </span>
   </section>
 
   <section>
@@ -122,6 +124,10 @@ section {
   display: flex;
   gap: 2rem;
   align-items: center;
+}
+
+.center {
+  text-align: center;
 }
 
 th:nth-child(3),

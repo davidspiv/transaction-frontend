@@ -7,7 +7,7 @@ import EntryCard from '@/components/EntryCard.vue';
   <div class="wrapper">
     <header>
       <nav>
-        <RouterLink to="/receipts">Receipts</RouterLink>
+        <RouterLink to="/">Receipts</RouterLink>
         <RouterLink to="/journal">Journal</RouterLink>
         <RouterLink to="/ledger">Ledger</RouterLink>
         <RouterLink to="/reports">Reports</RouterLink>
