@@ -189,7 +189,7 @@ button {
 
 .control-container {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 

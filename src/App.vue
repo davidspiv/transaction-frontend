@@ -18,7 +18,7 @@ const toggleEntryHandler = () => {
         <RouterLink to="/ledger">Ledger</RouterLink>
         <RouterLink to="/reports">Reports</RouterLink>
       </nav>
-      <nav>
+      <nav id="nav-entry">
         <button @click="toggleEntryHandler" id="button-entry-toggle">
           Entry
         </button>
@@ -46,6 +46,10 @@ td {
 nav {
   width: 100%;
   text-align: center;
+}
+
+#nav-entry {
+  text-align: right;
 }
 
 .content-wrapper {

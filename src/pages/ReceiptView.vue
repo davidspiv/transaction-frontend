@@ -45,8 +45,8 @@ const newHandler = () => {
   console.log('new');
 };
 
-const sizeHandler = () => {
-  console.log('size');
+const resetViewHandler = () => {
+  console.log('reset view');
 };
 
 onMounted(() => {
@@ -58,13 +58,85 @@ onMounted(() => {
 
 <template>
   <section>
-    <span class="flex-container reverse">
-      <span class="control-container">
-        <button @click="newHandler">Add receipts</button>
-        <button @click="sizeHandler">Minimize</button>
+    <div class="flex-container">
+      <span class="vertical">
+        <label for="time-range">Status</label>
+        <select name="time-range" id="time-range">
+          <option disabled value="">Please select one</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+          <option value="year-to-date">Year To Date</option>
+          <option value="all">All</option>
+        </select>
       </span>
+      <span class="vertical">
+        <label for="acc-range">Source</label>
+        <select name="acc-range" id="acc-range">
+          <option disabled value="">Please select one</option>
+          <option value="all">All</option>
+          <option value="asset">Assets</option>
+          <option value="expense">Expenses</option>
+          <option value="revenue">Revenue</option>
+          <option value="liability">Liabilities</option>
+          <option value="equity">Equity</option>
+        </select>
+      </span>
+      <span class="vertical">
+        <label for="time-range">Time Range</label>
+        <select name="time-range" id="time-range">
+          <option disabled value="">Please select one</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+          <option value="year-to-date">Year To Date</option>
+          <option value="all">All</option>
+        </select>
+      </span>
+      <button @click="resetViewHandler">Reset Filter</button>
+    </div>
+  </section>
+  <section>
+    <div class="flex-container">
+      <span
+        ><strong>Unprocessed - </strong> amount: {{ receipts.length }} total:
+        {{ total }}
+      </span>
+      <button @click="newHandler">Import receipts</button>
+    </div>
+  </section>
+  <section>
+    <span class="flex-container">
+      <span class="control-container">
+        <span>Columns visible: </span>
+        <span>
+          <input type="checkbox" name="" id="is-date-checkbox" checked="true" />
+          <label for="is-column-check">Date</label>
+        </span>
+        <span>
+          <input type="checkbox" name="" id="is-memo-checkbox" checked="true" />
+          <label for="is-column-check">Memo</label>
+        </span>
+        <span>
+          <input type="checkbox" name="" id="is-source-checkbox" />
+          <label for="is-column-check">Source</label>
+        </span>
+        <span>
+          <input
+            type="checkbox"
+            name=""
+            id="is-amount-checkbox"
+            checked="true"
+          />
+          <label for="is-column-check">Amount</label>
+        </span>
+
+        <span> </span>
+      </span>
+      <button @click="resetViewHandler">Reset View</button>
     </span>
-    <span>{{ receipts.length }} receipts totaling {{ total }}</span>
     <table>
       <thead>
         <tr>
@@ -106,6 +178,11 @@ section {
   border-radius: 1rem;
 }
 
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
 button {
   background-color: #363c55;
 }
@@ -118,16 +195,12 @@ button {
 
 .control-container {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .center {
   text-align: center;
-}
-
-.reverse {
-  flex-direction: row-reverse;
 }
 
 th:nth-child(3),
