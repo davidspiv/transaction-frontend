@@ -12,6 +12,14 @@ onMounted(() => {
     resetFilterHandler();
   }
 });
+
+// const total = computed(() => {
+//   const amountData = receipts.value.reduce(
+//     (sum: number, item: Receipt) => sum + (item.amount || 0),
+//     0,
+//   );
+//   return formatAmount(amountData);
+// });
 </script>
 
 <template>

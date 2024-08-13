@@ -29,4 +29,9 @@ interface ApiUrl {
   limit?: number;
 }
 
-export type { Receipt, Entry, Transaction, ApiUrl };
+type GlobalState = {
+  receipts: Receipt[];
+  transactions: Transaction[];
+};
+
+export type { Receipt, Entry, Transaction, ApiUrl, GlobalState };

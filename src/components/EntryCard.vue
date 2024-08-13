@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isActive } from '@/composables/state';
+import { isHidden } from '@/composables/state';
 import { formatDate } from '@/composables/utils';
 import { computed } from 'vue';
 import type { Receipt, Entry } from '@/models/types';
@@ -53,19 +53,30 @@ const resetHandler = () => {
   console.log('reset');
 };
 
-const showHandler = () => {
-  isActive.value = false;
+const hideTray = () => {
+  isHidden.value = false;
 };
 </script>
 
 <template>
-  <section :class="{ active: isActive }">
+  <section :class="{ 'hidden-tray': isHidden }">
     <span class="flex-container">
       <h3>Create an Entry</h3>
-      <span>Type: Transfer</span>
+      <span class="control-container">
+        <label for="time-range">Type: </label>
+        <select name="time-range" id="time-range">
+          <option disabled value="">Please select one</option>
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="year">Year</option>
+          <option value="year-to-date">Year To Date</option>
+          <option value="all">All</option>
+        </select>
+      </span>
       <span class="control-container">
         <button @click="resetHandler">Reset</button>
-        <button @click="showHandler">Hide</button>
+        <button @click="hideTray">Hide</button>
       </span>
     </span>
 
@@ -160,12 +171,12 @@ section {
   right: 1rem;
   max-width: 1280px;
   margin: 0 auto;
-  bottom: -40vh;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background-color: #1c1f2b;
+  background-color: #202538;
   border-top: 1px solid #6b89d6;
   border-right: 1px solid #6b89d6;
   border-left: 1px solid #6b89d6;
@@ -173,8 +184,8 @@ section {
   transition-duration: 100ms;
 }
 
-.active {
-  bottom: 0;
+.hidden-tray {
+  bottom: -40vh;
 }
 
 button {

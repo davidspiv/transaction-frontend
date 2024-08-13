@@ -1,21 +1,12 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
-import { formatAmount } from '@/composables/utils';
 
 const receipts: Ref<Receipt[]> = ref([]);
 
 const selectedReceipt: Ref<Receipt | null> = ref(null);
-
-const total = computed(() => {
-  const amountData = receipts.value.reduce(
-    (sum: number, item: Receipt) => sum + (item.amount || 0),
-    0,
-  );
-  return formatAmount(amountData);
-});
 
 const fetchReceipts = async (source?: string) => {
   try {
@@ -58,6 +49,10 @@ onMounted(() => {
 
 <template>
   <section>
+    <span class="flex-container">
+      <h3>Receipts</h3>
+      <button @click="newHandler">Import receipts</button>
+    </span>
     <div class="flex-container">
       <span class="vertical">
         <label for="time-range">Status</label>
@@ -97,17 +92,6 @@ onMounted(() => {
       </span>
       <button @click="resetViewHandler">Reset Filter</button>
     </div>
-  </section>
-  <section>
-    <div class="flex-container">
-      <span
-        ><strong>Unprocessed - </strong> amount: {{ receipts.length }} total:
-        {{ total }}
-      </span>
-      <button @click="newHandler">Import receipts</button>
-    </div>
-  </section>
-  <section>
     <span class="flex-container">
       <span class="control-container">
         <span>Columns visible: </span>
@@ -140,9 +124,9 @@ onMounted(() => {
     <table>
       <thead>
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Memo</th>
-          <th scope="col">Amount</th>
+          <th scope="col"><button>Date</button></th>
+          <th scope="col"><button>Memo</button></th>
+          <th scope="col"><button>Amount</button></th>
         </tr>
       </thead>
       <tbody v-if="receipts.length">

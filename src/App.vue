@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { isActive } from '@/composables/state';
+import { isHidden } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryCard from '@/components/EntryCard.vue';
 
 const toggleEntryHandler = () => {
-  isActive.value = isActive.value ? false : true;
+  isHidden.value = isHidden.value ? false : true;
 };
 </script>
 
 <template>
-  <div class="content-wrapper" :class="{ offset: isActive }">
+  <div class="content-wrapper" :class="{ offset: isHidden }">
     <header id="header-grid">
       <div></div>
       <nav>
