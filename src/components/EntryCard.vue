@@ -156,14 +156,21 @@ const showHandler = () => {
 <style scoped>
 section {
   position: fixed;
-  bottom: -50vh;
-  left: 0;
-  width: 100%;
+  left: 1rem;
+  right: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  bottom: -40vh;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
   background-color: #1c1f2b;
+  border-top: 1px solid #6b89d6;
+  border-right: 1px solid #6b89d6;
+  border-left: 1px solid #6b89d6;
+  transition-property: bottom;
+  transition-duration: 100ms;
 }
 
 .active {
