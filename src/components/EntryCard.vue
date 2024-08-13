@@ -51,78 +51,85 @@ const submitHandler = () => {
 const resetHandler = () => {
   console.log('reset');
 };
+
+const showHandler = () => {
+  console.log('show');
+};
 </script>
 
 <template>
-  <span class="flex-container">
-    <h3>Create an Entry</h3>
-    <span>Type: Compound</span>
-  </span>
-
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Particulars</th>
-        <th scope="col">Debit</th>
-        <th scope="col">Credit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="(transaction, index) in entry.transactions"
-        :key="transaction.id"
-      >
-        <td
-          v-if="!index"
-          id="cell-date"
-          :rowspan="entry.transactions.length + 1"
-        >
-          {{ formatDate(transaction.date) }}
-        </td>
-
-        <td>
-          <select v-model="transaction.accId" :id="transaction.id">
-            <option value="1100">Cash</option>
-            <option value="5101">Expenses</option>
-            <option value="3">Month</option>
-            <option value="4">Year</option>
-            <option value="5">Year To Date</option>
-            <option value="6">All</option>
-          </select>
-        </td>
-
-        <template v-if="transaction.isDebit">
-          <td><input type="text" v-model="transaction.amount" /></td>
-          <td><input type="text" /></td>
-        </template>
-
-        <template v-else>
-          <td><input type="text" /></td>
-          <td><input type="text" v-model="transaction.amount" /></td>
-        </template>
-      </tr>
-      <tr>
-        <td colspan="3" id="cell-add-row">
-          <span class="control-container">
-            <button @click="resetHandler">Reset</button>
-            <button>+</button>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="flex-container">
-    <span>
-      <input type="checkbox" checked="true" id="identical-submit" />
-      <label for="identical-submit"
-        >Apply to all unprocessed Receipts with identical memo:
-        {{ truncate(50, props.selectedReceipt?.memo) }}
-      </label>
+  <section>
+    <span class="flex-container">
+      <h3>Create an Entry</h3>
+      <span>Type: Compound</span>
+      <span class="control-container">
+        <button @click="resetHandler">Reset</button>
+        <button @click="showHandler">Hide</button>
+      </span>
     </span>
 
-    <button @click="submitHandler">Submit</button>
-  </span>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Particulars</th>
+          <th scope="col">Debit</th>
+          <th scope="col">Credit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(transaction, index) in entry.transactions"
+          :key="transaction.id"
+        >
+          <td
+            v-if="!index"
+            id="cell-date"
+            :rowspan="entry.transactions.length + 1"
+          >
+            {{ formatDate(transaction.date) }}
+          </td>
+
+          <td>
+            <select v-model="transaction.accId" :id="transaction.id">
+              <option value="1100">Cash</option>
+              <option value="5101">Expenses</option>
+              <option value="3">Month</option>
+              <option value="4">Year</option>
+              <option value="5">Year To Date</option>
+              <option value="6">All</option>
+            </select>
+          </td>
+
+          <template v-if="transaction.isDebit">
+            <td><input type="text" v-model="transaction.amount" /></td>
+            <td><input type="text" /></td>
+          </template>
+
+          <template v-else>
+            <td><input type="text" /></td>
+            <td><input type="text" v-model="transaction.amount" /></td>
+          </template>
+        </tr>
+        <tr>
+          <td colspan="3" id="cell-add-row">
+            <button>+</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="flex-container">
+      <span>
+        <input type="checkbox" checked="true" id="identical-submit" />
+        <label for="identical-submit"
+          >Apply to all unprocessed Receipts with identical memo:
+          {{ truncate(50, props.selectedReceipt?.memo) }}
+        </label>
+      </span>
+
+      <button @click="submitHandler">Submit</button>
+    </span>
+  </section>
 </template>
 
 <style scoped>
@@ -130,6 +137,18 @@ const resetHandler = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #1c1f2b;
 }
 
 .control-container {
@@ -155,9 +174,5 @@ input[type='text'] {
 #cell-date {
   padding: 0rem 0.8rem;
   align-content: baseline;
-}
-
-#cell-add-row {
-  padding: 1rem;
 }
 </style>

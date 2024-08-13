@@ -45,6 +45,10 @@ const importHandler = () => {
   console.log('import');
 };
 
+const sizeHandler = () => {
+  console.log('size');
+};
+
 onMounted(() => {
   if (!receipts.value.length) {
     fetchReceipts();
@@ -53,14 +57,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <h2>Receipts</h2>
+  <span class="flex-container">
+    <h2>Receipts</h2>
+    <button @click="importHandler">Import</button>
+  </span>
 
   <section>
     <span class="flex-container">
       <h3>Unprocessed</h3>
-      <button @click="importHandler">Import</button>
+      <button @click="sizeHandler">Minimize</button>
     </span>
-    <span>{{ receipts.length }} receipts totalling {{ total }}</span>
+    <span>{{ receipts.length }} receipts totaling {{ total }}</span>
     <table>
       <thead>
         <tr>
@@ -86,6 +93,13 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+  </section>
+
+  <section>
+    <span class="flex-container">
+      <h3>Processed</h3>
+      <button @click="sizeHandler">Maximize</button>
+    </span>
   </section>
 </template>
 

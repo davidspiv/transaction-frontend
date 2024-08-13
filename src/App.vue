@@ -10,16 +10,13 @@ import EntryCard from '@/components/EntryCard.vue';
         <RouterLink to="/receipts">Receipts</RouterLink>
         <RouterLink to="/journal">Journal</RouterLink>
         <RouterLink to="/ledger">Ledger</RouterLink>
-        <RouterLink to="/accounts">Accounts</RouterLink>
         <RouterLink to="/reports">Reports</RouterLink>
       </nav>
     </header>
-
     <RouterView />
   </div>
-  <section id="section-entry">
-    <EntryCard :selectedReceipt="null"></EntryCard>
-  </section>
+
+  <EntryCard :selectedReceipt="null"></EntryCard>
 </template>
 
 <style scoped>
@@ -41,15 +38,6 @@ nav {
   max-width: 1000px;
   margin: 0 auto;
   padding-bottom: 25rem;
-}
-
-#section-entry {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 1rem;
-  background-color: #1c1f2b;
 }
 
 nav a.router-link-exact-active {
