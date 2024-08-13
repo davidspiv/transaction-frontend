@@ -128,16 +128,6 @@ const showHandler = () => {
 </template>
 
 <style scoped>
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.reverse {
-  flex-direction: row-reverse;
-}
-
 section {
   position: fixed;
   bottom: 0;
@@ -150,10 +140,34 @@ section {
   background-color: #1c1f2b;
 }
 
+button {
+  background-color: #363c55;
+}
+
+table,
+td,
+th {
+  border: 1px solid #363c55;
+}
+
+td {
+  padding: 0.8rem;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .control-container {
   display: flex;
   gap: 2rem;
   align-items: center;
+}
+
+.reverse {
+  flex-direction: row-reverse;
 }
 
 th:nth-child(1),

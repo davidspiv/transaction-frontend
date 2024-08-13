@@ -114,6 +114,15 @@ section {
   border-radius: 1rem;
 }
 
+button {
+  background-color: #363c55;
+}
+
+table,
+th {
+  border: 1px solid #363c55;
+}
+
 .flex-container {
   display: flex;
   justify-content: space-between;
