@@ -21,6 +21,18 @@ import EntryCard from '@/components/EntryCard.vue';
   <EntryCard :selectedReceipt="null"></EntryCard>
 </template>
 
+<style>
+table,
+td,
+th {
+  border: 1px solid #363c55;
+}
+
+td {
+  padding: 0.8rem;
+}
+</style>
+
 <style scoped>
 nav {
   width: 100%;
