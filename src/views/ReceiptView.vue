@@ -41,8 +41,8 @@ const clickHandler = (event: MouseEvent) => {
   }
 };
 
-const importHandler = () => {
-  console.log('import');
+const newHandler = () => {
+  console.log('new');
 };
 
 const sizeHandler = () => {
@@ -57,15 +57,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <span class="flex-container">
-    <h2>Receipts</h2>
-    <button @click="importHandler">Import</button>
-  </span>
-
+  <h2>Receipts</h2>
   <section>
     <span class="flex-container">
       <h3>Unprocessed</h3>
-      <button @click="sizeHandler">Minimize</button>
+      <span class="control-container">
+        <button @click="newHandler">Add receipts</button>
+        <button @click="sizeHandler">Minimize</button>
+      </span>
     </span>
     <span>{{ receipts.length }} receipts totaling {{ total }}</span>
     <table>
@@ -89,7 +88,7 @@ onMounted(() => {
 
       <tbody v-else>
         <tr>
-          <td colspan="5">No receipts imported</td>
+          <td colspan="5">No unprocessed receipts</td>
         </tr>
       </tbody>
     </table>
@@ -116,6 +115,12 @@ section {
 .flex-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.control-container {
+  display: flex;
+  gap: 2rem;
   align-items: center;
 }
 

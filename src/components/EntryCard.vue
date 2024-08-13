@@ -82,15 +82,11 @@ const showHandler = () => {
           v-for="(transaction, index) in entry.transactions"
           :key="transaction.id"
         >
-          <td
-            v-if="!index"
-            id="cell-date"
-            :rowspan="entry.transactions.length + 1"
-          >
+          <td v-if="!index" :rowspan="entry.transactions.length" id="cell-date">
             {{ formatDate(transaction.date) }}
           </td>
 
-          <td>
+          <td class="cell-particular">
             <select v-model="transaction.accId" :id="transaction.id">
               <option value="1100">Cash</option>
               <option value="5101">Expenses</option>
@@ -112,22 +108,21 @@ const showHandler = () => {
           </template>
         </tr>
         <tr>
-          <td colspan="3" id="cell-add-row">
-            <button>+</button>
+          <td colspan="4" id="cell-add-row">
+            <button>Add line item</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <span class="flex-container">
-      <span>
-        <input type="checkbox" checked="true" id="identical-submit" />
-        <label for="identical-submit"
-          >Apply to all unprocessed Receipts with identical memo:
+    <span class="flex-container reverse">
+      <button @click="submitHandler">Submit</button>
+      <span v-if="props.selectedReceipt">
+        <input type="checkbox" checked="true" id="check-identical-submit" />
+        <label for="check-identical-submit"
+          >Apply to all unprocessed receipts with identical memo:
           {{ truncate(50, props.selectedReceipt?.memo) }}
         </label>
       </span>
-
-      <button @click="submitHandler">Submit</button>
     </span>
   </section>
 </template>
@@ -137,6 +132,10 @@ const showHandler = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.reverse {
+  flex-direction: row-reverse;
 }
 
 section {
@@ -163,7 +162,7 @@ th:nth-child(4) {
   width: 12%;
 }
 
-td {
+.cell-particular {
   text-align: left;
 }
 
@@ -171,8 +170,15 @@ input[type='text'] {
   width: 5rem;
 }
 
+#check-identical-submit {
+  margin-right: 0.5rem;
+}
+
 #cell-date {
-  padding: 0rem 0.8rem;
   align-content: baseline;
+}
+
+#cell-add-row {
+  padding: 1rem;
 }
 </style>
