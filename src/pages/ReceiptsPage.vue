@@ -187,7 +187,7 @@ section {
   position: fixed;
   left: 1rem;
   right: 1rem;
-  max-width: 1280px;
+  max-width: calc(1280px - 2rem);
   margin: 0 auto;
   top: 4rem;
   background-color: #1c1f2b;

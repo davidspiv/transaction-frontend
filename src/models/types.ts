@@ -27,7 +27,8 @@ interface LineItem {
   id: string;
   date: string;
   amount: number;
-  accId: number;
+  isDebit: boolean;
+  accId?: string;
 }
 
 interface ApiUrl {

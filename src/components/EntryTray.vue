@@ -12,19 +12,19 @@ const entry = computed<Entry>(() => {
         {
           id: 'lineItemId1',
           date: entryTrayState.value?.selected.date,
-          amount: entryTrayState.value?.selected.amount,
-          isDebit: 1,
-          accId: 5101,
+          amount: entryTrayState.value?.selected.amount / -100,
+          isDebit: true,
+          accId: '5001',
         },
         {
           id: 'lineItemId2',
           date: entryTrayState.value?.selected.date,
-          amount: entryTrayState.value?.selected.amount,
-          isDebit: 0,
-          accId: 1100,
+          amount: entryTrayState.value?.selected.amount / -100,
+          isDebit: false,
+          accId: '1001',
         },
       ],
-      type: 'Transfer',
+      type: 'transfer',
       description: entryTrayState.value?.selected.memo || '',
       referenceIds: ['rctId'],
     };
@@ -36,18 +36,18 @@ const entry = computed<Entry>(() => {
         id: 'lineItemId1',
         date: new Date().toDateString(),
         amount: 0,
-        isDebit: 1,
-        accId: 5101,
+        isDebit: true,
+        accId: '',
       },
       {
         id: 'lineItemId2',
         date: new Date().toDateString(),
         amount: 0,
-        isDebit: 0,
-        accId: 1100,
+        isDebit: false,
+        accId: '',
       },
     ],
-    type: 'Transfer',
+    type: '',
     description: '',
     referenceIds: ['rctId'],
   };
@@ -55,10 +55,11 @@ const entry = computed<Entry>(() => {
 
 const submitHandler = () => {
   console.log(entry.value);
+  entryTrayState.value.selected = null;
 };
 
 const resetHandler = () => {
-  selected.value = null;
+  entryTrayState.value.selected = null;
 };
 
 const hideTray = () => {
@@ -71,15 +72,15 @@ const hideTray = () => {
     <span class="flex-container">
       <h3>Create an Entry</h3>
       <span class="control-container">
-        <label for="time-range">Type: </label>
-        <select name="time-range" id="time-range">
-          <option disabled value="">Please select one</option>
-          <option value="day">Day</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-          <option value="year">Year</option>
-          <option value="year-to-date">Year To Date</option>
-          <option value="all">All</option>
+        <label for="select-type">Type: </label>
+        <select v-model="entry.type" name="select-type" id="select-type">
+          <option disabled value="">Select one</option>
+          <option value="transfer">Transfer</option>
+          <option value="opening">Opening</option>
+          <option value="closing">Closing</option>
+          <option value="adjusting">Adjusting</option>
+          <option value="compound">Compound</option>
+          <option value="reversing">Reversing</option>
         </select>
       </span>
       <span class="control-container">
@@ -110,38 +111,31 @@ const hideTray = () => {
           <td class="cell-particular">
             <select
               v-model="lineItem.accId"
-              :id="lineItem.id.concat('-select-el')"
+              :id="lineItem.id.concat('-select-account')"
             >
-              <option value="1100">Cash</option>
-              <option value="5101">Expenses</option>
-              <option value="3">Month</option>
-              <option value="4">Year</option>
-              <option value="5">Year To Date</option>
-              <option value="6">All</option>
+              <option disabled value="">Select one</option>
+              <option value="1001">Cash</option>
+              <option value="5001">Expenses</option>
             </select>
           </td>
 
-          <template v-if="Number(lineItem) < 0">
+          <template v-if="lineItem.isDebit">
             <td>
-              <input
-                type="text"
-                :id="lineItem.id.concat('-input-debit-el')"
-                v-model="lineItem.amount"
-              />
+              <input type="text" :id="lineItem.id" v-model="lineItem.amount" />
             </td>
             <td>
-              <input type="text" :id="lineItem.id.concat('-input-credit-el')" />
+              <button :id="lineItem.id.concat('-button-switch')">switch</button>
             </td>
           </template>
 
           <template v-else>
             <td>
-              <input type="text" :id="lineItem.id.concat('-input-debit-el')" />
+              <button :id="lineItem.id.concat('-button-switch')">switch</button>
             </td>
             <td>
               <input
                 type="text"
-                :id="lineItem.id.concat('-input-credit-el')"
+                :id="lineItem.id.concat('-input-amount')"
                 v-model="lineItem.amount"
               />
             </td>
@@ -159,7 +153,7 @@ const hideTray = () => {
       <span v-if="entryTrayState?.selected">
         <input type="checkbox" checked="true" id="check-identical-submit" />
         <label for="check-identical-submit"
-          >Apply to all unprocessed receipts with identical memo:
+          >Duplicate action for
           {{ truncate(30, entryTrayState?.selected.memo) }}
         </label>
       </span>
@@ -172,7 +166,7 @@ section {
   position: fixed;
   left: 1rem;
   right: 1rem;
-  max-width: 1280px;
+  max-width: calc(1280px - 2rem);
   margin: 0 auto;
   bottom: 0;
   display: flex;
