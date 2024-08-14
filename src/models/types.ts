@@ -1,3 +1,5 @@
+import type { Ref } from 'vue';
+
 interface Receipt {
   id: string;
   date: string;
@@ -11,15 +13,16 @@ interface Receipt {
 
 interface Entry {
   id: string;
-  transactions: Transaction[];
-  rcptId?: string;
+  lineItems: LineItem[];
+  type: string; //Opening, Transfer, Closing, Adjusting, Compound
+  description: string;
+  referenceIds: string[]; //To reference receipt, entry, and line item Id's
 }
 
-interface Transaction {
+interface LineItem {
   id: string;
   date: string;
   amount: number;
-  isDebit: number;
   accId: number;
 }
 
@@ -29,9 +32,28 @@ interface ApiUrl {
   limit?: number;
 }
 
-type GlobalState = {
-  receipts: Receipt[];
-  transactions: Transaction[];
-};
+interface ReceiptViewState {
+  filters: {
+    status: string;
+    source: string;
+    time: string;
+  };
+  selected?: Receipt;
+}
 
-export type { Receipt, Entry, Transaction, ApiUrl, GlobalState };
+interface EntryTrayState {
+  entry: Entry;
+  tray: {
+    isModified: Ref<boolean>;
+    isHidden: Ref<boolean>;
+  };
+}
+
+export type {
+  Receipt,
+  Entry,
+  LineItem,
+  ApiUrl,
+  ReceiptViewState,
+  EntryTrayState,
+};

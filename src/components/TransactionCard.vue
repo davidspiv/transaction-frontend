@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { formatAmount, formatDate } from '@/composables/utils';
-import type { Transaction } from '../models/types';
+import type { LineItem } from '../models/types';
 
 const props = defineProps<{
-  data: Transaction;
+  data: LineItem;
 }>();
 
 const { id, date, amount } = props.data;

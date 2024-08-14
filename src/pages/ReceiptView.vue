@@ -1,26 +1,28 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
 import { onMounted, ref } from 'vue';
+import { receiptViewState, selected } from '@/composables/globalState';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 
 const receipts: Ref<Receipt[]> = ref([]);
 
-const selectedReceipt: Ref<Receipt | null> = ref(null);
+const getUrl = () => {
+  const { status, source, time } = receiptViewState.value.filters;
+  return `http://localhost:5000/api/receipts/?_status=${status}_src=${source}_time=${time}`;
+};
 
-const fetchReceipts = async (source?: string) => {
+const fetchReceipts = async () => {
+  let data;
   try {
-    const apiUrl =
-      source || 'http://localhost:5000/api/receipts/?_time=month_acc=all';
+    const apiUrl = getUrl();
     const res = await fetch(apiUrl);
-    const data = await res.json();
-
-    receipts.value.length = 0;
-    receipts.value.push(...((data.receipts as Receipt[]) || []));
-    selectedReceipt.value = receipts.value[0];
+    data = await res.json();
   } catch (error) {
     console.log('Error fetching data', error);
   }
+  receipts.value.length = 0; //clear receipts
+  receipts.value.push(...((data?.receipts as Receipt[]) || []));
 };
 
 const clickHandler = (event: MouseEvent) => {
@@ -28,7 +30,7 @@ const clickHandler = (event: MouseEvent) => {
   const indexData = target.getAttribute('index');
 
   if (indexData) {
-    selectedReceipt.value = receipts.value[Number(indexData)];
+    selected.value = receipts.value[Number(indexData)];
   }
 };
 

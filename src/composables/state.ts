@@ -1,12 +1,14 @@
 import { ref, computed, watch } from 'vue';
-import type { Receipt, Transaction, GlobalState } from '@/models/types';
+import type { Receipt, LineItem } from '@/models/types';
 
 const timeRange = ref<string>('day');
 const accType = ref<string>('all');
 const isHidden = ref(true);
 
+const getEntryTray = () => {};
+
 const buildUrl = (time: string, accType: string, limit?: number) => {
-  let address = 'http://localhost:5000/api/transactions/?';
+  let address = 'http://localhost:5000/api/lineItems/?';
 
   if (time) {
     address += `_time=${time}`;
@@ -25,9 +27,9 @@ const buildUrl = (time: string, accType: string, limit?: number) => {
 
 const apiUrlComputed = computed(() => buildUrl(timeRange.value, accType.value));
 
-const globalState = ref<GlobalState>({
+const globalState = ref({
   receipts: [],
-  transactions: [],
+  lineItems: [],
 });
 
 const getJournal = () => {
@@ -35,7 +37,7 @@ const getJournal = () => {
     receipts: globalState.value.receipts,
     total: computed(() =>
       globalState.value.receipts.reduce(
-        (sum, item: Receipt) => sum + (item.amount || 0) / -100,
+        (sum: number, item: Receipt) => sum + (item.amount || 0) / -100,
         0,
       ),
     ),
@@ -45,14 +47,14 @@ const getJournal = () => {
 
 const getLedger = () => {
   return {
-    transactions: globalState.value.transactions,
+    transactions: globalState.value.lineItems,
     apiUrl: apiUrlComputed.value,
     timeRange,
     accType,
     resetFilterHandler,
     total: computed(() =>
-      globalState.value.transactions.reduce(
-        (sum, item: Transaction) => sum + (item.amount || 0) / -100,
+      globalState.value.lineItems.reduce(
+        (sum, item: LineItem) => sum + (item.amount || 0) / -100,
         0,
       ),
     ),
@@ -61,23 +63,21 @@ const getLedger = () => {
 
 const resetFilterHandler = () => {
   if (timeRange.value && accType.value) {
-    fetchTransactions(apiUrlComputed.value);
+    fetchLineItems(apiUrlComputed.value);
   } else {
     console.log('Error with dropdown values');
   }
 };
 
-const fetchTransactions = async (source?: string) => {
+const fetchLineItems = async (source?: string) => {
   try {
     const apiUrl =
-      source || 'http://localhost:5000/api/transactions/?_time=week_acc=all';
+      source || 'http://localhost:5000/api/lineItems/?_time=week_acc=all';
     const res = await fetch(apiUrl);
     const data = await res.json();
-
-    globalState.value.transactions.length = 0;
-    globalState.value.transactions.push(
-      ...((data.transactions as Transaction[]) || []),
-    );
+    console.log(data);
+    globalState.value.lineItems.length = 0;
+    // globalState.value.lineItems.push(...((data.lineItems as LineItem[]) || []));
   } catch (error) {
     console.log('Error fetching data', error);
   }
@@ -85,4 +85,4 @@ const fetchTransactions = async (source?: string) => {
 
 watch(apiUrlComputed, resetFilterHandler);
 
-export { getJournal, getLedger, isHidden };
+export { getJournal, getLedger, isHidden, getEntryTray };

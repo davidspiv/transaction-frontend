@@ -1,42 +1,13 @@
 <script setup lang="ts">
-import { isHidden } from '@/composables/state';
+import { getEntryTrayState } from '@/composables/globalState';
 import { formatDate } from '@/composables/utils';
-import { computed } from 'vue';
-import type { Receipt, Entry } from '@/models/types';
+import type { Receipt } from '@/models/types';
+
+const entryTrayState = getEntryTrayState();
 
 const props = defineProps<{
   selectedReceipt: Receipt | null;
 }>();
-
-const entry = computed<Entry>(() => {
-  const date = props.selectedReceipt
-    ? props.selectedReceipt.date
-    : new Date().toDateString();
-  const amount = props.selectedReceipt
-    ? props.selectedReceipt.amount / -100
-    : 0;
-
-  return {
-    id: 'entryId',
-    transactions: [
-      {
-        id: 'transactionId1',
-        date,
-        amount,
-        isDebit: 1,
-        accId: 5101,
-      },
-      {
-        id: 'transactionId2',
-        date,
-        amount,
-        isDebit: 0,
-        accId: 1100,
-      },
-    ],
-    rcptId: 'rctId',
-  };
-});
 
 const truncate = (desiredLength: number, input?: string) => {
   if (!input) return '';
@@ -46,7 +17,7 @@ const truncate = (desiredLength: number, input?: string) => {
 };
 
 const submitHandler = () => {
-  console.log(entry.value);
+  console.log(entryTrayState.entry.value);
 };
 
 const resetHandler = () => {
@@ -54,12 +25,12 @@ const resetHandler = () => {
 };
 
 const hideTray = () => {
-  isHidden.value = false;
+  entryTrayState.tray.isHidden.value = true;
 };
 </script>
 
 <template>
-  <section :class="{ 'hidden-tray': isHidden }">
+  <section :class="{ 'hidden-tray': entryTrayState.tray.isHidden.value }">
     <span class="flex-container">
       <h3>Create an Entry</h3>
       <span class="control-container">
@@ -91,17 +62,22 @@ const hideTray = () => {
       </thead>
       <tbody>
         <tr
-          v-for="(transaction, index) in entry.transactions"
-          :key="transaction.id"
+        const
+          v-for="(lineItem, index) in entryTrayState.entry.value.lineItems"
+          :key="lineItem.id"
         >
-          <td v-if="!index" :rowspan="entry.transactions.length" id="cell-date">
-            {{ formatDate(transaction.date) }}
+          <td
+            v-if="!index"
+            :rowspan="entryTrayState.entry.value.lineItems.length"
+            id="cell-date"
+          >
+            {{ formatDate(lineItem.date) }}
           </td>
 
           <td class="cell-particular">
             <select
-              v-model="transaction.accId"
-              :id="transaction.id.concat('-select-el')"
+              v-model="lineItem.accId"
+              :id="lineItem.id.concat('-select-el')"
             >
               <option value="1100">Cash</option>
               <option value="5101">Expenses</option>
@@ -112,34 +88,28 @@ const hideTray = () => {
             </select>
           </td>
 
-          <template v-if="transaction.isDebit">
+          <template v-if="Number(lineItem) < 0">
             <td>
               <input
                 type="text"
-                :id="transaction.id.concat('-input-debit-el')"
-                v-model="transaction.amount"
+                :id="lineItem.id.concat('-input-debit-el')"
+                v-model="lineItem.amount"
               />
             </td>
             <td>
-              <input
-                type="text"
-                :id="transaction.id.concat('-input-credit-el')"
-              />
+              <input type="text" :id="lineItem.id.concat('-input-credit-el')" />
             </td>
           </template>
 
           <template v-else>
             <td>
-              <input
-                type="text"
-                :id="transaction.id.concat('-input-debit-el')"
-              />
+              <input type="text" :id="lineItem.id.concat('-input-debit-el')" />
             </td>
             <td>
               <input
                 type="text"
-                :id="transaction.id.concat('-input-credit-el')"
-                v-model="transaction.amount"
+                :id="lineItem.id.concat('-input-credit-el')"
+                v-model="lineItem.amount"
               />
             </td>
           </template>
