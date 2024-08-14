@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { entryTrayState } from '@/composables/stateEntryTray';
 import { formatDate, truncate } from '@/composables/utils';
-import type { Receipt } from '@/models/types';
-
-const props = defineProps<{
-  selectedReceipt: Receipt | null;
-}>();
+import { entryTrayState, selected } from '@/composables/stateEntryTray';
 
 const submitHandler = () => {
   console.log(entryTrayState.entry.value);
@@ -114,11 +109,11 @@ const hideTray = () => {
     </table>
     <span class="flex-container reverse">
       <button @click="submitHandler">Submit</button>
-      <span v-if="props.selectedReceipt">
+      <span v-if="selected?.memo">
         <input type="checkbox" checked="true" id="check-identical-submit" />
         <label for="check-identical-submit"
           >Apply to all unprocessed receipts with identical memo:
-          {{ truncate(50, props.selectedReceipt?.memo) }}
+          {{ truncate(30, selected.memo) }}
         </label>
       </span>
     </span>

@@ -29,7 +29,7 @@ const toggleEntryHandler = () => {
     <RouterView />
   </div>
 
-  <EntryTray :selectedReceipt="null"></EntryTray>
+  <EntryTray></EntryTray>
 </template>
 
 <style>
