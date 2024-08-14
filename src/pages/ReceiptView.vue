@@ -59,43 +59,33 @@ const resetViewHandler = () => {
     </span>
     <div class="flex-container">
       <span class="vertical">
-        <label for="time-range">Status</label>
+        <label for="select-status">Status</label>
         <select
           v-model="receiptViewState.filters.status"
-          name="time-range"
-          id="time-range"
+          name="select-status"
+          id="select-status"
         >
-          <option disabled value="">Please select one</option>
-          <option value="day">Day</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-          <option value="year">Year</option>
-          <option value="year-to-date">Year To Date</option>
+          <option value="week">Unprocessed</option>
           <option value="all">All</option>
+          <option value="month">Processed</option>
         </select>
       </span>
       <span class="vertical">
-        <label for="acc-range">Source</label>
+        <label for="select-source">Source</label>
         <select
           v-model="receiptViewState.filters.source"
-          name="acc-range"
-          id="acc-range"
+          name="select-source"
+          id="select-source"
         >
-          <option disabled value="">Please select one</option>
           <option value="all">All</option>
-          <option value="asset">Assets</option>
-          <option value="expense">Expenses</option>
-          <option value="revenue">Revenue</option>
-          <option value="liability">Liabilities</option>
-          <option value="equity">Equity</option>
         </select>
       </span>
       <span class="vertical">
-        <label for="time-range">Time Range</label>
+        <label for="select-time">Time Range</label>
         <select
           v-model="receiptViewState.filters.time"
-          name="time-range"
-          id="time-range"
+          name="select-time"
+          id="select-time"
         >
           <option value="day">Day</option>
           <option value="week">Week</option>
@@ -112,15 +102,15 @@ const resetViewHandler = () => {
         <span>Columns visible: </span>
         <span>
           <input type="checkbox" name="" id="is-date-checkbox" checked="true" />
-          <label for="is-column-check">Date</label>
+          <label for="is-date-checkbox">Date</label>
         </span>
         <span>
           <input type="checkbox" name="" id="is-memo-checkbox" checked="true" />
-          <label for="is-column-check">Memo</label>
+          <label for="is-memo-checkbox">Memo</label>
         </span>
         <span>
           <input type="checkbox" name="" id="is-source-checkbox" />
-          <label for="is-column-check">Source</label>
+          <label for="is-source-checkbox">Source</label>
         </span>
         <span>
           <input
@@ -129,7 +119,7 @@ const resetViewHandler = () => {
             id="is-amount-checkbox"
             checked="true"
           />
-          <label for="is-column-check">Amount</label>
+          <label for="is-amount-checkbox">Amount</label>
         </span>
 
         <span> </span>

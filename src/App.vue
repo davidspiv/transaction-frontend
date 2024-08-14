@@ -11,21 +11,21 @@ const toggleEntryHandler = () => {
 </script>
 
 <template>
+  <header id="header-grid">
+    <div></div>
+    <nav>
+      <RouterLink to="/">Receipts</RouterLink>
+      <RouterLink to="/journal">Journal</RouterLink>
+      <RouterLink to="/ledger">Ledger</RouterLink>
+      <RouterLink to="/reports">Reports</RouterLink>
+    </nav>
+    <nav id="nav-entry">
+      <button @click="toggleEntryHandler" id="button-entry-toggle">
+        Entry
+      </button>
+    </nav>
+  </header>
   <div class="content-wrapper" :class="{ offset: !isHidden }">
-    <header id="header-grid">
-      <div></div>
-      <nav>
-        <RouterLink to="/">Receipts</RouterLink>
-        <RouterLink to="/journal">Journal</RouterLink>
-        <RouterLink to="/ledger">Ledger</RouterLink>
-        <RouterLink to="/reports">Reports</RouterLink>
-      </nav>
-      <nav id="nav-entry">
-        <button @click="toggleEntryHandler" id="button-entry-toggle">
-          Entry
-        </button>
-      </nav>
-    </header>
     <RouterView />
   </div>
 
@@ -58,7 +58,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
+  padding-top: 3.2rem;
   transition-property: padding;
   transition-duration: 100ms;
 }
@@ -93,6 +93,7 @@ nav a:last-of-type {
 }
 
 #header-grid {
+  position: fixed;
   display: grid;
   grid-template-columns: 9rem auto 9rem;
 }
