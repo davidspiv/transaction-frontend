@@ -43,21 +43,13 @@ const clickHandler = (event: MouseEvent) => {
   }
 };
 
-const newHandler = () => {
-  console.log('new');
-};
-
 const resetViewHandler = () => {
   console.log('reset view');
 };
 </script>
 
 <template>
-  <section>
-    <span class="flex-container">
-      <h3>Receipts</h3>
-      <button @click="newHandler">Import receipts</button>
-    </span>
+  <section id="control-panel">
     <div class="flex-container">
       <span class="vertical">
         <label for="select-status">Status</label>
@@ -135,6 +127,17 @@ const resetViewHandler = () => {
           <th scope="col"><button>Amount</button></th>
         </tr>
       </thead>
+    </table>
+  </section>
+  <section id="body-panel">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col"><button>Date</button></th>
+          <th scope="col"><button>Memo</button></th>
+          <th scope="col"><button>Amount</button></th>
+        </tr>
+      </thead>
       <tbody v-if="receipts.length">
         <tr
           @click="clickHandler($event)"
@@ -166,6 +169,15 @@ section {
   padding: 1rem;
   background-color: #1c1f2b;
   border-radius: 1rem;
+}
+
+#control-panel {
+  padding-bottom: 0;
+  border-radius: 0;
+}
+
+#body-panel {
+  padding-top: 0;
 }
 
 .vertical {

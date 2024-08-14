@@ -7,7 +7,7 @@ const submitHandler = () => {
 };
 
 const resetHandler = () => {
-  console.log('reset');
+  selected.value = null;
 };
 
 const hideTray = () => {

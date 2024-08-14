@@ -5,15 +5,21 @@ import EntryTray from '@/components/EntryTray.vue';
 
 const { tray } = entryTrayState;
 
-const toggleEntryHandler = () => {
+const entryHandler = () => {
   tray.value.isHidden = tray.value.isHidden ? false : true;
+};
+
+const importHandler = () => {
+  console.log('import');
 };
 </script>
 
 <template>
   <div class="content-wrapper" :class="{ offset: !tray.isHidden }">
     <header id="header-grid">
-      <div></div>
+      <div>
+        <button @click="importHandler" id="button-import">Import</button>
+      </div>
       <nav>
         <RouterLink to="/">Receipts</RouterLink>
         <RouterLink to="/journal">Journal</RouterLink>
@@ -21,9 +27,7 @@ const toggleEntryHandler = () => {
         <RouterLink to="/reports">Reports</RouterLink>
       </nav>
       <nav id="nav-entry">
-        <button @click="toggleEntryHandler" id="button-entry-toggle">
-          Entry
-        </button>
+        <button @click="entryHandler" id="button-entry">Entry</button>
       </nav>
     </header>
     <RouterView />
@@ -67,7 +71,7 @@ nav {
 }
 
 nav a,
-#button-entry-toggle {
+button {
   display: inline-block;
   padding: 0.2rem 2rem;
   color: #6b89d6;
@@ -98,7 +102,7 @@ nav a:last-of-type {
 
 @media (hover: hover) {
   a:hover,
-  #button-entry-toggle:hover {
+  button:hover {
     background-color: hsl(223, 57%, 63%, 0.2);
   }
 }
