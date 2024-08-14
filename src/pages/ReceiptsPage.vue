@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ReceiptCard from '@/components/ReceiptCard.vue';
 import { onMounted, ref, computed, watch } from 'vue';
-import { receiptViewState } from '@/composables/statePages';
-import { selected } from '@/composables/stateEntryTray';
+import { receiptViewState, entryTrayState } from '@/composables/state';
+import ReceiptCard from '@/components/ReceiptCard.vue';
+
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 
@@ -39,7 +39,7 @@ const clickHandler = (event: MouseEvent) => {
   const indexData = target.getAttribute('index');
 
   if (indexData) {
-    selected.value = receipts.value[Number(indexData)];
+    entryTrayState.value.selected = receipts.value[Number(indexData)];
   }
 };
 

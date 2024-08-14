@@ -1,5 +1,11 @@
 import { ref } from 'vue';
 
+const entryTrayState = ref({
+  isModified: false,
+  isHidden: true,
+  selected: null,
+});
+
 const receiptViewState = ref({
   filters: {
     status: 'unprocessed',
@@ -24,4 +30,4 @@ const ledgerViewState = ref({
   },
 });
 
-export { receiptViewState, journalViewState, ledgerViewState };
+export { receiptViewState, journalViewState, ledgerViewState, entryTrayState };

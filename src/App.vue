@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { entryTrayState } from '@/composables/stateEntryTray';
+import { entryTrayState } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryTray from '@/components/EntryTray.vue';
 
-const { tray } = entryTrayState;
-
 const entryHandler = () => {
-  tray.value.isHidden = tray.value.isHidden ? false : true;
+  entryTrayState.value.isHidden = entryTrayState.value.isHidden ? false : true;
 };
 
 const importHandler = () => {
@@ -15,7 +13,7 @@ const importHandler = () => {
 </script>
 
 <template>
-  <div class="content-wrapper" :class="{ offset: !tray.isHidden }">
+  <div class="content-wrapper" :class="{ offset: !entryTrayState.isHidden }">
     <header id="header-grid">
       <div>
         <button @click="importHandler" id="button-import">Import</button>

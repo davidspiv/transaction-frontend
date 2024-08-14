@@ -1,9 +1,60 @@
 <script setup lang="ts">
 import { formatDate, truncate } from '@/composables/utils';
-import { entryTrayState, selected } from '@/composables/stateEntryTray';
+import { entryTrayState } from '@/composables/state';
+import { computed } from 'vue';
+import type { Entry } from '@/models/types';
+
+const entry = computed<Entry>(() => {
+  if (entryTrayState.value?.selected) {
+    return {
+      id: 'entryId',
+      lineItems: [
+        {
+          id: 'lineItemId1',
+          date: entryTrayState.value?.selected.date,
+          amount: entryTrayState.value?.selected.amount,
+          isDebit: 1,
+          accId: 5101,
+        },
+        {
+          id: 'lineItemId2',
+          date: entryTrayState.value?.selected.date,
+          amount: entryTrayState.value?.selected.amount,
+          isDebit: 0,
+          accId: 1100,
+        },
+      ],
+      type: 'Transfer',
+      description: entryTrayState.value?.selected.memo || '',
+      referenceIds: ['rctId'],
+    };
+  }
+  return {
+    id: 'entryId',
+    lineItems: [
+      {
+        id: 'lineItemId1',
+        date: new Date().toDateString(),
+        amount: 0,
+        isDebit: 1,
+        accId: 5101,
+      },
+      {
+        id: 'lineItemId2',
+        date: new Date().toDateString(),
+        amount: 0,
+        isDebit: 0,
+        accId: 1100,
+      },
+    ],
+    type: 'Transfer',
+    description: '',
+    referenceIds: ['rctId'],
+  };
+});
 
 const submitHandler = () => {
-  console.log(entryTrayState.entry.value);
+  console.log(entry.value);
 };
 
 const resetHandler = () => {
@@ -11,12 +62,12 @@ const resetHandler = () => {
 };
 
 const hideTray = () => {
-  entryTrayState.tray.value.isHidden = true;
+  entryTrayState.value.isHidden = true;
 };
 </script>
 
 <template>
-  <section :class="{ 'hidden-tray': entryTrayState.tray.value.isHidden }">
+  <section :class="{ 'hidden-tray': entryTrayState.isHidden }">
     <span class="flex-container">
       <h3>Create an Entry</h3>
       <span class="control-container">
@@ -49,14 +100,10 @@ const hideTray = () => {
       <tbody>
         <tr
           const
-          v-for="(lineItem, index) in entryTrayState.entry.value.lineItems"
+          v-for="(lineItem, index) in entry.lineItems"
           :key="lineItem.id"
         >
-          <td
-            v-if="!index"
-            :rowspan="entryTrayState.entry.value.lineItems.length"
-            id="cell-date"
-          >
+          <td v-if="!index" :rowspan="entry.lineItems.length" id="cell-date">
             {{ formatDate(lineItem.date) }}
           </td>
 
@@ -109,11 +156,11 @@ const hideTray = () => {
     </table>
     <span class="flex-container reverse">
       <button @click="submitHandler">Submit</button>
-      <span v-if="selected?.memo">
+      <span v-if="entryTrayState?.selected">
         <input type="checkbox" checked="true" id="check-identical-submit" />
         <label for="check-identical-submit"
           >Apply to all unprocessed receipts with identical memo:
-          {{ truncate(30, selected.memo) }}
+          {{ truncate(30, entryTrayState?.selected.memo) }}
         </label>
       </span>
     </span>
