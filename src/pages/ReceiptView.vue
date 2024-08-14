@@ -1,12 +1,96 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
 import { onMounted, ref, computed, watch } from 'vue';
-import {
-  receiptViewState,
-  selected,
-} from '@/composables/globalState';
+import { receiptViewState, selected } from '@/composables/state';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
+
+const importCsv = async (event: Event) => {
+  const inputEl = event.target as HTMLInputElement;
+  let csvData: string;
+  const reader = new FileReader();
+
+  if (inputEl.files) {
+    reader.readAsText(inputEl.files[0]);
+    reader.onload = () => {
+      csvData = reader.result as string;
+      parseCsv();
+    };
+
+    const parseCsv = async () => {
+      if (csvData) {
+        buildReceiptObj(csvData);
+      } else {
+        console.log('Error with getData()');
+      }
+
+      return;
+
+      function buildReceiptObj(data: string) {
+        const csvValues = splitCsv(data.replace(/[\n]/g, ','));
+        const totalCol = 7;
+
+        let lastDate: string | null = null;
+        let dateOffset = 0;
+
+        for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
+          const date = new Date(csvValues[i * totalCol]).toISOString();
+
+          if (lastDate === date) {
+            dateOffset++;
+          } else {
+            dateOffset = 0;
+            lastDate = date;
+          }
+
+          const amount = Math.round(
+            Number.parseInt(
+              (Number.parseFloat(csvValues[i * totalCol + 5]) * 100).toFixed(2),
+            ),
+          );
+
+          const memo = csvValues[i * totalCol + 1];
+          const srcId = 1;
+          const id = `${date}${dateOffset}${memo}${srcId}`;
+          const isDebit = 1;
+
+          const receiptObj: Receipt = {
+            date,
+            dateOffset,
+            amount,
+            memo,
+            srcId,
+            id,
+            isDebit,
+          };
+
+          // receipts.push(receiptObj);
+        }
+        inputEl.value = ''; //reset html file input element
+      }
+
+      function splitCsv(str: string) {
+        const obj: { soFar: string[]; isConcatting: boolean } = {
+          soFar: [],
+          isConcatting: false,
+        };
+        return str.split(',').reduce((accum, curr) => {
+          if (accum.isConcatting) {
+            accum.soFar[accum.soFar.length - 1] += `,${curr}`;
+          } else {
+            accum.soFar.push(curr);
+          }
+          if (curr.split('"').length % 2 === 0) {
+            accum.isConcatting = !accum.isConcatting;
+          }
+          return accum;
+        }, obj).soFar;
+      }
+    };
+  } else {
+    throw new Error('no files selected');
+  }
+};
 
 const receipts: Ref<Receipt[]> = ref([]);
 
@@ -28,6 +112,14 @@ const fetchReceipts = async () => {
   receipts.value.push(...((data?.receipts as Receipt[]) || []));
 };
 
+watch(apiUrlComputed, fetchReceipts);
+
+onMounted(() => {
+  if (!receipts.value.length) {
+    fetchReceipts();
+  }
+});
+
 const clickHandler = (event: MouseEvent) => {
   const target = event.currentTarget as HTMLTableRowElement;
   const indexData = target.getAttribute('index');
@@ -37,8 +129,6 @@ const clickHandler = (event: MouseEvent) => {
   }
 };
 
-watch(apiUrlComputed, fetchReceipts);
-
 const newHandler = () => {
   console.log('new');
 };
@@ -46,12 +136,6 @@ const newHandler = () => {
 const resetViewHandler = () => {
   console.log('reset view');
 };
-
-onMounted(() => {
-  if (!receipts.value.length) {
-    fetchReceipts();
-  }
-});
 </script>
 
 <template>

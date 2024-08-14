@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import { getEntryTrayState } from '@/composables/globalState';
+import { entryTrayState } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryCard from '@/components/EntryCard.vue';
 
-const entryTrayState = getEntryTrayState();
+const { isHidden } = entryTrayState.tray;
 
 const toggleEntryHandler = () => {
-  entryTrayState.tray.isHidden.value = entryTrayState.tray.isHidden.value
-    ? false
-    : true;
+  isHidden.value = isHidden.value ? false : true;
 };
 </script>
 
 <template>
-  <div
-    class="content-wrapper"
-    :class="{ offset: !entryTrayState.tray.isHidden.value }"
-  >
+  <div class="content-wrapper" :class="{ offset: !isHidden }">
     <header id="header-grid">
       <div></div>
       <nav>

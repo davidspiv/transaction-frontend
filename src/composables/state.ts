@@ -1,88 +1,93 @@
-import { ref, computed, watch } from 'vue';
-import type { Receipt, LineItem } from '@/models/types';
+import { ref, computed } from 'vue';
+import type { ReceiptViewState, Receipt, Entry } from '@/models/types';
 
-const timeRange = ref<string>('day');
-const accType = ref<string>('all');
-const isHidden = ref(true);
-
-const getEntryTray = () => {};
-
-const buildUrl = (time: string, accType: string, limit?: number) => {
-  let address = 'http://localhost:5000/api/lineItems/?';
-
-  if (time) {
-    address += `_time=${time}`;
-  }
-
-  if (accType) {
-    address += `_acc=${accType}`;
-  }
-
-  if ((limit || 0) > 0) {
-    address += `_limit=${limit}`;
-  }
-
-  return address;
-};
-
-const apiUrlComputed = computed(() => buildUrl(timeRange.value, accType.value));
-
-const globalState = ref({
-  receipts: [],
-  lineItems: [],
+const receiptViewState = ref<ReceiptViewState>({
+  filters: {
+    status: 'unprocessed',
+    source: 'all',
+    time: 'week',
+  },
 });
 
-const getJournal = () => {
-  return {
-    receipts: globalState.value.receipts,
-    total: computed(() =>
-      globalState.value.receipts.reduce(
-        (sum: number, item: Receipt) => sum + (item.amount || 0) / -100,
-        0,
-      ),
-    ),
-    // fetchReceipts,
-  };
-};
+const journalViewState = ref({
+  filters: {
+    status: 'unprocessed',
+    source: 'all',
+    time: 'week',
+  },
+});
 
-const getLedger = () => {
-  return {
-    transactions: globalState.value.lineItems,
-    apiUrl: apiUrlComputed.value,
-    timeRange,
-    accType,
-    resetFilterHandler,
-    total: computed(() =>
-      globalState.value.lineItems.reduce(
-        (sum, item: LineItem) => sum + (item.amount || 0) / -100,
-        0,
-      ),
-    ),
-  };
-};
+const ledgerViewState = ref({
+  filters: {
+    status: 'unprocessed',
+    source: 'all',
+    time: 'week',
+  },
+});
 
-const resetFilterHandler = () => {
-  if (timeRange.value && accType.value) {
-    fetchLineItems(apiUrlComputed.value);
-  } else {
-    console.log('Error with dropdown values');
+const selected = ref<Receipt | null>(null);
+
+const entry = computed<Entry>(() => {
+  if (selected.value) {
+    return {
+      id: 'entryId',
+      lineItems: [
+        {
+          id: 'lineItemId1',
+          date: selected.value.date,
+          amount: selected.value.amount,
+          isDebit: 1,
+          accId: 5101,
+        },
+        {
+          id: 'lineItemId2',
+          date: selected.value.date,
+          amount: selected.value.amount,
+          isDebit: 0,
+          accId: 1100,
+        },
+      ],
+      type: 'Transfer',
+      description: selected.value?.memo || '',
+      referenceIds: ['rctId'],
+    };
   }
+  return {
+    id: 'entryId',
+    lineItems: [
+      {
+        id: 'lineItemId1',
+        date: new Date().toDateString(),
+        amount: 0,
+        isDebit: 1,
+        accId: 5101,
+      },
+      {
+        id: 'lineItemId2',
+        date: new Date().toDateString(),
+        amount: 0,
+        isDebit: 0,
+        accId: 1100,
+      },
+    ],
+    type: 'Transfer',
+    description: '',
+    referenceIds: ['rctId'],
+  };
+});
+
+const isModified = ref(false);
+const isHidden = ref(true);
+
+const entryTrayState = {
+  entry,
+  tray: { isModified, isHidden },
 };
 
-const fetchLineItems = async (source?: string) => {
-  try {
-    const apiUrl =
-      source || 'http://localhost:5000/api/lineItems/?_time=week_acc=all';
-    const res = await fetch(apiUrl);
-    const data = await res.json();
-    console.log(data);
-    globalState.value.lineItems.length = 0;
-    // globalState.value.lineItems.push(...((data.lineItems as LineItem[]) || []));
-  } catch (error) {
-    console.log('Error fetching data', error);
-  }
+export {
+  receiptViewState,
+  journalViewState,
+  ledgerViewState,
+  entryTrayState,
+  selected,
 };
-
-watch(apiUrlComputed, resetFilterHandler);
-
-export { getJournal, getLedger, isHidden, getEntryTray };

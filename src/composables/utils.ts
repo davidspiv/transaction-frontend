@@ -14,22 +14,4 @@ const formatDate = (inputDate: string) => {
   });
 };
 
-const buildUrl = (time: string, accType: string, limit?: number) => {
-  let address = 'http://localhost:5000/api/receipts/?';
-
-  if (time) {
-    address += `_time=${time}`;
-  }
-
-  if (accType) {
-    address += `_acc=${accType}`;
-  }
-
-  if ((limit || 0) > 0) {
-    address += `_limit=${limit}`;
-  }
-
-  return address;
-};
-
-export { formatAmount, formatDate, buildUrl };
+export { formatAmount, formatDate };

@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { getEntryTrayState } from '@/composables/globalState';
+import { entryTrayState } from '@/composables/state';
 import { formatDate } from '@/composables/utils';
 import type { Receipt } from '@/models/types';
-
-const entryTrayState = getEntryTrayState();
 
 const props = defineProps<{
   selectedReceipt: Receipt | null;
