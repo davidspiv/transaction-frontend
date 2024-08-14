@@ -1,35 +1,35 @@
 <script setup lang="ts">
-import { entryTrayState } from '@/composables/state';
+import { entryTrayState } from '@/composables/stateEntryTray';
 import { RouterLink, RouterView } from 'vue-router';
-import EntryCard from '@/components/EntryCard.vue';
+import EntryTray from '@/components/EntryTray.vue';
 
-const { isHidden } = entryTrayState.tray;
+const { tray } = entryTrayState;
 
 const toggleEntryHandler = () => {
-  isHidden.value = isHidden.value ? false : true;
+  tray.value.isHidden = tray.value.isHidden ? false : true;
 };
 </script>
 
 <template>
-  <header id="header-grid">
-    <div></div>
-    <nav>
-      <RouterLink to="/">Receipts</RouterLink>
-      <RouterLink to="/journal">Journal</RouterLink>
-      <RouterLink to="/ledger">Ledger</RouterLink>
-      <RouterLink to="/reports">Reports</RouterLink>
-    </nav>
-    <nav id="nav-entry">
-      <button @click="toggleEntryHandler" id="button-entry-toggle">
-        Entry
-      </button>
-    </nav>
-  </header>
-  <div class="content-wrapper" :class="{ offset: !isHidden }">
+  <div class="content-wrapper" :class="{ offset: !tray.isHidden }">
+    <header id="header-grid">
+      <div></div>
+      <nav>
+        <RouterLink to="/">Receipts</RouterLink>
+        <RouterLink to="/journal">Journal</RouterLink>
+        <RouterLink to="/ledger">Ledger</RouterLink>
+        <RouterLink to="/reports">Reports</RouterLink>
+      </nav>
+      <nav id="nav-entry">
+        <button @click="toggleEntryHandler" id="button-entry-toggle">
+          Entry
+        </button>
+      </nav>
+    </header>
     <RouterView />
   </div>
 
-  <EntryCard :selectedReceipt="null"></EntryCard>
+  <EntryTray :selectedReceipt="null"></EntryTray>
 </template>
 
 <style>
@@ -58,7 +58,6 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding-top: 3.2rem;
   transition-property: padding;
   transition-duration: 100ms;
 }
@@ -93,7 +92,6 @@ nav a:last-of-type {
 }
 
 #header-grid {
-  position: fixed;
   display: grid;
   grid-template-columns: 9rem auto 9rem;
 }

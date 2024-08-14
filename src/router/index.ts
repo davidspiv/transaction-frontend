@@ -13,22 +13,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'receipts',
-      component: () => import('../pages/ReceiptView.vue'),
+      component: () => import('../pages/ReceiptsPage.vue'),
     },
     {
       path: '/journal',
       name: 'journal',
-      component: () => import('../pages/JournalView.vue'),
+      component: () => import('../pages/JournalPage.vue'),
     },
     {
       path: '/ledger',
       name: 'ledger',
-      component: () => import('../pages/LedgerView.vue'),
+      component: () => import('../pages/LedgerPage.vue'),
     },
     {
       path: '/reports',
       name: 'reports',
-      component: () => import('../pages/ReportsView.vue'),
+      component: () => import('../pages/ReportsPage.vue'),
     },
   ],
 });

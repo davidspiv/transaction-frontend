@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
 import { onMounted, ref, computed, watch } from 'vue';
-import { receiptViewState, selected } from '@/composables/state';
+import { receiptViewState } from '@/composables/statePages';
+import { selected } from '@/composables/stateEntryTray';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 
@@ -65,9 +66,9 @@ const resetViewHandler = () => {
           name="select-status"
           id="select-status"
         >
-          <option value="week">Unprocessed</option>
+          <option value="unprocessed">Unprocessed</option>
           <option value="all">All</option>
-          <option value="month">Processed</option>
+          <option value="processed">Processed</option>
         </select>
       </span>
       <span class="vertical">

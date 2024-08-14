@@ -1,29 +1,5 @@
 import { ref, computed } from 'vue';
-import type { ReceiptViewState, Receipt, Entry } from '@/models/types';
-
-const receiptViewState = ref<ReceiptViewState>({
-  filters: {
-    status: 'unprocessed',
-    source: 'all',
-    time: 'week',
-  },
-});
-
-const journalViewState = ref({
-  filters: {
-    status: 'unprocessed',
-    source: 'all',
-    time: 'week',
-  },
-});
-
-const ledgerViewState = ref({
-  filters: {
-    status: 'unprocessed',
-    source: 'all',
-    time: 'week',
-  },
-});
+import type { Receipt, Entry } from '@/models/types';
 
 const selected = ref<Receipt | null>(null);
 
@@ -76,18 +52,11 @@ const entry = computed<Entry>(() => {
   };
 });
 
-const isModified = ref(false);
-const isHidden = ref(true);
+const tray = ref({ isModified: false, isHidden: true });
 
 const entryTrayState = {
   entry,
-  tray: { isModified, isHidden },
+  tray,
 };
 
-export {
-  receiptViewState,
-  journalViewState,
-  ledgerViewState,
-  entryTrayState,
-  selected,
-};
+export { selected, entryTrayState };

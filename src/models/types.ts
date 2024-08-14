@@ -1,5 +1,3 @@
-import type { Ref } from 'vue';
-
 interface Receipt {
   id: string;
   date: string;
@@ -32,28 +30,4 @@ interface ApiUrl {
   limit?: number;
 }
 
-interface ReceiptViewState {
-  filters: {
-    status: string;
-    source: string;
-    time: string;
-  };
-  selected?: Receipt;
-}
-
-interface EntryTrayState {
-  entry: Entry;
-  tray: {
-    isModified: Ref<boolean>;
-    isHidden: Ref<boolean>;
-  };
-}
-
-export type {
-  Receipt,
-  Entry,
-  LineItem,
-  ApiUrl,
-  ReceiptViewState,
-  EntryTrayState,
-};
+export type { Receipt, Entry, LineItem, ApiUrl };

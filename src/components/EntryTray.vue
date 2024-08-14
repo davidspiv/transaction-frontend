@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import { entryTrayState } from '@/composables/state';
-import { formatDate } from '@/composables/utils';
+import { entryTrayState } from '@/composables/stateEntryTray';
+import { formatDate, truncate } from '@/composables/utils';
 import type { Receipt } from '@/models/types';
 
 const props = defineProps<{
   selectedReceipt: Receipt | null;
 }>();
-
-const truncate = (desiredLength: number, input?: string) => {
-  if (!input) return '';
-  return input.length < desiredLength
-    ? `"${input}"`
-    : `"${input.slice(0, desiredLength)}...`;
-};
 
 const submitHandler = () => {
   console.log(entryTrayState.entry.value);
@@ -23,12 +16,12 @@ const resetHandler = () => {
 };
 
 const hideTray = () => {
-  entryTrayState.tray.isHidden.value = true;
+  entryTrayState.tray.value.isHidden = true;
 };
 </script>
 
 <template>
-  <section :class="{ 'hidden-tray': entryTrayState.tray.isHidden.value }">
+  <section :class="{ 'hidden-tray': entryTrayState.tray.value.isHidden }">
     <span class="flex-container">
       <h3>Create an Entry</h3>
       <span class="control-container">

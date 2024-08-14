@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
 import { onMounted, ref, computed, watch } from 'vue';
-import { receiptViewState, selected } from '@/composables/state';
+import { receiptViewState } from '@/composables/statePages';
+import { selected } from '@/composables/stateEntryTray';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 

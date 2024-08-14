@@ -14,4 +14,11 @@ const formatDate = (inputDate: string) => {
   });
 };
 
-export { formatAmount, formatDate };
+const truncate = (desiredLength: number, input?: string) => {
+  if (!input) return '';
+  return input.length < desiredLength
+    ? `"${input}"`
+    : `"${input.slice(0, desiredLength)}...`;
+};
+
+export { formatAmount, formatDate, truncate };
