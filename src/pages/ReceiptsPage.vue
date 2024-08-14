@@ -52,48 +52,50 @@ const resetViewHandler = () => {
   <section id="control-panel">
     <div id="control-panel-outline">
       <div class="flex-container">
-        <span class="vertical">
-          <label for="select-status">Status</label>
-          <select
-            v-model="receiptViewState.filters.status"
-            name="select-status"
-            id="select-status"
-          >
-            <option value="unprocessed">Unprocessed</option>
-            <option value="all">All</option>
-            <option value="processed">Processed</option>
-          </select>
-        </span>
-        <span class="vertical">
-          <label for="select-source">Source</label>
-          <select
-            v-model="receiptViewState.filters.source"
-            name="select-source"
-            id="select-source"
-          >
-            <option value="all">All</option>
-          </select>
-        </span>
-        <span class="vertical">
-          <label for="select-time">Time Range</label>
-          <select
-            v-model="receiptViewState.filters.time"
-            name="select-time"
-            id="select-time"
-          >
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month">Month</option>
-            <option value="year">Year</option>
-            <option value="year-to-date">Year To Date</option>
-            <option value="all">All</option>
-          </select>
+        <span class="control-container">
+          <span class="vertical">
+            <label for="select-status">Status</label>
+            <select
+              v-model="receiptViewState.filters.status"
+              name="select-status"
+              id="select-status"
+            >
+              <option value="unprocessed">Unprocessed</option>
+              <option value="all">All</option>
+              <option value="processed">Processed</option>
+            </select>
+          </span>
+          <span class="vertical">
+            <label for="select-source">Source</label>
+            <select
+              v-model="receiptViewState.filters.source"
+              name="select-source"
+              id="select-source"
+            >
+              <option value="all">All</option>
+            </select>
+          </span>
+          <span class="vertical">
+            <label for="select-time">Time Range</label>
+            <select
+              v-model="receiptViewState.filters.time"
+              name="select-time"
+              id="select-time"
+            >
+              <option value="day">Day</option>
+              <option value="week">Week</option>
+              <option value="month">Month</option>
+              <option value="year">Year</option>
+              <option value="year-to-date">Year To Date</option>
+              <option value="all">All</option>
+            </select>
+          </span>
         </span>
         <button @click="resetViewHandler">Reset Filter</button>
       </div>
+
       <span class="flex-container">
         <span class="control-container">
-          <span>Columns visible: </span>
           <span>
             <input
               type="checkbox"
@@ -125,8 +127,6 @@ const resetViewHandler = () => {
             />
             <label for="is-amount-checkbox">Amount</label>
           </span>
-
-          <span> </span>
         </span>
         <button @click="resetViewHandler">Reset View</button>
       </span>
@@ -226,8 +226,12 @@ button {
 
 .control-container {
   display: flex;
-  gap: 1rem;
+  gap: 3rem;
   align-items: center;
+}
+
+.control-container select {
+  width: 7rem;
 }
 
 .center {
@@ -237,5 +241,13 @@ button {
 th:nth-child(3),
 th:nth-child(1) {
   width: 12%;
+}
+
+label {
+  padding-left: 0.5rem;
+}
+
+.vertical label {
+  padding: 0;
 }
 </style>
