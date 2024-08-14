@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import ReceiptCard from '@/components/ReceiptCard.vue';
-import { onMounted, ref } from 'vue';
-import { receiptViewState, selected } from '@/composables/globalState';
+import { onMounted, ref, computed, watch } from 'vue';
+import {
+  receiptViewState,
+  selected,
+} from '@/composables/globalState';
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
 
 const receipts: Ref<Receipt[]> = ref([]);
 
-const getUrl = () => {
+const apiUrlComputed = computed(() => {
   const { status, source, time } = receiptViewState.value.filters;
   return `http://localhost:5000/api/receipts/?_status=${status}_src=${source}_time=${time}`;
-};
+});
 
 const fetchReceipts = async () => {
   let data;
   try {
-    const apiUrl = getUrl();
+    const apiUrl = apiUrlComputed.value;
     const res = await fetch(apiUrl);
     data = await res.json();
   } catch (error) {
@@ -33,6 +36,8 @@ const clickHandler = (event: MouseEvent) => {
     selected.value = receipts.value[Number(indexData)];
   }
 };
+
+watch(apiUrlComputed, fetchReceipts);
 
 const newHandler = () => {
   console.log('new');
@@ -58,7 +63,11 @@ onMounted(() => {
     <div class="flex-container">
       <span class="vertical">
         <label for="time-range">Status</label>
-        <select name="time-range" id="time-range">
+        <select
+          v-model="receiptViewState.filters.status"
+          name="time-range"
+          id="time-range"
+        >
           <option disabled value="">Please select one</option>
           <option value="day">Day</option>
           <option value="week">Week</option>
@@ -70,7 +79,11 @@ onMounted(() => {
       </span>
       <span class="vertical">
         <label for="acc-range">Source</label>
-        <select name="acc-range" id="acc-range">
+        <select
+          v-model="receiptViewState.filters.source"
+          name="acc-range"
+          id="acc-range"
+        >
           <option disabled value="">Please select one</option>
           <option value="all">All</option>
           <option value="asset">Assets</option>
@@ -82,8 +95,11 @@ onMounted(() => {
       </span>
       <span class="vertical">
         <label for="time-range">Time Range</label>
-        <select name="time-range" id="time-range">
-          <option disabled value="">Please select one</option>
+        <select
+          v-model="receiptViewState.filters.time"
+          name="time-range"
+          id="time-range"
+        >
           <option value="day">Day</option>
           <option value="week">Week</option>
           <option value="month">Month</option>

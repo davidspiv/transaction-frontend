@@ -62,7 +62,7 @@ const hideTray = () => {
       </thead>
       <tbody>
         <tr
-        const
+          const
           v-for="(lineItem, index) in entryTrayState.entry.value.lineItems"
           :key="lineItem.id"
         >
