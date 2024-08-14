@@ -9,6 +9,12 @@ interface Receipt {
   fitid?: string;
 }
 
+interface EntryTrayState {
+  isModified: boolean;
+  isHidden: boolean;
+  selected: Receipt | null;
+}
+
 interface Entry {
   id: string;
   lineItems: LineItem[];
@@ -30,4 +36,4 @@ interface ApiUrl {
   limit?: number;
 }
 
-export type { Receipt, Entry, LineItem, ApiUrl };
+export type { Receipt, Entry, LineItem, ApiUrl, EntryTrayState };

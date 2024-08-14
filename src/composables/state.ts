@@ -1,6 +1,7 @@
 import { ref } from 'vue';
+import type { EntryTrayState } from '@/models/types';
 
-const entryTrayState = ref({
+const entryTrayState = ref<EntryTrayState>({
   isModified: false,
   isHidden: true,
   selected: null,
