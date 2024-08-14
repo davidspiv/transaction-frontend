@@ -94,8 +94,17 @@ nav a:last-of-type {
 }
 
 #header-grid {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  top: 0;
+  display: flex;
   display: grid;
   grid-template-columns: 9rem auto 9rem;
+  padding: 1rem;
+  background-color: #1c1f2b;
 }
 
 @media (hover: hover) {

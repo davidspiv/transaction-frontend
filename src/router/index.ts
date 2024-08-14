@@ -34,3 +34,5 @@ const router = createRouter({
 });
 
 export default router;
+
+//nested route https://router.vuejs.org/guide/essentials/nested-routes.html

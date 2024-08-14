@@ -183,12 +183,14 @@ section {
   border-top: 1px solid #6b89d6;
   border-right: 1px solid #6b89d6;
   border-left: 1px solid #6b89d6;
-  transition-property: bottom;
+  opacity: 100;
+  transition-property: bottom, opacity;
   transition-duration: 100ms;
 }
 
 .hidden-tray {
   bottom: -40vh;
+  opacity: 0;
 }
 
 button {
