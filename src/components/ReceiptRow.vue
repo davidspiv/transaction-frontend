@@ -10,11 +10,13 @@ const { date, memo, amount } = props.data;
 </script>
 
 <template>
-  <td id="receipt-date">
-    {{ formatDate(date) }}
-  </td>
-  <td id="receipt-memo">{{ memo }}</td>
-  <td id="receipt-amount">{{ formatAmount(amount) }}</td>
+  <tr>
+    <td id="receipt-date">
+      {{ formatDate(date) }}
+    </td>
+    <td id="receipt-memo">{{ memo }}</td>
+    <td id="receipt-amount">{{ formatAmount(amount) }}</td>
+  </tr>
 </template>
 
 <style scoped>

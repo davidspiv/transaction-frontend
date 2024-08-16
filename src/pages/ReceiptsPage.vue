@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from 'vue';
 import { receiptViewState, entryTrayState } from '@/composables/state';
-import ReceiptCard from '@/components/ReceiptCard.vue';
+import ReceiptCard from '@/components/ReceiptRow.vue';
 
 import type { Ref } from 'vue';
 import type { Receipt } from '@/models/types';
@@ -10,7 +10,7 @@ const receipts: Ref<Receipt[]> = ref([]);
 
 const apiUrlComputed = computed(() => {
   const { status, source, time } = receiptViewState.value.filters;
-  return `http://localhost:5000/api/receipts/?_status=${status}_src=${source}_time=${time}`;
+  return `http://localhost:5000/api/references/?_status=${status}_src=${source}_time=${time}`;
 });
 
 const fetchReceipts = async () => {
@@ -22,8 +22,9 @@ const fetchReceipts = async () => {
   } catch (error) {
     console.log('Error fetching data', error);
   }
+
   receipts.value.length = 0; //clear receipts
-  receipts.value.push(...((data?.receipts as Receipt[]) || []));
+  receipts.value.push(...((data?.references as Receipt[]) || []));
 };
 
 watch(apiUrlComputed, fetchReceipts);
@@ -134,9 +135,9 @@ const resetViewHandler = () => {
     <table>
       <thead>
         <tr>
-          <th scope="col"><button>Date</button></th>
-          <th scope="col"><button>Memo</button></th>
-          <th scope="col"><button>Amount</button></th>
+          <th scope="col">Date</th>
+          <th scope="col">Memo</th>
+          <th scope="col">Amount</th>
         </tr>
       </thead>
     </table>
@@ -145,20 +146,21 @@ const resetViewHandler = () => {
     <table>
       <thead>
         <tr>
-          <th scope="col"><button>Date</button></th>
-          <th scope="col"><button>Memo</button></th>
-          <th scope="col"><button>Amount</button></th>
+          <th scope="col">Date</th>
+          <th scope="col">Memo</th>
+          <th scope="col">Amount</th>
         </tr>
       </thead>
       <tbody v-if="receipts.length">
-        <tr
-          @click="clickHandler($event)"
-          v-for="(receipt, index) in receipts"
-          :key="receipt.id"
-          :index="index"
-        >
-          <ReceiptCard :data="receipt" />
-        </tr>
+
+          <ReceiptCard
+            :data="receipt"
+            @click="clickHandler($event)"
+            v-for="(receipt, index) in receipts"
+            :key="receipt.id"
+            :index="index"
+          />
+
       </tbody>
 
       <tbody v-else>

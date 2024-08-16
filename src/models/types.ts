@@ -9,12 +9,6 @@ interface Receipt {
   fitid?: string;
 }
 
-interface EntryTrayState {
-  isModified: boolean;
-  isHidden: boolean;
-  selected: Receipt | null;
-}
-
 interface Entry {
   id: string;
   lineItems: LineItem[];
@@ -35,6 +29,12 @@ interface ApiUrl {
   time: string;
   acc: string;
   limit?: number;
+}
+
+interface EntryTrayState {
+  isModified: boolean;
+  isHidden: boolean;
+  selected: Receipt | null;
 }
 
 export type { Receipt, Entry, LineItem, ApiUrl, EntryTrayState };
