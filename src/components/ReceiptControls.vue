@@ -1,48 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from 'vue';
-import { receiptViewState, entryTrayState } from '@/composables/state';
-import ReceiptCard from '@/components/ReceiptRow.vue';
+import { receiptViewState } from '@/composables/state';
 
-import type { Ref } from 'vue';
-import type { Receipt } from '@/models/types';
-
-const receipts: Ref<Receipt[]> = ref([]);
-
-const apiUrlComputed = computed(() => {
-  const { status, source, time } = receiptViewState.value.filters;
-  return `http://localhost:4000/api/references/?_status=${status}_src=${source}_time=${time}`;
-});
-
-const fetchReceipts = async () => {
-  let data;
-  try {
-    const apiUrl = apiUrlComputed.value;
-    const res = await fetch(apiUrl);
-    data = await res.json();
-  } catch (error) {
-    console.log('Error fetching data', error);
-  }
-
-  receipts.value.length = 0; //clear receipts
-  receipts.value.push(...((data?.references as Receipt[]) || []));
-};
-
-watch(apiUrlComputed, fetchReceipts);
-
-onMounted(() => {
-  if (!receipts.value.length) {
-    fetchReceipts();
-  }
-});
-
-const clickHandler = (event: MouseEvent) => {
-  const target = event.currentTarget as HTMLTableRowElement;
-  const indexData = target.getAttribute('index');
-
-  if (indexData) {
-    entryTrayState.value.selected = receipts.value[Number(indexData)];
-  }
-};
+import router from '@/router';
 
 const resetViewHandler = () => {
   console.log('reset view');
@@ -142,35 +102,6 @@ const resetViewHandler = () => {
       </thead>
     </table>
   </section>
-  <section id="body-panel">
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Memo</th>
-          <th scope="col">Amount</th>
-        </tr>
-      </thead>
-      <tbody v-if="receipts.length">
-        <ReceiptCard
-          :data="receipt"
-          @click="clickHandler($event)"
-          v-for="(receipt, index) in receipts"
-          :key="receipt.id"
-          :index="index"
-        />
-      </tbody>
-
-      <tbody v-else>
-        <tr>
-          <td colspan="5">No unprocessed receipts</td>
-        </tr>
-      </tbody>
-    </table>
-    <span class="center">
-      <button>Show All</button>
-    </span>
-  </section>
 </template>
 
 <style scoped>
@@ -184,7 +115,7 @@ section {
 }
 
 #control-panel {
-  position: fixed;
+  /* position: fixed; */
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);

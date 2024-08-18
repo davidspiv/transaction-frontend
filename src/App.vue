@@ -1,33 +1,12 @@
 <script setup lang="ts">
 import { entryTrayState } from '@/composables/state';
-import { ref, computed, VueElement } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import router from '@/router';
 import EntryTray from '@/components/EntryTray.vue';
-import JournalHeader from './components/JournalHeader.vue';
-import LedgerHeader from './components/LedgerHeader.vue';
-import ReceiptHeader from './components/ReceiptsHeader.vue';
-
-const componentMap: Record<string, unknown> = {
-  journal: JournalHeader,
-  // ledger: LedgerHeader,
-  receipt: ReceiptHeader,
-};
-
-const headerComponent = computed(() => {
-  const name = router.currentRoute.value.name;
-  return componentMap[name];
-});
+import GeneralControls from './components/GeneralControls.vue';
 
 const entryHandler = () => {
   entryTrayState.value.isHidden = entryTrayState.value.isHidden ? false : true;
 };
-
-const importHandler = () => {
-  console.log('import');
-};
-
-const typeRef = ref('pre');
 </script>
 
 <template>
@@ -46,17 +25,7 @@ const typeRef = ref('pre');
         <button @click="entryHandler" id="button-entry">Entry</button>
       </nav>
       <div>
-        <component :is="headerComponent"></component>
-        <component :is="'div'">This ones a div</component>
-        <component :is="'h2'">This ones a h2</component>
-        <component :is="typeRef">This ones dynamic</component>
-
-        <select v-model="typeRef">
-          <option value="pre">pre</option>
-          <option value="h1">h1</option>
-          <option value="blockquote">blockquote</option>
-        </select>
-        <!-- <pre>{{ router.currentRoute }}</pre> -->
+        <GeneralControls />
       </div>
     </header>
     <RouterView />
@@ -125,7 +94,7 @@ nav a:last-of-type {
 }
 
 #header-grid {
-  /* position: fixed; */
+  position: fixed;
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);
