@@ -23,4 +23,9 @@ const { date, memo, amount } = props.data;
 td:nth-child(2) {
   text-align: left;
 }
+
+td:nth-child(3),
+td:nth-child(1) {
+  width: 12%;
+}
 </style>

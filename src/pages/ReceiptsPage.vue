@@ -25,20 +25,12 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
   <GeneralControls />
   <section id="body-panel">
     <table>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Memo</th>
-          <th scope="col">Amount</th>
-        </tr>
-      </thead>
       <tbody v-if="receiptsState.length">
         <ReceiptRow
-          v-for="(receipt, index) in receiptsState"
+          v-for="receipt in receiptsState"
           @click="clickHandler($event)"
           :data="receipt"
           :key="receipt.id"
-          :index="index"
         />
       </tbody>
 
@@ -65,7 +57,7 @@ section {
 }
 
 #body-panel {
-  padding-top: 13.4rem;
+  padding-top: 15.3rem;
 }
 
 button {
@@ -74,10 +66,5 @@ button {
 
 .center {
   text-align: center;
-}
-
-th:nth-child(3),
-th:nth-child(1) {
-  width: 12%;
 }
 </style>
