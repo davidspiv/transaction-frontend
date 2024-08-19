@@ -2,10 +2,13 @@
 import { entryTrayState } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryTray from '@/components/EntryTray.vue';
-import GeneralControls from './components/GeneralControls.vue';
 
 const entryHandler = () => {
-  entryTrayState.value.isHidden = entryTrayState.value.isHidden ? false : true;
+  entryTrayState.value.isHidden = entryTrayState.value.isHidden !== true;
+};
+
+const importHandler = () => {
+  console.log('import');
 };
 </script>
 
@@ -24,9 +27,6 @@ const entryHandler = () => {
       <nav id="nav-entry">
         <button @click="entryHandler" id="button-entry">Entry</button>
       </nav>
-      <div>
-        <GeneralControls />
-      </div>
     </header>
     <RouterView />
   </div>
