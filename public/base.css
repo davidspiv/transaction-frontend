@@ -1,16 +1,20 @@
 /* semantic color variables for this project */
 :root {
-  --color-background: #181818;
-  --color-background-soft: #222222;
-  --color-background-mute: #282828;
+  --c-background: #181818;
 
-  --color-border: rgba(84, 84, 84, 0.48);
-  --color-border-hover: rgba(84, 84, 84, 0.65);
+  --c-heading: #ffffff;
+  --c-text: rgba(235, 235, 235, 0.64);
+  --c-text-accent: #6b89d6;
 
-  --color-heading: #ffffff;
-  --color-text: rgba(235, 235, 235, 0.64);
+  --c-base: #1c1f2b;
+  --c-base-accent: #202538;
 
-  --section-gap: 160px;
+  --c-border: #6b89d6;
+
+  --c-button-background: #363c55;
+  --c-button-hover: hsl(223, 57%, 63%, 0.2);
+  --c-button-border: rgba(84, 84, 84, 0.48);
+  --c-button-border-hover: rgba(84, 84, 84, 0.65);
 }
 
 *,
@@ -22,8 +26,8 @@
 }
 
 body {
-  color: var(--color-text);
-  background: var(--color-background);
+  color: var(--c-text);
+  background: var(--c-background);
   transition:
     color 0.4s,
     background-color 0.4s;

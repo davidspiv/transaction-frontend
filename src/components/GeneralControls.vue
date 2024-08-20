@@ -43,7 +43,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 
 <template>
   <section id="control-panel" class="fixed-wrapper">
-    <div id="control-panel-outline">
+    <div id="control-panel-outline" class="flex-column">
       <span class="control-panel-row">
         <label for="select-status"
           >Status
@@ -57,6 +57,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             <option value="processed">Processed</option>
           </select></label
         >
+
         <label for="select-source"
           >Source
           <select
@@ -67,6 +68,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             <option value="all">All</option>
           </select></label
         >
+
         <label for="select-time"
           >Time Range
           <select
@@ -82,6 +84,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             <option value="all">All</option>
           </select></label
         >
+
         <button @click="resetViewHandler">Reset Filter</button>
       </span>
 
@@ -95,6 +98,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             v-model="checkedBoxesState"
           />Date</label
         >
+
         <label for="is-memo-checkbox">
           <input
             id="is-memo-checkbox"
@@ -104,6 +108,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             v-model="checkedBoxesState"
           />Memo</label
         >
+
         <label for="is-source-checkbox">
           <input
             id="is-source-checkbox"
@@ -113,6 +118,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
             v-model="checkedBoxesState"
           />Source</label
         >
+
         <label for="is-amount-checkbox">
           <input
             id="is-amount-checkbox"
@@ -130,9 +136,6 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </template>
 
 <style scoped>
-button {
-  background-color: #363c55;
-}
 
 select {
   display: block;
@@ -143,7 +146,6 @@ select {
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);
-  margin: 0 auto;
   padding: 1rem;
 }
 
@@ -153,22 +155,21 @@ select {
   align-items: center;
 }
 
-#control-panel {
-  top: 4rem;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 0;
-  gap: 1rem;
-  background-color: #1c1f2b;
-}
-
-#control-panel-outline {
+.flex-column {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+}
+
+#control-panel {
+  top: 4rem;
+  background-color: var(--c-base);
+}
+
+#control-panel-outline {
   border-radius: 1rem;
-  background-color: #202538;
+  background-color: var(--c-base-accent);
   margin-bottom: 1rem;
 }
 </style>

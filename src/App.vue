@@ -52,34 +52,17 @@ nav {
   text-align: center;
 }
 
-#nav-entry {
-  text-align: right;
-}
-
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  transition-property: padding;
-  transition-duration: 100ms;
-  position: relative;
-}
-
-.offset {
-  padding-bottom: 21rem;
-}
-
 nav a,
 button {
   display: inline-block;
   padding: 0.2rem 2rem;
-  color: #6b89d6;
+  color: var(--c-text-accent);
   transition: 0.4s;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--c-button-border);
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: var(--c-text);
 }
 
 nav a.router-link-exact-active:hover {
@@ -94,26 +77,41 @@ nav a:last-of-type {
   border-radius: 0 1rem 1rem 0;
 }
 
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition-property: padding;
+  transition-duration: 100ms;
+}
+
 .fixed-wrapper {
   position: fixed;
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);
-  margin: 0 auto;
   padding: 1rem;
+}
+
+.offset {
+  padding-bottom: 21rem;
+}
+
+#nav-entry {
+  text-align: right;
 }
 
 #main-header {
   top: 0;
   display: grid;
   grid-template-columns: 9rem auto 9rem;
-  background-color: #1c1f2b;
+  background-color: var(--c-base);
 }
 
 @media (hover: hover) {
   a:hover,
   button:hover {
-    background-color: hsl(223, 57%, 63%, 0.2);
+    background-color: var(--c-button-hover);
   }
 }
 </style>

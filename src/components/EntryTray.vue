@@ -187,10 +187,10 @@ section {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background-color: #202538;
-  border-top: 1px solid #6b89d6;
-  border-right: 1px solid #6b89d6;
-  border-left: 1px solid #6b89d6;
+  background-color: var(--c-base-accent);
+  border-top: 1px solid var(--c-border);
+  border-right: 1px solid var(--c-border);
+  border-left: 1px solid var(--c-border);
   opacity: 100;
   transition-property: bottom, opacity;
   transition-duration: 100ms;
@@ -202,7 +202,7 @@ section {
 }
 
 button {
-  background-color: #363c55;
+  background-color: var(--c-button-background);
 }
 
 .flex-container {

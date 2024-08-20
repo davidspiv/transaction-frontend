@@ -29,7 +29,7 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
 </script>
 
 <template>
-  <section id="body-panel">
+  <section id="body-panel" class="flex-column">
     <GeneralControls />
     <table>
       <thead>
@@ -79,13 +79,19 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
 </template>
 
 <style scoped>
-section {
+button {
+  background-color: var(--c-base-accent);
+}
+
+.center {
+  text-align: center;
+}
+
+.flex-column {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  background-color: #1c1f2b;
-  border-radius: 1rem;
 }
 
 #amountCol,
@@ -95,13 +101,7 @@ section {
 
 #body-panel {
   padding-top: 15.2rem;
-}
-
-button {
-  background-color: #363c55;
-}
-
-.center {
-  text-align: center;
+  background-color: var(--c-base);
+  border-radius: 1rem;
 }
 </style>
