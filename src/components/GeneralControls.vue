@@ -133,15 +133,6 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
         <button @click="resetViewHandler">Reset View</button>
       </span>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Memo</th>
-          <th scope="col">Amount</th>
-        </tr>
-      </thead>
-    </table>
   </section>
 </template>
 
@@ -196,11 +187,6 @@ button {
   display: flex;
   gap: 3rem;
   align-items: center;
-}
-
-th:nth-child(3),
-th:nth-child(1) {
-  width: 12%;
 }
 
 label {

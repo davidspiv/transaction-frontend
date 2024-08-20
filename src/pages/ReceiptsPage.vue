@@ -32,6 +32,31 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
   <section id="body-panel">
     <GeneralControls />
     <table>
+      <thead>
+        <tr>
+          <th
+            id="dateCol"
+            v-if="checkedBoxesState.indexOf('date') > -1"
+            scope="col"
+          >
+            Date
+          </th>
+          <th
+            id="memoCol"
+            v-if="checkedBoxesState.indexOf('memo') > -1"
+            scope="col"
+          >
+            Memo
+          </th>
+          <th
+            id="amountCol"
+            v-if="checkedBoxesState.indexOf('amount') > -1"
+            scope="col"
+          >
+            Amount
+          </th>
+        </tr>
+      </thead>
       <tbody v-if="receiptsState.length">
         <ReceiptRow
           v-for="receipt in receiptsState"
@@ -61,6 +86,11 @@ section {
   padding: 1rem;
   background-color: #1c1f2b;
   border-radius: 1rem;
+}
+
+#amountCol,
+#dateCol {
+  width: 12%;
 }
 
 #body-panel {

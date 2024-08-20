@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { formatDate, formatAmount } from '@/composables/utils';
+import { checkedBoxesState } from './GeneralControls.vue';
+
 import type { Receipt } from '../models/types';
 
 const props = defineProps<{
@@ -11,21 +13,20 @@ const { date, memo, amount } = props.data;
 
 <template>
   <tr>
-    <td id="receipt-date">
+    <td id="dateCell" v-if="checkedBoxesState.indexOf('date') > -1">
       {{ formatDate(date) }}
     </td>
-    <td id="receipt-memo">{{ memo }}</td>
-    <td id="receipt-amount">{{ formatAmount(amount) }}</td>
+    <td id="memoCell" v-if="checkedBoxesState.indexOf('memo') > -1">
+      {{ memo }}
+    </td>
+    <td id="amountCell" v-if="checkedBoxesState.indexOf('amount') > -1">
+      {{ formatAmount(amount) }}
+    </td>
   </tr>
 </template>
 
 <style scoped>
-td:nth-child(2) {
+#memoCell {
   text-align: left;
-}
-
-td:nth-child(3),
-td:nth-child(1) {
-  width: 12%;
 }
 </style>
