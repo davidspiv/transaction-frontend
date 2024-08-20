@@ -100,7 +100,7 @@ button {
 }
 
 #body-panel {
-  padding-top: 15.2rem;
+  padding-top: 14rem;
   background-color: var(--c-base);
   border-radius: 1rem;
 }

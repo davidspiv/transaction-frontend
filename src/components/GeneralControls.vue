@@ -32,8 +32,14 @@ onMounted(() => {
   }
 });
 
+const resetFilterHandler = () => {
+  receiptViewState.value.filters.status = 'unprocessed';
+  receiptViewState.value.filters.source = 'all';
+  receiptViewState.value.filters.time = 'week';
+};
+
 const resetViewHandler = () => {
-  console.log('reset view');
+  checkedBoxesState.value = ['date', 'memo', 'amount'];
 };
 </script>
 
@@ -85,7 +91,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
           </select></label
         >
 
-        <button @click="resetViewHandler">Reset Filter</button>
+        <button @click="resetFilterHandler">Reset Filter</button>
       </span>
 
       <span class="control-panel-row">
@@ -136,7 +142,9 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </template>
 
 <style scoped>
-
+button {
+  background-color: var(--c-button-background);
+}
 select {
   display: block;
 }
@@ -170,6 +178,5 @@ select {
 #control-panel-outline {
   border-radius: 1rem;
   background-color: var(--c-base-accent);
-  margin-bottom: 1rem;
 }
 </style>
