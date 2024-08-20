@@ -91,6 +91,7 @@ nav a:last-of-type {
   right: 1rem;
   max-width: calc(1280px - 2rem);
   padding: 1rem;
+  margin: 0 auto;
 }
 
 .offset {

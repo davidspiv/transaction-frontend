@@ -29,4 +29,9 @@ const { date, memo, amount } = props.data;
 #memoCell {
   text-align: left;
 }
+
+#dateCell,
+#amountCell {
+  width: 12%;
+}
 </style>

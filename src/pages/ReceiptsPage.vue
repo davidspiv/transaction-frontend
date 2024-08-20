@@ -38,23 +38,17 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
             id="dateCol"
             v-if="checkedBoxesState.indexOf('date') > -1"
             scope="col"
-          >
-            Date
-          </th>
+          ></th>
           <th
             id="memoCol"
             v-if="checkedBoxesState.indexOf('memo') > -1"
             scope="col"
-          >
-            Memo
-          </th>
+          ></th>
           <th
             id="amountCol"
             v-if="checkedBoxesState.indexOf('amount') > -1"
             scope="col"
-          >
-            Amount
-          </th>
+          ></th>
         </tr>
       </thead>
       <tbody v-if="receiptsState.length">
@@ -72,9 +66,6 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
         </tr>
       </tbody>
     </table>
-    <span class="center">
-      <button>Show All</button>
-    </span>
   </section>
 </template>
 
@@ -83,8 +74,9 @@ button {
   background-color: var(--c-base-accent);
 }
 
-.center {
-  text-align: center;
+th,
+tr {
+  border: 0;
 }
 
 .flex-column {
@@ -100,7 +92,7 @@ button {
 }
 
 #body-panel {
-  padding-top: 14rem;
+  padding-top: 13.5rem;
   background-color: var(--c-base);
   border-radius: 1rem;
 }

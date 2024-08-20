@@ -24,14 +24,6 @@ const fetchReceipts = async () => {
   receiptsState.value.push(...((data?.references as Receipt[]) || []));
 };
 
-watch(apiUrlComputed, fetchReceipts);
-
-onMounted(() => {
-  if (!receiptsState.value.length) {
-    fetchReceipts();
-  }
-});
-
 const resetFilterHandler = () => {
   receiptViewState.value.filters.status = 'unprocessed';
   receiptViewState.value.filters.source = 'all';
@@ -41,6 +33,14 @@ const resetFilterHandler = () => {
 const resetViewHandler = () => {
   checkedBoxesState.value = ['date', 'memo', 'amount'];
 };
+
+watch(apiUrlComputed, fetchReceipts);
+
+onMounted(() => {
+  if (!receiptsState.value.length) {
+    fetchReceipts();
+  }
+});
 </script>
 
 <script lang="ts">
@@ -142,6 +142,11 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </template>
 
 <style scoped>
+th:nth-child(1),
+th:nth-child(3) {
+  width: 12%;
+}
+
 button {
   background-color: var(--c-button-background);
 }
@@ -155,6 +160,7 @@ select {
   right: 1rem;
   max-width: calc(1280px - 2rem);
   padding: 1rem;
+  margin: 0 auto;
 }
 
 .control-panel-row {
