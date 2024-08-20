@@ -138,15 +138,37 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
         <button @click="resetViewHandler">Reset View</button>
       </span>
     </div>
+    <table id="table-head">
+      <thead>
+        <tr>
+          <th
+            id="date-col-header"
+            scope="col"
+            v-if="checkedBoxesState.indexOf('date') > -1"
+          >
+            Date
+          </th>
+          <th
+            id="memo-col-header"
+            scope="col"
+            v-if="checkedBoxesState.indexOf('memo') > -1"
+          >
+            Memo
+          </th>
+          <th
+            id="amount-col-header"
+            scope="col"
+            v-if="checkedBoxesState.indexOf('amount') > -1"
+          >
+            Amount
+          </th>
+        </tr>
+      </thead>
+    </table>
   </section>
 </template>
 
 <style scoped>
-th:nth-child(1),
-th:nth-child(3) {
-  width: 12%;
-}
-
 button {
   background-color: var(--c-button-background);
 }
@@ -176,9 +198,19 @@ select {
   padding: 1rem;
 }
 
+#table-head {
+  margin-top: 1rem;
+}
+
+#date-col-header,
+#amount-col-header {
+  width: 12%;
+}
+
 #control-panel {
   top: 4rem;
   background-color: var(--c-base);
+  padding-bottom: 0;
 }
 
 #control-panel-outline {

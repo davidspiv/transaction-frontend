@@ -6,13 +6,14 @@ import type { Receipt } from '../models/types';
 
 const props = defineProps<{
   data: Receipt;
+  index: number;
 }>();
 
 const { date, memo, amount } = props.data;
 </script>
 
 <template>
-  <tr>
+  <tr v-bind:class="{ 'top-row': Number(props.index) === 0 }">
     <td id="dateCell" v-if="checkedBoxesState.indexOf('date') > -1">
       {{ formatDate(date) }}
     </td>
@@ -26,6 +27,10 @@ const { date, memo, amount } = props.data;
 </template>
 
 <style scoped>
+.top-row td {
+  border-top: 0;
+}
+
 #memoCell {
   text-align: left;
 }

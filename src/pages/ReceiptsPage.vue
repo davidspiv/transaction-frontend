@@ -16,12 +16,6 @@ const clickHandler = (event: MouseEvent) => {
     entryTrayState.value.selected = receiptsState.value[Number(indexData)];
   }
 };
-
-const log = () => {
-  console.log('checked Boxes:', checkedBoxesState.value);
-};
-
-watch(checkedBoxesState, log);
 </script>
 
 <script lang="ts">
@@ -36,27 +30,28 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
         <tr>
           <th
             id="dateCol"
-            v-if="checkedBoxesState.indexOf('date') > -1"
             scope="col"
+            v-if="checkedBoxesState.indexOf('date') > -1"
           ></th>
           <th
             id="memoCol"
-            v-if="checkedBoxesState.indexOf('memo') > -1"
             scope="col"
+            v-if="checkedBoxesState.indexOf('memo') > -1"
           ></th>
           <th
             id="amountCol"
-            v-if="checkedBoxesState.indexOf('amount') > -1"
             scope="col"
+            v-if="checkedBoxesState.indexOf('amount') > -1"
           ></th>
         </tr>
       </thead>
       <tbody v-if="receiptsState.length">
         <ReceiptRow
-          v-for="receipt in receiptsState"
+          v-for="(receipt, index) in receiptsState"
           @click="clickHandler($event)"
           :data="receipt"
           :key="receipt.id"
+          :index="index"
         />
       </tbody>
 
@@ -72,6 +67,10 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
 <style scoped>
 button {
   background-color: var(--c-base-accent);
+}
+
+table {
+  border-top: 0;
 }
 
 th,
@@ -92,7 +91,7 @@ tr {
 }
 
 #body-panel {
-  padding-top: 13.5rem;
+  padding-top: 14.2rem;
   background-color: var(--c-base);
   border-radius: 1rem;
 }
