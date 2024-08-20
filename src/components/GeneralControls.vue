@@ -42,94 +42,87 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </script>
 
 <template>
-  <section id="control-panel">
+  <section id="control-panel" class="fixed-wrapper">
     <div id="control-panel-outline">
-      <div class="flex-container">
-        <span class="control-container">
-          <span class="vertical">
-            <label for="select-status">Status</label>
-            <select
-              v-model="receiptViewState.filters.status"
-              name="select-status"
-              id="select-status"
-            >
-              <option value="unprocessed">Unprocessed</option>
-              <option value="all">All</option>
-              <option value="processed">Processed</option>
-            </select>
-          </span>
-          <span class="vertical">
-            <label for="select-source">Source</label>
-            <select
-              v-model="receiptViewState.filters.source"
-              name="select-source"
-              id="select-source"
-            >
-              <option value="all">All</option>
-            </select>
-          </span>
-          <span class="vertical">
-            <label for="select-time">Time Range</label>
-            <select
-              v-model="receiptViewState.filters.time"
-              name="select-time"
-              id="select-time"
-            >
-              <option value="day">Day</option>
-              <option value="week">Week</option>
-              <option value="month">Month</option>
-              <option value="year">Year</option>
-              <option value="year-to-date">Year To Date</option>
-              <option value="all">All</option>
-            </select>
-          </span>
-        </span>
+      <span class="control-panel-row">
+        <label for="select-status"
+          >Status
+          <select
+            id="select-status"
+            name="select-status"
+            v-model="receiptViewState.filters.status"
+          >
+            <option value="unprocessed">Unprocessed</option>
+            <option value="all">All</option>
+            <option value="processed">Processed</option>
+          </select></label
+        >
+        <label for="select-source"
+          >Source
+          <select
+            id="select-source"
+            name="select-source"
+            v-model="receiptViewState.filters.source"
+          >
+            <option value="all">All</option>
+          </select></label
+        >
+        <label for="select-time"
+          >Time Range
+          <select
+            id="select-time"
+            name="select-time"
+            v-model="receiptViewState.filters.time"
+          >
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+            <option value="year-to-date">Year To Date</option>
+            <option value="all">All</option>
+          </select></label
+        >
         <button @click="resetViewHandler">Reset Filter</button>
-      </div>
+      </span>
 
-      <span class="flex-container">
-        <span class="control-container">
-          <span>
-            <input
-              type="checkbox"
-              name="is-date-checkbox"
-              id="is-date-checkbox"
-              value="date"
-              v-model="checkedBoxesState"
-            />
-            <label for="is-date-checkbox">Date</label>
-          </span>
-          <span>
-            <input
-              type="checkbox"
-              name="is-memo-checkbox"
-              id="is-memo-checkbox"
-              value="memo"
-              v-model="checkedBoxesState"
-            />
-            <label for="is-memo-checkbox">Memo</label>
-          </span>
-          <span>
-            <input
-              type="checkbox"
-              name="is-source-checkbox"
-              id="is-source-checkbox"
-              value="source"
-              v-model="checkedBoxesState"
-            />
-            <label for="is-source-checkbox">Source</label>
-          </span>
-          <span>
-            <input
-              type="checkbox"
-              name="is-amount-checkbox"
-              id="is-amount-checkbox"
-              value="amount"
-              v-model="checkedBoxesState"
-            />
-            <label for="is-amount-checkbox">Amount</label>
-          </span>
-        </span>
+      <span class="control-panel-row">
+        <label for="is-date-checkbox">
+          <input
+            id="is-date-checkbox"
+            name="is-date-checkbox"
+            type="checkbox"
+            value="date"
+            v-model="checkedBoxesState"
+          />Date</label
+        >
+        <label for="is-memo-checkbox">
+          <input
+            id="is-memo-checkbox"
+            name="is-memo-checkbox"
+            type="checkbox"
+            value="memo"
+            v-model="checkedBoxesState"
+          />Memo</label
+        >
+        <label for="is-source-checkbox">
+          <input
+            id="is-source-checkbox"
+            name="is-source-checkbox"
+            type="checkbox"
+            value="source"
+            v-model="checkedBoxesState"
+          />Source</label
+        >
+        <label for="is-amount-checkbox">
+          <input
+            id="is-amount-checkbox"
+            name="is-amount-checkbox"
+            type="checkbox"
+            value="amount"
+            v-model="checkedBoxesState"
+          />Amount</label
+        >
+
         <button @click="resetViewHandler">Reset View</button>
       </span>
     </div>
@@ -137,25 +130,36 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </template>
 
 <style scoped>
-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #1c1f2b;
-  border-radius: 1rem;
+button {
+  background-color: #363c55;
 }
 
-#control-panel {
+select {
+  display: block;
+}
+
+.fixed-wrapper {
   position: fixed;
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);
   margin: 0 auto;
+  padding: 1rem;
+}
+
+.control-panel-row {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+#control-panel {
   top: 4rem;
-  background-color: #1c1f2b;
+  display: flex;
+  flex-direction: column;
   padding-bottom: 0;
-  border-radius: 0;
+  gap: 1rem;
+  background-color: #1c1f2b;
 }
 
 #control-panel-outline {
@@ -166,34 +170,5 @@ section {
   border-radius: 1rem;
   background-color: #202538;
   margin-bottom: 1rem;
-}
-
-.vertical {
-  display: flex;
-  flex-direction: column;
-}
-
-button {
-  background-color: #363c55;
-}
-
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.control-container {
-  display: flex;
-  gap: 3rem;
-  align-items: center;
-}
-
-label {
-  padding-left: 0.5rem;
-}
-
-.vertical label {
-  padding: 0;
 }
 </style>

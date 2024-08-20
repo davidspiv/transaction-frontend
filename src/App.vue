@@ -14,7 +14,7 @@ const importHandler = () => {
 
 <template>
   <div class="content-wrapper" :class="{ offset: !entryTrayState.isHidden }">
-    <header id="header-grid">
+    <header class="fixed-wrapper" id="main-header">
       <div>
         <button @click="importHandler" id="button-import">Import</button>
       </div>
@@ -94,17 +94,19 @@ nav a:last-of-type {
   border-radius: 0 1rem 1rem 0;
 }
 
-#header-grid {
+.fixed-wrapper {
   position: fixed;
   left: 1rem;
   right: 1rem;
   max-width: calc(1280px - 2rem);
   margin: 0 auto;
+  padding: 1rem;
+}
+
+#main-header {
   top: 0;
-  display: flex;
   display: grid;
   grid-template-columns: 9rem auto 9rem;
-  padding: 1rem;
   background-color: #1c1f2b;
 }
 
