@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, computed, watch } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { receiptViewState } from '@/composables/state';
 import { receiptsState } from '@/pages/ReceiptsPage.vue';
 
@@ -7,7 +7,7 @@ import type { Receipt } from '@/models/types';
 
 const apiUrlComputed = computed(() => {
   const { status, source, time } = receiptViewState.value.filters;
-  return `http://localhost:4000/api/references/?_status=${status}_src=${source}_time=${time}`;
+  return `http://localhost:5000/api/references/?_status=${status}_src=${source}_time=${time}`;
 });
 
 const fetchReceipts = async () => {
@@ -35,6 +35,10 @@ onMounted(() => {
 const resetViewHandler = () => {
   console.log('reset view');
 };
+</script>
+
+<script lang="ts">
+export const checkedBoxesState = ref(['date', 'memo', 'amount']);
 </script>
 
 <template>
@@ -88,31 +92,40 @@ const resetViewHandler = () => {
           <span>
             <input
               type="checkbox"
-              name=""
+              name="is-date-checkbox"
               id="is-date-checkbox"
-              checked="true"
+              value="date"
+              v-model="checkedBoxesState"
             />
             <label for="is-date-checkbox">Date</label>
           </span>
           <span>
             <input
               type="checkbox"
-              name=""
+              name="is-memo-checkbox"
               id="is-memo-checkbox"
-              checked="true"
+              value="memo"
+              v-model="checkedBoxesState"
             />
             <label for="is-memo-checkbox">Memo</label>
           </span>
           <span>
-            <input type="checkbox" name="" id="is-source-checkbox" />
+            <input
+              type="checkbox"
+              name="is-source-checkbox"
+              id="is-source-checkbox"
+              value="source"
+              v-model="checkedBoxesState"
+            />
             <label for="is-source-checkbox">Source</label>
           </span>
           <span>
             <input
               type="checkbox"
-              name=""
+              name="is-amount-checkbox"
               id="is-amount-checkbox"
-              checked="true"
+              value="amount"
+              v-model="checkedBoxesState"
             />
             <label for="is-amount-checkbox">Amount</label>
           </span>

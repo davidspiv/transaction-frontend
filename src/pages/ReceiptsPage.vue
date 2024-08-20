@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { entryTrayState } from '@/composables/state';
 import GeneralControls from '@/components/GeneralControls.vue';
 import ReceiptRow from '@/components/ReceiptRow.vue';
+import { checkedBoxesState } from '@/components/GeneralControls.vue';
 
 import type { Receipt } from '@/models/types';
 import type { Ref } from 'vue';
@@ -15,6 +16,12 @@ const clickHandler = (event: MouseEvent) => {
     entryTrayState.value.selected = receiptsState.value[Number(indexData)];
   }
 };
+
+const log = () => {
+  console.log('checked Boxes:', checkedBoxesState.value);
+};
+
+watch(checkedBoxesState, log);
 </script>
 
 <script lang="ts">
@@ -22,8 +29,8 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
 </script>
 
 <template>
-  <GeneralControls />
   <section id="body-panel">
+    <GeneralControls />
     <table>
       <tbody v-if="receiptsState.length">
         <ReceiptRow
@@ -57,7 +64,7 @@ section {
 }
 
 #body-panel {
-  padding-top: 15.3rem;
+  padding-top: 15.2rem;
 }
 
 button {

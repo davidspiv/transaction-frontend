@@ -62,6 +62,7 @@ nav {
   gap: 2rem;
   transition-property: padding;
   transition-duration: 100ms;
+  position: relative;
 }
 
 .offset {
