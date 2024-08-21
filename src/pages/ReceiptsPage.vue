@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { entryTrayState } from '@/composables/state';
 import GeneralControls from '@/components/GeneralControls.vue';
 import ReceiptRow from '@/components/ReceiptRow.vue';

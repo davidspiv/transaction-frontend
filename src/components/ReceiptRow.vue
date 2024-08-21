@@ -13,7 +13,10 @@ const { date, memo, amount } = props.data;
 </script>
 
 <template>
-  <tr v-bind:class="{ 'top-row': Number(props.index) === 0 }">
+  <tr
+    v-bind:class="{ 'top-row': Number(props.index) === 0 }"
+    :index="props.index"
+  >
     <td id="dateCell" v-if="checkedBoxesState.indexOf('date') > -1">
       {{ formatDate(date) }}
     </td>
