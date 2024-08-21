@@ -7,7 +7,7 @@ const entryTrayState = ref<EntryTrayState>({
   selected: null,
 });
 
-const receiptViewState = ref({
+const referenceViewState = ref({
   filters: {
     status: 'unprocessed',
     source: 'all',
@@ -31,4 +31,4 @@ const ledgerViewState = ref({
   },
 });
 
-export { receiptViewState, journalViewState, ledgerViewState, entryTrayState };
+export { referenceViewState, journalViewState, ledgerViewState, entryTrayState };

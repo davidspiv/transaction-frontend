@@ -53,22 +53,19 @@ const entry = computed<Entry>(() => {
   };
 });
 
-const importReceipt = async () => {
+const importReference = async () => {
   try {
-    const apiUrl = 'http://localhost:5000/api/receipts/';
-    const data = await fetch(apiUrl, {
+    const apiUrl = 'http://localhost:5000/api/journal/';
+    fetch(apiUrl, {
       method: 'PUT',
     });
-    const res = await data.json();
-    console.log(res);
   } catch (error) {
     console.log('Error fetching data', error);
   }
 };
 
 const submitHandler = async () => {
-  console.log(entry.value);
-  await importReceipt();
+  await importReference();
   entryTrayState.value.selected = null;
 };
 

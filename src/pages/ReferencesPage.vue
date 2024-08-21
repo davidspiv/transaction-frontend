@@ -2,10 +2,10 @@
 import { ref } from 'vue';
 import { entryTrayState } from '@/composables/state';
 import GeneralControls from '@/components/GeneralControls.vue';
-import ReceiptRow from '@/components/ReceiptRow.vue';
+import ReferenceRow from '@/components/ReferenceRow.vue';
 import { checkedBoxesState } from '@/components/GeneralControls.vue';
 
-import type { Receipt } from '@/models/types';
+import type { Reference } from '@/models/types';
 import type { Ref } from 'vue';
 
 const clickHandler = (event: MouseEvent) => {
@@ -13,13 +13,13 @@ const clickHandler = (event: MouseEvent) => {
   const indexData = target.getAttribute('index');
 
   if (indexData) {
-    entryTrayState.value.selected = receiptsState.value[Number(indexData)];
+    entryTrayState.value.selected = referencesState.value[Number(indexData)];
   }
 };
 </script>
 
 <script lang="ts">
-export const receiptsState: Ref<Receipt[]> = ref([]);
+export const referencesState: Ref<Reference[]> = ref([]);
 </script>
 
 <template>
@@ -45,19 +45,19 @@ export const receiptsState: Ref<Receipt[]> = ref([]);
           ></th>
         </tr>
       </thead>
-      <tbody v-if="receiptsState.length">
-        <ReceiptRow
-          v-for="(receipt, index) in receiptsState"
+      <tbody v-if="referencesState.length">
+        <ReferenceRow
+          v-for="(reference, index) in referencesState"
           @click="clickHandler($event)"
-          :data="receipt"
-          :key="receipt.id"
+          :data="reference"
+          :key="reference.id"
           :index="index"
         />
       </tbody>
 
       <tbody v-else>
         <tr>
-          <td colspan="5">No unprocessed receipts</td>
+          <td colspan="5">No unprocessed references</td>
         </tr>
       </tbody>
     </table>

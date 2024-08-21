@@ -1,4 +1,4 @@
-interface Receipt {
+interface Reference {
   id: string;
   date: string;
   dateOffset: number;
@@ -14,7 +14,7 @@ interface Entry {
   lineItems: LineItem[];
   type: string; //Opening, Transfer, Closing, Adjusting, Compound
   description: string;
-  referenceIds: string[]; //To reference receipt, entry, and line item Id's
+  referenceIds: string[]; // reference, entry, and line item Id's
 }
 
 interface LineItem {
@@ -34,7 +34,7 @@ interface ApiUrl {
 interface EntryTrayState {
   isModified: boolean;
   isHidden: boolean;
-  selected: Receipt | null;
+  selected: Reference | null;
 }
 
-export type { Receipt, Entry, LineItem, ApiUrl, EntryTrayState };
+export type { Reference, Entry, LineItem, ApiUrl, EntryTrayState };

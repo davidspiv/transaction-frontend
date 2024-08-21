@@ -12,8 +12,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'receipts',
-      component: () => import('../pages/ReceiptsPage.vue'),
+      name: 'references',
+      component: () => import('../pages/ReferencesPage.vue'),
     },
     {
       path: '/journal',

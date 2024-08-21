@@ -2,10 +2,10 @@
 import { formatDate, formatAmount } from '@/composables/utils';
 import { checkedBoxesState } from './GeneralControls.vue';
 
-import type { Receipt } from '../models/types';
+import type { Reference } from '../models/types';
 
 const props = defineProps<{
-  data: Receipt;
+  data: Reference;
   index: number;
 }>();
 

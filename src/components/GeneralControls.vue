@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, watch } from 'vue';
-import { receiptViewState } from '@/composables/state';
-import { receiptsState } from '@/pages/ReceiptsPage.vue';
+import { referenceViewState } from '@/composables/state';
+import { referencesState } from '@/pages/ReferencesPage.vue';
 
-import type { Receipt } from '@/models/types';
+import type { Reference } from '@/models/types';
 
 const apiUrlComputed = computed(() => {
-  const { status, source, time } = receiptViewState.value.filters;
+  const { status, source, time } = referenceViewState.value.filters;
   return `http://localhost:5000/api/references/?_status=${status}_src=${source}_time=${time}`;
 });
 
-const fetchReceipts = async () => {
+const fetchReferences = async () => {
   let data;
   try {
     const apiUrl = apiUrlComputed.value;
@@ -20,25 +20,25 @@ const fetchReceipts = async () => {
     console.log('Error fetching data', error);
   }
 
-  receiptsState.value.length = 0; //clear receipts
-  receiptsState.value.push(...((data?.references as Receipt[]) || []));
+  referencesState.value.length = 0; //clear references
+  referencesState.value.push(...((data?.references as Reference[]) || []));
 };
 
 const resetFilterHandler = () => {
-  receiptViewState.value.filters.status = 'unprocessed';
-  receiptViewState.value.filters.source = 'all';
-  receiptViewState.value.filters.time = 'week';
+  referenceViewState.value.filters.status = 'unprocessed';
+  referenceViewState.value.filters.source = 'all';
+  referenceViewState.value.filters.time = 'week';
 };
 
 const resetViewHandler = () => {
   checkedBoxesState.value = ['date', 'memo', 'amount'];
 };
 
-watch(apiUrlComputed, fetchReceipts);
+watch(apiUrlComputed, fetchReferences);
 
 onMounted(() => {
-  if (!receiptsState.value.length) {
-    fetchReceipts();
+  if (!referencesState.value.length) {
+    fetchReferences();
   }
 });
 </script>
@@ -56,7 +56,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
           <select
             id="select-status"
             name="select-status"
-            v-model="receiptViewState.filters.status"
+            v-model="referenceViewState.filters.status"
           >
             <option value="unprocessed">Unprocessed</option>
             <option value="all">All</option>
@@ -69,7 +69,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
           <select
             id="select-source"
             name="select-source"
-            v-model="receiptViewState.filters.source"
+            v-model="referenceViewState.filters.source"
           >
             <option value="all">All</option>
           </select></label
@@ -80,7 +80,7 @@ export const checkedBoxesState = ref(['date', 'memo', 'amount']);
           <select
             id="select-time"
             name="select-time"
-            v-model="receiptViewState.filters.time"
+            v-model="referenceViewState.filters.time"
           >
             <option value="day">Day</option>
             <option value="week">Week</option>

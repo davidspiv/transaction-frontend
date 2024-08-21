@@ -19,7 +19,7 @@ const importHandler = () => {
         <button @click="importHandler" id="button-import">Import</button>
       </div>
       <nav>
-        <RouterLink to="/">Receipts</RouterLink>
+        <RouterLink to="/">References</RouterLink>
         <RouterLink to="/journal">Journal</RouterLink>
         <RouterLink to="/ledger">Ledger</RouterLink>
         <RouterLink to="/reports">Reports</RouterLink>
