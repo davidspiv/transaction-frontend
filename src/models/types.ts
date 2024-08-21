@@ -1,11 +1,10 @@
 interface Reference {
-  id: string;
+  id: string | null;
   date: string;
   dateOffset: number;
   memo: string;
   amount: number;
-  isDebit: number;
-  srcId: number;
+  srcId: string | null;
   fitid?: string;
 }
 

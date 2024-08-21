@@ -50,7 +50,7 @@ export const referencesState: Ref<Reference[]> = ref([]);
           v-for="(reference, index) in referencesState"
           @click="clickHandler($event)"
           :data="reference"
-          :key="reference.id"
+          :key="(reference?.id || '') + index"
           :index="index"
         />
       </tbody>

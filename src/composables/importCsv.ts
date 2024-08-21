@@ -1,9 +1,43 @@
 import type { Reference } from '@/models/types';
 
+const splitCsv = (str: string) => {
+  const obj: { soFar: string[]; isConcatting: boolean } = {
+    soFar: [],
+    isConcatting: false,
+  };
+  return str.split(',').reduce((accum, curr) => {
+    if (accum.isConcatting) {
+      accum.soFar[accum.soFar.length - 1] += `,${curr}`;
+    } else {
+      accum.soFar.push(curr);
+    }
+    if (curr.split('"').length % 2 === 0) {
+      accum.isConcatting = !accum.isConcatting;
+    }
+    return accum;
+  }, obj).soFar;
+};
+
+const sendReference = async (references: Reference[]) => {
+  const request = new Request('http://localhost:5000/api/references', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({ references: references.slice(0, 500) }),
+  });
+
+  const response = await fetch(request);
+
+  console.log(await response.json());
+};
+
 export default async (event: Event) => {
   const inputEl = event.target as HTMLInputElement;
   let csvData: string;
   const reader = new FileReader();
+
+  const references: Reference[] = [];
 
   if (inputEl.files) {
     reader.readAsText(inputEl.files[0]);
@@ -13,15 +47,7 @@ export default async (event: Event) => {
     };
 
     const parseCsv = async () => {
-      if (csvData) {
-        buildReferenceObj(csvData);
-      } else {
-        console.log('Error with getData()');
-      }
-
-      return;
-
-      function buildReferenceObj(data: string) {
+      const buildReferenceObj = (data: string) => {
         const csvValues = splitCsv(data.replace(/[\n]/g, ','));
         const totalCol = 7;
 
@@ -45,44 +71,29 @@ export default async (event: Event) => {
           );
 
           const memo = csvValues[i * totalCol + 1];
-          const srcId = 1;
-          const id = `${date}${dateOffset}${memo}${srcId}`;
-          const isDebit = 1;
 
           const referenceObj: Reference = {
+            id: null,
             date,
             dateOffset,
             amount,
             memo,
-            srcId,
-            id,
-            isDebit,
+            srcId: null,
           };
 
-          console.log(referenceObj);
-
-          // references.push(referenceObj);
+          references.push(referenceObj);
         }
+        sendReference(references);
         inputEl.value = ''; //reset html file input element
+      };
+
+      if (csvData) {
+        buildReferenceObj(csvData);
+      } else {
+        console.log('Error with getData()');
       }
 
-      function splitCsv(str: string) {
-        const obj: { soFar: string[]; isConcatting: boolean } = {
-          soFar: [],
-          isConcatting: false,
-        };
-        return str.split(',').reduce((accum, curr) => {
-          if (accum.isConcatting) {
-            accum.soFar[accum.soFar.length - 1] += `,${curr}`;
-          } else {
-            accum.soFar.push(curr);
-          }
-          if (curr.split('"').length % 2 === 0) {
-            accum.isConcatting = !accum.isConcatting;
-          }
-          return accum;
-        }, obj).soFar;
-      }
+      return;
     };
   } else {
     throw new Error('no files selected');

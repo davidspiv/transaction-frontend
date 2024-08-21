@@ -1,0 +1,169 @@
+{
+  "references": [
+    {
+      "id": null,
+      "date": "2022-05-14T07:00:00.000Z",
+      "dateOffset": 0,
+      "amount": -94700,
+      "memo": "Dreamweaver’s Delights",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-15T07:00:00.000Z",
+      "dateOffset": 0,
+      "amount": -434200,
+      "memo": "Belle Époque Boutique",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-15T07:00:00.000Z",
+      "dateOffset": 1,
+      "amount": -55900,
+      "memo": "Mermaid Market",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-15T07:00:00.000Z",
+      "dateOffset": 2,
+      "amount": -159300,
+      "memo": "Dreamweaver’s Delights",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-16T07:00:00.000Z",
+      "dateOffset": 0,
+      "amount": -36400,
+      "memo": "Atlantis Artifacts",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-16T07:00:00.000Z",
+      "dateOffset": 1,
+      "amount": -175300,
+      "memo": "Cosmic Curiosities",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-17T07:00:00.000Z",
+      "dateOffset": 0,
+      "amount": -600600,
+      "memo": "Pixie Potions",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-18T07:00:00.000Z",
+      "dateOffset": 0,
+      "amount": 15596400,
+      "memo": "The Gramophone Emporium",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-18T07:00:00.000Z",
+      "dateOffset": 1,
+      "amount": -133600,
+      "memo": "The Ticker-Tape Typewriter",
+      "srcId": null
+    },
+    {
+      "id": null,
+      "date": "2022-05-18T07:00:00.000Z",
+      "dateOffset": 2,
+      "amount": -549800,
+      "memo": "Dreamweaver’s Delights",
+      "srcId": null
+    }
+  ]
+}
+
+{
+  "references": [
+      {
+          "id": null,
+          "date": "2024-08-04T07:00:00.000Z",
+          "dateOffset": 0,
+          "amount": -11972,
+          "memo": "Super Smash Bros. Ultimate",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-04T07:00:00.000Z",
+          "dateOffset": 1,
+          "amount": -719,
+          "memo": "Bloodborne",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-02T07:00:00.000Z",
+          "dateOffset": 0,
+          "amount": -139500,
+          "memo": "Halo: Combat Evolved",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-02T07:00:00.000Z",
+          "dateOffset": 1,
+          "amount": -200,
+          "memo": "Dark Souls",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-02T07:00:00.000Z",
+          "dateOffset": 2,
+          "amount": -2132,
+          "memo": "Uncharted 4: A Thief’s End",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-01T07:00:00.000Z",
+          "dateOffset": 0,
+          "amount": -6350,
+          "memo": "The Legend of Zelda",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-01T07:00:00.000Z",
+          "dateOffset": 1,
+          "amount": -848,
+          "memo": "Bloodborne",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-08-01T07:00:00.000Z",
+          "dateOffset": 2,
+          "amount": -11676,
+          "memo": "Breath of the Wild",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-07-30T07:00:00.000Z",
+          "dateOffset": 0,
+          "amount": -2751,
+          "memo": "The Legend of Zelda",
+          "srcId": null
+      },
+      {
+          "id": null,
+          "date": "2024-07-30T07:00:00.000Z",
+          "dateOffset": 1,
+          "amount": -778,
+          "memo": "Firewatch",
+          "srcId": null
+      }
+  ]
+}
