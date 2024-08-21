@@ -2,13 +2,10 @@
 import { entryTrayState } from '@/composables/state';
 import { RouterLink, RouterView } from 'vue-router';
 import EntryTray from '@/components/EntryTray.vue';
+import importCsv from '@/composables/importCsv';
 
 const entryHandler = () => {
   entryTrayState.value.isHidden = entryTrayState.value.isHidden !== true;
-};
-
-const importHandler = () => {
-  console.log('import');
 };
 </script>
 
@@ -16,7 +13,7 @@ const importHandler = () => {
   <div class="content-wrapper" :class="{ offset: !entryTrayState.isHidden }">
     <header class="fixed-wrapper" id="main-header">
       <div>
-        <button @click="importHandler" id="button-import">Import</button>
+        <input type="file" id="button-import" @input="importCsv" />
       </div>
       <nav>
         <RouterLink to="/">References</RouterLink>

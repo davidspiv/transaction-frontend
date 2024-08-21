@@ -57,7 +57,7 @@ export const referencesState: Ref<Reference[]> = ref([]);
 
       <tbody v-else>
         <tr>
-          <td colspan="5">No unprocessed references</td>
+          <td colspan="5" class="top-row">No unprocessed references</td>
         </tr>
       </tbody>
     </table>
@@ -76,6 +76,10 @@ table {
 th,
 tr {
   border: 0;
+}
+
+.top-row {
+  border-top: 0;
 }
 
 .flex-column {

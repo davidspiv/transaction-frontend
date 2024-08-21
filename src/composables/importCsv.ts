@@ -1,86 +1,90 @@
-// const importCsv = async (event: Event) => {
-//   const inputEl = event.target as HTMLInputElement;
-//   let csvData: string;
-//   const reader = new FileReader();
+import type { Reference } from '@/models/types';
 
-//   if (inputEl.files) {
-//     reader.readAsText(inputEl.files[0]);
-//     reader.onload = () => {
-//       csvData = reader.result as string;
-//       parseCsv();
-//     };
+export default async (event: Event) => {
+  const inputEl = event.target as HTMLInputElement;
+  let csvData: string;
+  const reader = new FileReader();
 
-//     const parseCsv = async () => {
-//       if (csvData) {
-//         buildReceiptObj(csvData);
-//       } else {
-//         console.log('Error with getData()');
-//       }
+  if (inputEl.files) {
+    reader.readAsText(inputEl.files[0]);
+    reader.onload = () => {
+      csvData = reader.result as string;
+      parseCsv();
+    };
 
-//       return;
+    const parseCsv = async () => {
+      if (csvData) {
+        buildReferenceObj(csvData);
+      } else {
+        console.log('Error with getData()');
+      }
 
-//       function buildReceiptObj(data: string) {
-//         const csvValues = splitCsv(data.replace(/[\n]/g, ','));
-//         const totalCol = 7;
+      return;
 
-//         let lastDate: string | null = null;
-//         let dateOffset = 0;
+      function buildReferenceObj(data: string) {
+        const csvValues = splitCsv(data.replace(/[\n]/g, ','));
+        const totalCol = 7;
 
-//         for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
-//           const date = new Date(csvValues[i * totalCol]).toISOString();
+        let lastDate: string | null = null;
+        let dateOffset = 0;
 
-//           if (lastDate === date) {
-//             dateOffset++;
-//           } else {
-//             dateOffset = 0;
-//             lastDate = date;
-//           }
+        for (let i = 1; i < Math.floor(csvValues.length / totalCol); i++) {
+          const date = new Date(csvValues[i * totalCol]).toISOString();
 
-//           const amount = Math.round(
-//             Number.parseInt(
-//               (Number.parseFloat(csvValues[i * totalCol + 5]) * 100).toFixed(2),
-//             ),
-//           );
+          if (lastDate === date) {
+            dateOffset++;
+          } else {
+            dateOffset = 0;
+            lastDate = date;
+          }
 
-//           const memo = csvValues[i * totalCol + 1];
-//           const srcId = 1;
-//           const id = `${date}${dateOffset}${memo}${srcId}`;
-//           const isDebit = 1;
+          const amount = Math.round(
+            Number.parseInt(
+              (Number.parseFloat(csvValues[i * totalCol + 5]) * 100).toFixed(2),
+            ),
+          );
 
-//           const receiptObj: Receipt = {
-//             date,
-//             dateOffset,
-//             amount,
-//             memo,
-//             srcId,
-//             id,
-//             isDebit,
-//           };
+          const memo = csvValues[i * totalCol + 1];
+          const srcId = 1;
+          const id = `${date}${dateOffset}${memo}${srcId}`;
+          const isDebit = 1;
 
-//           // receipts.push(receiptObj);
-//         }
-//         inputEl.value = ''; //reset html file input element
-//       }
+          const referenceObj: Reference = {
+            date,
+            dateOffset,
+            amount,
+            memo,
+            srcId,
+            id,
+            isDebit,
+          };
 
-//       function splitCsv(str: string) {
-//         const obj: { soFar: string[]; isConcatting: boolean } = {
-//           soFar: [],
-//           isConcatting: false,
-//         };
-//         return str.split(',').reduce((accum, curr) => {
-//           if (accum.isConcatting) {
-//             accum.soFar[accum.soFar.length - 1] += `,${curr}`;
-//           } else {
-//             accum.soFar.push(curr);
-//           }
-//           if (curr.split('"').length % 2 === 0) {
-//             accum.isConcatting = !accum.isConcatting;
-//           }
-//           return accum;
-//         }, obj).soFar;
-//       }
-//     };
-//   } else {
-//     throw new Error('no files selected');
-//   }
-// };
+          console.log(referenceObj);
+
+          // references.push(referenceObj);
+        }
+        inputEl.value = ''; //reset html file input element
+      }
+
+      function splitCsv(str: string) {
+        const obj: { soFar: string[]; isConcatting: boolean } = {
+          soFar: [],
+          isConcatting: false,
+        };
+        return str.split(',').reduce((accum, curr) => {
+          if (accum.isConcatting) {
+            accum.soFar[accum.soFar.length - 1] += `,${curr}`;
+          } else {
+            accum.soFar.push(curr);
+          }
+          if (curr.split('"').length % 2 === 0) {
+            accum.isConcatting = !accum.isConcatting;
+          }
+          return accum;
+        }, obj).soFar;
+      }
+    };
+  } else {
+    throw new Error('no files selected');
+  }
+};
