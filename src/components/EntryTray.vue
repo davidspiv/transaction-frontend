@@ -8,40 +8,38 @@ const entry = computed<Entry>(() => {
   if (entryTrayState.value?.selected) {
     return {
       id: 'entryId',
+      date: entryTrayState.value.selected.date,
       lineItems: [
         {
           id: 'lineItemId1',
-          date: entryTrayState.value?.selected.date,
-          amount: entryTrayState.value?.selected.amount / -100,
+          amount: entryTrayState.value.selected.amount / -100,
           isDebit: true,
           accId: '5001',
         },
         {
           id: 'lineItemId2',
-          date: entryTrayState.value?.selected.date,
-          amount: entryTrayState.value?.selected.amount / -100,
+          amount: entryTrayState.value.selected.amount / -100,
           isDebit: false,
           accId: '1001',
         },
       ],
       type: 'transfer',
       description: entryTrayState.value?.selected.memo || '',
-      referenceIds: ['rctId'],
+      userId: 'rctId',
     };
   }
   return {
     id: 'entryId',
+    date: new Date().toISOString(),
     lineItems: [
       {
         id: 'lineItemId1',
-        date: new Date().toDateString(),
         amount: 0,
         isDebit: true,
         accId: '',
       },
       {
         id: 'lineItemId2',
-        date: new Date().toDateString(),
         amount: 0,
         isDebit: false,
         accId: '',
@@ -49,23 +47,29 @@ const entry = computed<Entry>(() => {
     ],
     type: '',
     description: '',
-    referenceIds: ['rctId'],
+    userId: 'rctId',
   };
 });
 
-const importReference = async () => {
+const postEntry = async () => {
+  const request = new Request('http://localhost:5000/api/journal/', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({ entries: [entry.value] }),
+  });
+
   try {
-    const apiUrl = 'http://localhost:5000/api/journal/';
-    fetch(apiUrl, {
-      method: 'PUT',
-    });
+    const response = await fetch(request);
+    console.log(await response.json());
   } catch (error) {
     console.log('Error fetching data', error);
   }
 };
 
 const submitHandler = async () => {
-  await importReference();
+  await postEntry();
   entryTrayState.value.selected = null;
 };
 
@@ -116,7 +120,7 @@ const hideTray = () => {
           :key="lineItem.id"
         >
           <td v-if="!index" :rowspan="entry.lineItems.length" id="cell-date">
-            {{ formatDate(lineItem.date) }}
+            {{ formatDate(entry.date) }}
           </td>
 
           <td class="cell-particular">

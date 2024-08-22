@@ -10,15 +10,15 @@ interface Reference {
 
 interface Entry {
   id: string;
+  date: string;
   lineItems: LineItem[];
   type: string; //Opening, Transfer, Closing, Adjusting, Compound
   description: string;
-  referenceIds: string[]; // reference, entry, and line item Id's
+  userId: string;
 }
 
 interface LineItem {
   id: string;
-  date: string;
   amount: number;
   isDebit: boolean;
   accId?: string;

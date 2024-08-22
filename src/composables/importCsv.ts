@@ -18,7 +18,7 @@ const splitCsv = (str: string) => {
   }, obj).soFar;
 };
 
-const sendReference = async (references: Reference[]) => {
+const postReference = async (references: Reference[]) => {
   const request = new Request('http://localhost:5000/api/references', {
     headers: {
       'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default async (event: Event) => {
 
           references.push(referenceObj);
         }
-        sendReference(references);
+        postReference(references);
         inputEl.value = ''; //reset html file input element
       };
 
