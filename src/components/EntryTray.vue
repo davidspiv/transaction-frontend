@@ -14,13 +14,13 @@ const entry = computed<Entry>(() => {
           id: 'lineItemId1',
           amount: entryTrayState.value.selected.amount / -100,
           isDebit: true,
-          accId: '5001',
+          accCode: 5001,
         },
         {
           id: 'lineItemId2',
           amount: entryTrayState.value.selected.amount / -100,
           isDebit: false,
-          accId: '1001',
+          accCode: 1001,
         },
       ],
       type: 'transfer',
@@ -36,13 +36,11 @@ const entry = computed<Entry>(() => {
         id: 'lineItemId1',
         amount: 0,
         isDebit: true,
-        accId: '',
       },
       {
         id: 'lineItemId2',
         amount: 0,
         isDebit: false,
-        accId: '',
       },
     ],
     type: '',
@@ -125,7 +123,7 @@ const hideTray = () => {
 
           <td class="cell-particular">
             <select
-              v-model="lineItem.accId"
+              v-model="lineItem.accCode"
               :id="lineItem.id.concat('-select-account')"
             >
               <option disabled value="">Select one</option>

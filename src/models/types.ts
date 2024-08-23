@@ -1,4 +1,4 @@
-interface Reference {
+export interface Reference {
   id: string | null;
   date: string;
   dateOffset: number;
@@ -8,7 +8,7 @@ interface Reference {
   fitid?: string;
 }
 
-interface Entry {
+export interface Entry {
   id: string;
   date: string;
   lineItems: LineItem[];
@@ -17,23 +17,21 @@ interface Entry {
   userId: string;
 }
 
-interface LineItem {
+export interface LineItem {
   id: string;
   amount: number;
   isDebit: boolean;
-  accId?: string;
+  accCode?: number;
 }
 
-interface ApiUrl {
+export interface ApiUrl {
   time: string;
   acc: string;
   limit?: number;
 }
 
-interface EntryTrayState {
+export interface EntryTrayState {
   isModified: boolean;
   isHidden: boolean;
   selected: Reference | null;
 }
-
-export type { Reference, Entry, LineItem, ApiUrl, EntryTrayState };
