@@ -17,11 +17,24 @@ export interface Entry {
   userId: string;
 }
 
+export interface Entry_Input {
+  date: string;
+  lineItems: LineItem_Input[];
+  type: string; //Opening, Transfer, Closing, Adjusting, Compound
+  description: string;
+  refId: string | null;
+}
+
 export interface LineItem {
   id: string;
   amount: number;
   isDebit: boolean;
   accCode?: number;
+}
+
+export interface LineItem_Input {
+  amount: number;
+  accCode: number;
 }
 
 export interface ApiUrl {

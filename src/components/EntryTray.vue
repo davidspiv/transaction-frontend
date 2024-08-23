@@ -2,50 +2,40 @@
 import { formatDate, truncate } from '@/composables/utils';
 import { entryTrayState } from '@/composables/state';
 import { computed } from 'vue';
-import type { Entry } from '@/models/types';
+import type { Entry_Input } from '@/models/types';
 
-const entry = computed<Entry>(() => {
-  if (entryTrayState.value?.selected) {
-    return {
-      id: 'entryId',
-      date: entryTrayState.value.selected.date,
-      lineItems: [
-        {
-          id: 'lineItemId1',
-          amount: entryTrayState.value.selected.amount / -100,
-          isDebit: true,
-          accCode: 5001,
-        },
-        {
-          id: 'lineItemId2',
-          amount: entryTrayState.value.selected.amount / -100,
-          isDebit: false,
-          accCode: 1001,
-        },
-      ],
-      type: 'transfer',
-      description: entryTrayState.value?.selected.memo || '',
-      userId: 'rctId',
-    };
+const entry = computed<Entry_Input>(() => {
+  const selectedReference = entryTrayState.value.selected;
+
+  let date, amount, description, refId;
+
+  if (selectedReference) {
+    date = selectedReference.date;
+    amount = selectedReference.amount / 100;
+    description = selectedReference.memo;
+    refId = selectedReference.id;
+  } else {
+    date = new Date().toISOString();
+    amount = 0;
+    description = '';
+    refId = null;
   }
+
   return {
-    id: 'entryId',
-    date: new Date().toISOString(),
+    date,
     lineItems: [
       {
-        id: 'lineItemId1',
-        amount: 0,
-        isDebit: true,
+        amount: amount * -1,
+        accCode: 5001,
       },
       {
-        id: 'lineItemId2',
-        amount: 0,
-        isDebit: false,
+        amount: amount,
+        accCode: 1001,
       },
     ],
-    type: '',
-    description: '',
-    userId: 'rctId',
+    type: 'transfer',
+    description,
+    refId,
   };
 });
 
@@ -115,42 +105,35 @@ const hideTray = () => {
         <tr
           const
           v-for="(lineItem, index) in entry.lineItems"
-          :key="lineItem.id"
+          :key="lineItem.accCode"
         >
           <td v-if="!index" :rowspan="entry.lineItems.length" id="cell-date">
             {{ formatDate(entry.date) }}
           </td>
 
           <td class="cell-particular">
-            <select
-              v-model="lineItem.accCode"
-              :id="lineItem.id.concat('-select-account')"
-            >
+            <select v-model="lineItem.accCode">
               <option disabled value="">Select one</option>
               <option value="1001">Cash</option>
               <option value="5001">Expenses</option>
             </select>
           </td>
 
-          <template v-if="lineItem.isDebit">
+          <template v-if="lineItem.amount < 0">
             <td>
-              <input type="text" :id="lineItem.id" v-model="lineItem.amount" />
+              <input type="text" v-model="lineItem.amount" />
             </td>
             <td>
-              <button :id="lineItem.id.concat('-button-switch')">switch</button>
+              <button>switch</button>
             </td>
           </template>
 
           <template v-else>
             <td>
-              <button :id="lineItem.id.concat('-button-switch')">switch</button>
+              <button>switch</button>
             </td>
             <td>
-              <input
-                type="text"
-                :id="lineItem.id.concat('-input-amount')"
-                v-model="lineItem.amount"
-              />
+              <input type="text" v-model="lineItem.amount" />
             </td>
           </template>
         </tr>
